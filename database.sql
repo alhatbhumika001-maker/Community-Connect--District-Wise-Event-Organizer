@@ -88,3 +88,6 @@ CREATE TABLE registrations (
 -- =========================
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@gmail.com', 'admin123', 'admin');
+
+INSERT INTO users (name, email, password, role) VALUES
+('TestUser', 'user@gmail.com', 'user1214', 'user');
