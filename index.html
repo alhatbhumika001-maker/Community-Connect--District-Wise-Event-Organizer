@@ -2,165 +2,282 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Community Connect</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Community Connect - Home</title>
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Handlee&family=Huninn&family=Outfit:wght@100..900&family=Playwrite+NZ+Guides&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-        body {
-            margin-top: -10px;
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
         }
 
+        /* WEBSITE BRAND NAME */
+        .navbar-brand-text {
+            font-family: "Handlee", cursive;
+            font-size: 1.7rem;
+            margin-left: 6px;
+        }
+
+        /* NAVBAR PADDING  */
         .navbar {
-            margin-bottom: -8px;
+            padding-top: .10rem !important;
+            padding-bottom: .10rem !important;
         }
 
-        .navbar-brand {
-            font-family: Monotype Corsiva;
-            font-size: 30px;
+        /* Reduce container padding ONLY inside navbar */
+        .navbar .container {
+            padding-left: .5rem !important;
+            padding-right: .5rem !important;
+            max-width: 100% !important;
         }
 
-        .container-fluid {
-            background-color: rgba(0, 0, 0, 0.1);
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        /* FULL-SCREEN CAROUSEL */
+        .hero-img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            display: block;
+            align-items: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        /* REDUCED CAROUSEL TEXT SIZE BY ~20% */
+        .hero-content h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        @media(max-width:768px) {
+            .hero-content h1 {
+                font-size: 1.4rem;
+            }
+
+            .hero-content p {
+                font-size: .9rem;
+            }
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* clean font for content in C / P / O */
+        .feature-content {
+            font-size: 1.1rem;
+            line-height: 1.65;
+            color: #444;
+            font-family: "Outfit", sans-serif;
+        }
+
+        /* HEADINGS NORMAL */
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
         }
     </style>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand">
-                <img src="lg.png" alt="Community Connect" width="80" height="80">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm fixed-top">
+        <div class="container">
+
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="lg.png" class="brand-logo" alt="">
+                <span class="navbar-brand-text">Community Connect</span>
             </a>
-            <a class="navbar-brand">Community Connect</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
 
+            <div class="collapse navbar-collapse" id="nav">
+
+                <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                 </ul>
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>&nbsp;&nbsp;
-                <button class="btn btn-outline-info" type="submit">Login</button>
+
+                <div class="d-flex gap-2">
+                    <a href="/signup" class="btn btn-outline-info btn-sm">Sign Up</a>
+                    <a href="/login" class="btn btn-outline-info btn-sm">Login</a>
+                </div>
+
             </div>
         </div>
     </nav>
 
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="c1.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>Connecting Communities Together</h2>
-                    <p>Building stronger districts through collective action.</p>
+    <!-- HERO -->
+    <header>
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+
+                <!-- Slide 1 -->
+                <div class="carousel-item active position-relative">
+                    <img src="c1.jpg" class="hero-img">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1>Connecting Communities Together</h1>
+                        <p>Building stronger districts through collective action.</p>
+                        <a href="/events" class="btn btn-info btn-sm">Find Events</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item position-relative">
+                    <img src="c2.png" class="hero-img">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1>Join Local Social Service Events</h1>
+                        <p>Volunteer, contribute, and make an impact in your district.</p>
+                        <a href="/events" class="btn btn-info btn-sm">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item position-relative">
+                    <img src="c3.png" class="hero-img">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1>Together We Make a Difference</h1>
+                        <p>Empowering communities through shared action.</p>
+                        <a href="/create-event" class="btn btn-info btn-sm">Create Event</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+    </header>
+
+    <main class="py-5 mt-3">
+        <div class="container">
+
+            <h2 class="section-title">How It Works</h2>
+
+            <!-- CONNECT -->
+            <div class="row align-items-center my-5">
+                <div class="col-md-7">
+                    <h3 class="feature-title">Connect</h3>
+                    <p class="feature-content">
+                        Your community is closer than you think. Our platform brings together people from every
+                        district,
+                        helping them discover meaningful events, social drives, and causes happening right around them.
+                        Whether you're new to a place or deeply rooted in your neighborhood, Community Connect helps you
+                        become part of something bigger.
+                    </p>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="h1.jpg" class="img-fluid rounded">
                 </div>
             </div>
-            <div class="carousel-item">
-                <img src="c2.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>Join Local Social Service Events</h2>
-                    <p>Volunteer, contribute, and make an impact in your district.</p>
+
+            <!-- PARTICIPATE -->
+            <div class="row align-items-center my-5 flex-md-row-reverse">
+                <div class="col-md-7">
+                    <h3 class="feature-title">Participate</h3>
+                    <p class="feature-content">
+                        Take the first step toward making an impact. Join local social service activities, volunteer for
+                        community projects, or support initiatives that matter to you. With district-wise suggestions,
+                        the website ensures you always find the right event at the right time — no searching, no
+                        confusion,
+                        just simple participation.
+                    </p>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="h2.jpg" class="img-fluid rounded">
                 </div>
             </div>
-            <div class="carousel-item">
-                <img src="c3.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>Together We Make a Difference</h2>
-                    <p>Empowering communities through shared action.</p>
+
+            <!-- ORGANIZE -->
+            <div class="row align-items-center my-5">
+                <div class="col-md-7">
+                    <h3 class="feature-title">Organize</h3>
+                    <p class="feature-content">
+                        Have an idea for change? Turn it into action. Organizers can effortlessly create, manage, and
+                        promote their own events to reach the right people within their district. From registrations
+                        to volunteer updates, everything is streamlined so your focus stays on making a difference —
+                        not managing paperwork.
+                    </p>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="h3.jpg" class="img-fluid rounded">
                 </div>
             </div>
+
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+    </main>
 
-    <div class="container mt-5">
-        <div class="row featurette d-flex justify-content-center align-items-center my-5">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Connect<span class="text-muted"></span></h2>
-                <p class="lead">
-                    Your community is closer than you think. Our platform brings together people from every district,
-                    helping them discover meaningful events, social drives, and causes happening right around them.
-                    Whether you're new to a place or deeply rooted
-                    in your neighborhood, Community Connect helps you become part of something bigger.
-                </p>
-            </div>
-            <div class="col-md-5">
-                <img class="img-fluid" src="h1.jpg" alt="">
-
-            </div>
+    <!-- FOOTER -->
+    <footer class="py-3 text-center">
+        <div class="container">
+            <p class="mb-1">© 2023-2025 Community-Connect, Inc.</p>
+            <p class="mb-1">
+                <a href="#" class="text-muted me-2">Privacy</a>
+                <a href="#" class="text-muted">Terms</a>
+            </p>
+            <a href="#top" class="text-decoration-none">Back to top</a>
         </div>
-        <div class="row featurette d-flex justify-content-center align-items-center my-5">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Participate<span class="text-muted"></span></h2>
-                <p class="lead">
-                    Take the first step toward making an impact. Join local social service activities, volunteer for
-                    community projects, or support initiatives that matter to you. With district-wise suggestions, the
-                    website ensures you always find the right event at the right time—no searching, no confusion, just
-                    simple participation.
-                </p>
-            </div>
-            <div class="col-md-5 order-md-1">
-                <img class="img-fluid" src="h2.jpg" alt="">
-
-            </div>
-        </div>
-        <div class="row featurette d-flex justify-content-center align-items-center my-5">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Organize<span class="text-muted"></span></h2>
-                <p class="lead">
-                    Have an idea for change? Turn it into action. Organizers can effortlessly create, manage, and
-                    promote their own events to reach the right people within their district. From registrations to
-                    volunteer updates, everything is streamlined so
-                    your focus stays on making a difference—not managing paperwork.
-                </p>
-            </div>
-            <div class="col-md-5">
-                <img class="img-fluid" src="h3.jpg" alt="">
-
-            </div>
-        </div>
-    </div>
-
-    <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>© 2023-2025 Community-Connect, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
