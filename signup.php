@@ -97,8 +97,8 @@
                 </ul>
 
                 <div class="d-flex gap-2">
-                    <a href="/signup" class="btn btn-outline-info btn-sm">Sign Up</a>
-                    <a href="/login" class="btn btn-outline-info btn-sm">Login</a>
+                    <a href="signup.php" class="btn btn-outline-info btn-sm">Sign Up</a>
+                    <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
                 </div>
 
             </div>
