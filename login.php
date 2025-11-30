@@ -137,7 +137,7 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="muted">Don't have an account? <a href="/signup">Sign up</a></div>
+                <div class="muted">Don't have an account? <a href="signup.php">Sign up</a></div>
                 <button type="submit" class="btn btn-primary">Log in</button>
             </div>
         </form>
