@@ -123,7 +123,7 @@
             <div class="muted">Login to your account</div>
         </div>
 
-        <form method="post" action="login.php" class="g-3">
+        <form method="post" action="login_validation.php" class="g-3">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input id="username" name="username" type="text" class="form-control" required
