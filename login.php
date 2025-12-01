@@ -26,7 +26,6 @@
             padding-top: 100px;
         }
 
-        /* NAVBAR */
         .navbar-brand-text {
             font-family: "Handlee", cursive;
             font-size: 1.7rem;
@@ -50,7 +49,6 @@
             object-fit: cover;
         }
 
-        /* Login card */
         .login-card {
             max-width: 520px;
             margin: 32px auto;
@@ -81,6 +79,12 @@
             color: #6b7280;
             font-size: 13px;
         }
+
+        /* Alert styling */
+        .alert {
+            max-width: 520px;
+            margin: 0 auto 20px auto; /* centers alert and adds bottom spacing */
+        }
     </style>
 </head>
 
@@ -89,7 +93,6 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg bg-light shadow-sm fixed-top">
         <div class="container">
-
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="lg.png" class="brand-logo" alt="">
                 <span class="navbar-brand-text">Community Connect</span>
@@ -100,7 +103,6 @@
             </button>
 
             <div class="collapse navbar-collapse" id="nav">
-
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
@@ -111,7 +113,6 @@
                     <a href="signup.php" class="btn btn-outline-info btn-sm">Sign Up</a>
                     <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
                 </div>
-
             </div>
         </div>
     </nav>
@@ -122,6 +123,18 @@
             <div class="brand-title">Community Connect</div>
             <div class="muted">Login to your account</div>
         </div>
+
+        <!-- PHP alert code: place here, above the form -->
+        <?php
+        if (isset($_GET['error']) && $_GET['error'] == 1) {
+            echo '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Username or password is wrong. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            ';
+        }
+        ?>
 
         <form method="post" action="login_validation.php" class="g-3">
             <div class="mb-3">
