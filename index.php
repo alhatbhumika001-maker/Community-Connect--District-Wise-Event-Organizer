@@ -139,8 +139,8 @@
             <div class="collapse navbar-collapse" id="nav">
 
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                 </ul>
 
@@ -153,7 +153,7 @@
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- Carousel -->
     <header>
         <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
@@ -166,7 +166,7 @@
                     <div class="hero-content">
                         <h1>Connecting Communities Together</h1>
                         <p>Building stronger districts through collective action.</p>
-                        <a href="/events" class="btn btn-info btn-sm">Find Events</a>
+                        <a href="event.php" class="btn btn-info btn-sm">Find Events</a>
                     </div>
                 </div>
 
@@ -177,7 +177,7 @@
                     <div class="hero-content">
                         <h1>Join Local Social Service Events</h1>
                         <p>Volunteer, contribute, and make an impact in your district.</p>
-                        <a href="/events" class="btn btn-info btn-sm">Explore</a>
+                        <a href="events.php" class="btn btn-info btn-sm">Explore</a>
                     </div>
                 </div>
 
@@ -188,7 +188,7 @@
                     <div class="hero-content">
                         <h1>Together We Make a Difference</h1>
                         <p>Empowering communities through shared action.</p>
-                        <a href="/create-event" class="btn btn-info btn-sm">Create Event</a>
+                        <a href="create-event.php" class="btn btn-info btn-sm">Create Event</a>
                     </div>
                 </div>
 

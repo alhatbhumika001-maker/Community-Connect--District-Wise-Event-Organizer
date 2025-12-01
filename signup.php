@@ -91,14 +91,14 @@
             <div class="collapse navbar-collapse" id="nav">
 
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                 </ul>
 
                 <div class="d-flex gap-2">
-                    <a href="/signup" class="btn btn-outline-info btn-sm">Sign Up</a>
-                    <a href="/login" class="btn btn-outline-info btn-sm">Login</a>
+                    <a href="signup.php" class="btn btn-outline-info btn-sm">Sign Up</a>
+                    <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
                 </div>
 
             </div>
@@ -110,11 +110,11 @@
     <div class="signup-card">
         <h3 class="text-center mb-3" style="font-family: Handlee, cursive; color:#00897B;">Create Your Account</h3>
 
-        <form method="post" action="signup.php" class="row g-3">
+        <form method="post" action="sign_up_insert.php" class="row g-3">
 
             <div class="col-md-12">
                 <label>Full Name</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="full_name" class="form-control" required>
             </div>
 
             <div class="col-md-6">
