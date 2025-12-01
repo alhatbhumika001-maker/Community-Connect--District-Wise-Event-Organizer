@@ -1,10 +1,10 @@
 <?php
 
 session_start();
-$email=$_POST['email'];
+$username=$_POST['username'];
 $password=$_POST['password'];
 $link=mysqli_connect('localhost','root','','community_connect');
-$q="select * from users where email='$email' and password='$password'";
+$q="select * from users where username='$username' and password='$password'";
 $result=mysqli_query($link,$q);
 if(mysqli_num_rows($result)>=1)
 {

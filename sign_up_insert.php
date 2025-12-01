@@ -19,7 +19,7 @@
 
     if($result)
     {
-        echo "<script>alert('Account Created Succesfully');window.location='index.php';</script>";
+        echo "<script>alert('Account Created Succesfully');window.location='login.php';</script>";
         
     }
     else{
