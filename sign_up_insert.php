@@ -12,7 +12,7 @@
    
 
 
-    $q="insert into customer_login(user_id,full_name,username,email,password,confirm_password,role,district) values ('NULL','$full_name','$username','$email','$password','$confirm_password','$role','$district')";
+    $q="insert into users(user_id,full_name,username,email,password,confirm_password,role,district) values ('NULL','$full_name','$username','$email','$password','$confirm_password','$role','$district')";
 
 
     $result=mysqli_query($conn,$q);
