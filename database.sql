@@ -1,5 +1,5 @@
 -- Create Database
-CREATE DATABASE IF NOT EXISTS community_connect;
+CREATE DATABASE  community_connect;
 USE community_connect;
 
 -- =========================
@@ -7,14 +7,16 @@ USE community_connect;
 -- =========================
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    fullname VARCHAR(100) NOT NULL,
-    username VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    conform_password VARCHAR(255) NOT NULL,
-    role ENUM('user','organizer','admin') DEFAULT 'user',
+    confirm_password VARCHAR(255) NOT NULL,
+    role ENUM('Admin', 'User', 'Organizer') NOT NULL,
+    district VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- =========================
 -- DISTRICTS TABLE
@@ -90,4 +92,5 @@ CREATE TABLE registrations (
 -- =========================
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@gmail.com', 'admin123', 'admin');
+
 
