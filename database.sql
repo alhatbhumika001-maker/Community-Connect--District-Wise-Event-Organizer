@@ -7,9 +7,11 @@ USE community_connect;
 -- =========================
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    conform_password VARCHAR(255) NOT NULL,
     role ENUM('user','organizer','admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -88,3 +90,4 @@ CREATE TABLE registrations (
 -- =========================
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@gmail.com', 'admin123', 'admin');
+
