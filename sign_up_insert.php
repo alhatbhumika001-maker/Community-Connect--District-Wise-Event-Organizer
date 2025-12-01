@@ -23,7 +23,7 @@
         
     }
     else{
-        echo "<script>alert('Something went wrong');</script>";
+        echo "<script>alert('Something went wrong');window.location='sign_up.php';</script>";
     }
 
 
