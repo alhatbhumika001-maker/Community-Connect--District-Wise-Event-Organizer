@@ -138,15 +138,24 @@
             </div>
 
             <!-- 🔥 ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
+            
             <?php if (isset($_GET['error'])) { ?>
                 <div class="col-12">
-                    <div class="alert alert-danger d-flex align-items-center" role="alert"
-                        style="border-left: 6px solid #c62828; font-size:14px;">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong><?php echo $_GET['error']; ?></strong>
+                    <div style="
+                        border-left: 4px solid #d32f2f;
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['error']; ?>
                     </div>
                 </div>
-            <?php } ?>
+            <?php } 
+            ?>
+
 
             <div class="col-md-6">
                 <label>Role</label>
