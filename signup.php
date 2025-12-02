@@ -110,11 +110,11 @@
     <div class="signup-card">
         <h3 class="text-center mb-3" style="font-family: Handlee, cursive; color:#00897B;">Create Your Account</h3>
 
-        <form method="post" action="signup.php" class="row g-3">
+        <form method="post" action="sign_up_insert.php" class="row g-3">
 
             <div class="col-md-12">
                 <label>Full Name</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="full_name" class="form-control" required>
             </div>
 
             <div class="col-md-6">
