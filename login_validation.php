@@ -8,7 +8,10 @@ $link = mysqli_connect('localhost', 'root', '', 'community_connect');
 $q = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 $result = mysqli_query($link, $q);
 
-// Redirect based on user role
+if (mysqli_num_rows($result) >= 1) {       // ← you deleted this by mistake
+    $data = mysqli_fetch_assoc($result);   // ← you must fetch $data
+
+    // Redirect based on user role
     if ($data['role'] === 'admin') {
         header("Location: adminDashboard.php");
     } 
@@ -20,7 +23,8 @@ $result = mysqli_query($link, $q);
     }
 
     exit();
-    else {
+} 
+else {
     header("Location: login.php?error=1");
     exit();
 }
