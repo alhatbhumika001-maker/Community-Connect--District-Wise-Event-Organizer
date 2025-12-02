@@ -12,7 +12,7 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     confirm_password VARCHAR(255) NOT NULL,
-    role ENUM('Admin', 'User', 'Organizer') NOT NULL,
+    role VARCHAR(100) NOT NULL,
     district VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
