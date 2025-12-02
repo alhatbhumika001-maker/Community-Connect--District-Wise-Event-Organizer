@@ -8,18 +8,24 @@ $link = mysqli_connect('localhost', 'root', '', 'community_connect');
 $q = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 $result = mysqli_query($link, $q);
 
-if (mysqli_num_rows($result) >= 1) {       // ← you deleted this by mistake
-    $data = mysqli_fetch_assoc($result);   // ← you must fetch $data
+if (mysqli_num_rows($result) >= 1) {       
+    $data = mysqli_fetch_assoc($result);   
+    $_SESSION['login_user'] = $data;
 
-    // Redirect based on user role
-    if ($data['role'] === 'admin') {
+    $role = strtolower($data['role']);  // normalize case
+
+    if ($role == 'admin') {
         header("Location: adminDashboard.php");
     } 
-    elseif ($data['role'] === 'volunteer') {
+    elseif ($role == 'volunteer') {
         header("Location: volunteerDashboard.php");
     } 
+    elseif ($role == 'organizer') {
+        header("Location: index.php");
+    }
     else {
-        header("Location: index.php"); // default user
+        // Fallback redirect if role doesn't match
+        header("Location: index.php");
     }
 
     exit();
