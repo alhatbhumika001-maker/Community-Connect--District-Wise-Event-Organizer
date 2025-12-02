@@ -10,10 +10,10 @@ $confirm_password = $_POST['confirm_password'];
 $role = $_POST['role'];
 $district = $_POST['district'];
 
-// 🔍 Check if password and confirm password match
+// Check if password and confirm password match
 if ($password !== $confirm_password) {
-    echo "<script>alert('Password and Confirm Password do not match!');</script>";
-    exit(); // stop further execution
+    header("Location: signup.php?error=Password and Confirm Password do not match!");
+    exit();
 }
 
 // Insert Query
@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $q);
 if ($result) {
     echo "<script>alert('Account Created Successfully'); window.location='login.php';</script>";
 } else {
-    echo "<script>alert('Something went wrong'); window.location='signup.php';</script>";
+    header("Location: signup.php?error=Something went wrong!");
 }
 
 ?>
