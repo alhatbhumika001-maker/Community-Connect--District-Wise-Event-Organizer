@@ -319,6 +319,7 @@
             </div>
             <div class="content-box">
                 <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
+                <div class="mb-2">{{ COMMUNITY_NAME }}</div>
                 <div class="mb-2 text-muted" style="font: size 14px;">{{ EVENT_DISTRICT }}</div>
                 <div class="text-muted mb-2" style="font-size:13px;">{{ EVENT_DESCRIPTION }}</div>
             </div>
