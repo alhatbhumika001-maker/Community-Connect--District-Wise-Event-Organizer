@@ -15,6 +15,9 @@
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+    <!-- BOOTSTRAP ICONS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <style>
         html {
             scroll-behavior: smooth;
@@ -26,14 +29,12 @@
             padding-top: 100px;
         }
 
-        /* Brand Name */
         .navbar-brand-text {
             font-family: "Handlee", cursive;
             font-size: 1.7rem;
             margin-left: 6px;
         }
 
-        /* Navbar adjustments */
         .navbar {
             padding-top: .10rem !important;
             padding-bottom: .10rem !important;
@@ -51,7 +52,6 @@
             object-fit: cover;
         }
 
-        /* Card */
         .signup-card {
             max-width: 800px;
             margin: auto;
@@ -136,6 +136,26 @@
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_password" class="form-control" required>
             </div>
+
+            <!-- 🔥 ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
+            
+            <?php if (isset($_GET['error'])) { ?>
+                <div class="col-12">
+                    <div style="
+                        border-left: 4px solid #d32f2f;
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['error']; ?>
+                    </div>
+                </div>
+            <?php } 
+            ?>
+
 
             <div class="col-md-6">
                 <label>Role</label>
