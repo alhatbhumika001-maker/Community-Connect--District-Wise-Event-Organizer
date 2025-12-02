@@ -125,16 +125,24 @@
         </div>
 
         <!-- PHP alert code: place here, above the form -->
-        <?php
-        if (isset($_GET['error']) && $_GET['error'] == 1) {
-            echo '
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Username or password is wrong. Please try again.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            ';
-        }
-        ?>
+                <?php
+            if (isset($_GET['error']) && $_GET['error'] == 1) {
+            ?>
+                <div style="
+                    color: #d32f2f;
+                    font-size: 14px;
+                    font-weight: 600;
+                    border-left: 4px solid #d32f2f;
+                    padding-left: 10px;
+                    margin-bottom: 15px;
+                ">
+                    <i class="bi bi-exclamation-circle-fill me-1"></i>
+                    Incorrect username or password. Please try again.
+                </div>
+            <?php
+            }
+            ?>
+
 
         <form method="post" action="login_validation.php" class="g-3">
             <div class="mb-3">
