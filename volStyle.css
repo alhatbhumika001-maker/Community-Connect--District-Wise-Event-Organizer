@@ -1,0 +1,61 @@
+.navbar {
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-color {
+  background-color: hsla(281, 54%, 52%, 0.18);
+}
+
+.navbar-nav {
+  margin: 0 auto;
+  gap: 20px;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.initial {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e6e9ee;
+}
+
+#brand .brand-text {
+  font-family: "Handlee", cursive;
+  font-size: 1.45rem;
+  margin-left: 8px;
+}
+
+#brand .brand-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+#user .user-name {
+  font-family: "Outfit", sans-serif;
+  font-size: 1rem;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#user .user-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.btn-outline-indigo {
+  color: #8540f5;
+  border-color: #8540f5;
+}
+
+.btn-outline-indigo:hover {
+  background-color: #8540f5;
+  color: white;
+}

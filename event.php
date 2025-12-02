@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - Community Connect</title>
+    <link rel="stylesheet" href="style.css"> 
 
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,32 +23,6 @@
         /* Smooth Scroll */
         html {
             scroll-behavior: smooth;
-        }
-
-        /* WEBSITE BRAND NAME */
-        .navbar-brand-text {
-            font-family: "Handlee", cursive;
-            font-size: 1.7rem;
-            margin-left: 6px;
-        }
-
-        /* NAVBAR PADDING  */
-        .navbar {
-            padding-top: .10rem !important;
-            padding-bottom: .10rem !important;
-        }
-
-        /* Reduce container padding ONLY inside navbar */
-        .navbar .container {
-            padding-left: .5rem !important;
-            padding-right: .5rem !important;
-            max-width: 100% !important;
-        }
-
-        .brand-logo {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
         }
 
         body {
@@ -217,33 +192,10 @@
 <body>
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg bg-light shadow-sm fixed-top">
-        <div class="container">
-
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="lg.png" style="width:80px;height:80px;object-fit:cover" alt="">
-                <span style="font-family:Handlee, cursive; font-size:1.7rem; margin-left:6px">Community Connect</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="nav">
-
-                <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="event.php">Events</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-                </ul>
-
-                <div class="d-flex gap-2">
-                    <a href="signup.php" class="btn btn-outline-info btn-sm">Sign Up</a>
-                    <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+        $active = 'events';
+        include 'mainNav.php';
+    ?>
 
     <!-- MAIN CONTENT -->
     <div class="event-page">
@@ -259,7 +211,6 @@
             <form method="GET" action="event.php">
                 <label class="small text-muted">District</label><br>
                 <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
-                    <option>Jalgaon</option>
                     <option>Pune</option>
                     <option selected>Mumbai</option>
                     <option>Nagpur</option>
@@ -345,16 +296,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="py-3 text-center">
-        <div class="container">
-            <p class="mb-1">© 2023-2025 Community-Connect, Inc.</p>
-            <p class="mb-1">
-                <a href="#" class="text-muted me-2">Privacy</a>
-                <a href="#" class="text-muted">Terms</a>
-            </p>
-            <a href="#top" class="text-decoration-none">Back to top</a>
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

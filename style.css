@@ -1,0 +1,24 @@
+/* WEBSITE BRAND NAME */
+.navbar-brand-text {
+  font-family: "Handlee", cursive;
+  font-size: 1.7rem;
+  margin-left: 6px;
+}
+
+/* NAVBAR */
+.navbar {
+  padding-top: 0.1rem !important;
+  padding-bottom: 0.1rem !important;
+}
+
+.navbar .container {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  max-width: 100% !important;
+}
+
+.brand-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}

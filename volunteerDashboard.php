@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard - Community Connect</title>
 
+    <link rel="stylesheet" href="volStyle.css">
+
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,69 +24,6 @@
         body {
             background: #f7f9fb;
             font-family: "Outfit", sans-serif;
-        }
-
-        .initial {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e6e9ee;
-        }
-
-        #brand .brand-text {
-            font-family: "Handlee", cursive;
-            font-size: 1.45rem;
-            margin-left: 8px;
-        }
-
-        #brand .brand-logo {
-            width: 48px;
-            height: 48px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        #user .user-name {
-            font-family: "Outfit", sans-serif;
-            font-size: 1rem;
-            margin-right: 10px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        #user .user-icon {
-            width: 44px;
-            height: 44px;
-            object-fit: cover;
-            border-radius: 50%;
-            vertical-align: middle;
-        }
-
-        .navbar{
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-color
-        {
-            background-color: hsla(281, 54%, 52%, 0.18);
-        }
-
-        .navbar-nav{
-            margin: 0 auto;
-            gap: 20px;
-            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-outline-indigo {
-            color: #8540f5;
-            border-color: #8540f5;
-        }
-
-        .btn-outline-indigo:hover {
-            background-color: #8540f5;
-            color: white;
         }
 
         .greeting {
@@ -183,41 +122,11 @@
 <body>
 
     <!-- header -->
-    <div class="initial">
-        <div id="brand" class="d-flex align-items-center">
-            <img src="lg.png" class="brand-logo" alt="logo">
-            <span class="brand-text">Community Connect</span>
-        </div>
-
-        <div id="user" class="d-flex align-items-center">
-            <span class="user-name">{{username}}</span>
-            <img src="user.png" class="user-icon" alt="User Icon">
-        </div>
-    </div>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-light nav-color">
-        <div class="container-fluid">
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
-                aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="volunteerDashboard.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="event.php">Explore Events</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.php">Explore Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                </ul>
-
-                <div class="d-flex align-items-center gap-2">
-                    <a href="/logout" class="btn btn-outline-indigo btn-sm">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+    <?php 
+        $active = 'dashboard';
+        include 'mainNav.php';
+    ?>
+    
     <main class="container my-4">
         <div class="wc">
             <h1 class="greeting">Welcome to Community Connect</h1>
