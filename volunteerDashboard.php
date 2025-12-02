@@ -205,7 +205,7 @@
 
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="volunteerDashboard.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="event.php">Explore Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="community.php">Explore Community</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>

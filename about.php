@@ -149,7 +149,6 @@
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
                     <li class="nav-item"><a class="nav-link active" href="about.php">About</a></li>
-					<li class="nav-item"><a class="nav-link" href="volunteerDashboard.php">Dashboard</a></li>
                 </ul>
 
                 <div class="d-flex gap-2">
