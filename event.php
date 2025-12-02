@@ -307,12 +307,12 @@
         -->
 
         <!-- === Event card TEMPLATE (repeat this block for each event on the server) === -->
-        <div class="event-card mb-5">
+        <div class="event-card mb-5 pe-4">
             <div class="date-box ">
                 {{ DATE }}<br>
                 <small>{{ TIME }}</small>
             </div>
-            <div class="photo-box mt-3 mb-3 pe-4">
+            <div class="photo-box mt-3 mb-3">
                 <!-- server: either render <img src="..."> or leave as empty placeholder -->
                 <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
                 <!-- If you prefer no image, leave this empty and it will show neutral background -->
