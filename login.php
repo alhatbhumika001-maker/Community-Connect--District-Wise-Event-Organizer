@@ -129,10 +129,10 @@
             if (isset($_GET['error']) && $_GET['error'] == 1) {
             ?>
                 <div style="
+                    text-align:center;
                     color: #d32f2f;
-                    font-size: 14px;
+                    font-size: 15px;
                     font-weight: 600;
-                    border-left: 4px solid #d32f2f;
                     padding-left: 10px;
                     margin-bottom: 15px;
                 ">
