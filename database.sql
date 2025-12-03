@@ -94,5 +94,19 @@ CREATE TABLE registrations (
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@gmail.com', 'admin123', 'admin');
 
+-- =========================
+-- DEFAULT USERS
+-- =========================
+INSERT INTO users 
+(full_name, username, email, password, confirm_password, role, district, bio)
+VALUES
+('Bhumika Alhat', 'bhumika', 'bhumika@gmail.com', '123', '123', 'organizer', 'jalgaon', 'Default Organizer User'),
+
+('Akansha Sheet', 'akansha', 'akanshasheet@gmail.com', '123', '123', 'volunteer', 'pune', 'Default Volunteer User'),
+
+('Nikita Patil', 'nikita', 'nikitapatil@gmail.com', '123', '123', 'admin', 'mumbai', 'Default Admin User');
+
+
+
 
 
