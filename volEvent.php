@@ -242,19 +242,19 @@
                 <input type="search" name="q" placeholder="Search events...">
             </div>
 
-            <button class="btn btn-outline-info filter-pill">Search</button>
+            <button class="btn btn-outline-indigo filter-pill">Search</button>
         </form>
 
         <!-- FILTERS -->
         <div class="d-flex gap-2 mb-4 flex-wrap">
-            <button type="submit" name="date" value="today" class="btn btn-outline-info filter-pill">Today</button>
+            <button type="submit" name="date" value="today" class="btn btn-outline-indigo filter-pill">Today</button>
 
             <button type="submit" name="category" value="education"
-                class="btn btn-outline-info filter-pill">Education</button>
+                class="btn btn-outline-indigo filter-pill">Education</button>
 
-            <button type="submit" name="free" value="1" class="btn btn-outline-info filter-pill">Free</button>
+            <button type="submit" name="free" value="1" class="btn btn-outline-indigo filter-pill">Free</button>
 
-            <button type="submit" name="nearby" value="1" class="btn btn-outline-info filter-pill">Nearby</button>
+            <button type="submit" name="nearby" value="1" class="btn btn-outline-indigo filter-pill">Nearby</button>
         </div>
 
         <!-- EVENT CARD (repeat this block for each event) -->
