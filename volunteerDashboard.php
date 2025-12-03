@@ -124,8 +124,8 @@
         include 'volHead.php';
     ?>
     <?php 
-        $active = 'dashboard';
-        include 'mainNav.php';
+        $active = 'home';
+        include 'volNav.php';
     ?>
     
     <main class="container my-4">
