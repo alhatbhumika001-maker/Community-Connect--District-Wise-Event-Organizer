@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 $username = "Guest";
 
 if (isset($_SESSION['login_user'])) {
