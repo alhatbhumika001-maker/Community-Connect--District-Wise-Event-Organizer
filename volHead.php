@@ -14,7 +14,7 @@
     </div>
     <div id="user" class="d-flex align-items-center">
         <span class="user-name">
-           Welcome <?php echo $user['full_name']; ?>
+           Welcome <?php echo $user['username']; ?>
         </span>
         <img src="user.png" class="user-icon" alt="User Icon">
     </div>
