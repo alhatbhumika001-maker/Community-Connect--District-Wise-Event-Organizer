@@ -14,7 +14,7 @@ CREATE TABLE users (
     confirm_password VARCHAR(255) NOT NULL,
     role VARCHAR(100) NOT NULL,
     district VARCHAR(100) NOT NULL,
-    bio VARCHAR(100) NOT NULL,
+    bio VARCHAR(300) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -105,6 +105,7 @@ VALUES
 ('Akansha Sheet', 'akansha', 'akanshasheet@gmail.com', '123', '123', 'volunteer', 'pune', 'Default Volunteer User'),
 
 ('Nikita Patil', 'nikita', 'nikitapatil@gmail.com', '123', '123', 'admin', 'mumbai', 'Default Admin User');
+
 
 
 
