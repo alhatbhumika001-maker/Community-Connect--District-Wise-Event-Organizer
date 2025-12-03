@@ -51,11 +51,11 @@
 }
 
 .btn-outline-indigo {
-  color: #8540f5;
-  border-color: #8540f5;
+  color: #8540f5 !important;
+  border-color: #8540f5  !important;
 }
 
 .btn-outline-indigo:hover {
-  background-color: #8540f5;
-  color: white;
+  background-color: #8540f5 !important;
+  color: white !important;
 }
