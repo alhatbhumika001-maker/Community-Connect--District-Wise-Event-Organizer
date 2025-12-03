@@ -1,8 +1,10 @@
     <?php 
+
             $link=mysqli_connect("localhost","root","","community_connect");
             $q='select * from users';
             $res=mysqli_query($link,$q);
-            $user=mysqli_fetch_array($res)
+            $user=mysqli_fetch_array($res);
+            
     ?>
 
 <div class="initial">
