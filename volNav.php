@@ -9,9 +9,9 @@
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link <?php if($active == 'home') echo 'active'; ?>" aria-current="page" href="volunteerDashboard.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link <?php if($active == 'events') echo 'active'; ?>" href="event.php">Explore Events</a></li>
-                    <li class="nav-item"><a class="nav-link <?php if($active == 'community') echo 'active'; ?>" href="community.php">Explore Community</a></li>
-                    <li class="nav-item"><a class="nav-link <?php if($active == 'profile') echo 'active'; ?>" href="profile.php">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link <?php if($active == 'events') echo 'active'; ?>" href="volEvent.php">Explore Events</a></li>
+                    <li class="nav-item"><a class="nav-link <?php if($active == 'community') echo 'active'; ?>" href="volCommunity.php">Explore Community</a></li>
+                    <li class="nav-item"><a class="nav-link <?php if($active == 'profile') echo 'active'; ?>" href="volProfile.php">Profile</a></li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
