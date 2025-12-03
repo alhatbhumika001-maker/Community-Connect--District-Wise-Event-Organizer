@@ -117,14 +117,30 @@
                 <input type="text" name="full_name" class="form-control" required>
             </div>
 
+                     <!--  USERNAME ALREADY EXIST ERROR MESSAGE -->
+
             <div class="col-md-6">
             <label>Username</label>
             <input type="text" name="username" class="form-control" required
                    value="<?php echo isset($_GET['username']) ? htmlspecialchars($_GET['username']) : ''; ?>">
-            <?php if(isset($_GET['username_error'])) { ?>
-                <div class="error-message"><i class="bi bi-exclamation-circle-fill me-1"></i><?php echo $_GET['username_error']; ?></div>
-            <?php } ?>
+            <?php if (isset($_GET['username_error'])) { ?>
+                <div class="error-message">
+                    <div style="
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['username_error']; ?>
+                    </div>
+                </div>
+            <?php } 
+            ?>
         </div>
+
+         <!--  EMAIL ALREADY EXIST ERROR MESSAGE -->
 
         <div class="col-md-6">
             <label>Email</label>
@@ -133,7 +149,6 @@
                    <?php if (isset($_GET['email_error'])) { ?>
                 <div class="error-message">
                     <div style="
-                        border-left: 4px solid #d32f2f;
                         padding-left: 10px;
                         color: #d32f2f;
                         font-size: 14px;
@@ -161,7 +176,7 @@
             <?php } ?>
         </div>
 
-            <!-- 🔥 ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
+            <!--  ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
             
             <?php if (isset($_GET['error'])) { ?>
                 <div class="col-12">
