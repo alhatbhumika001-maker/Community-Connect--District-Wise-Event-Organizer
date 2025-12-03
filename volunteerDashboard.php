@@ -120,8 +120,9 @@
 </head>
 
 <body>
-
-    <!-- header -->
+    <?php
+        include 'volHead.php';
+    ?>
     <?php 
         $active = 'dashboard';
         include 'mainNav.php';
