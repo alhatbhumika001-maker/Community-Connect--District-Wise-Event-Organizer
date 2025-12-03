@@ -76,6 +76,13 @@
             font-weight: 600;
             margin-top: 3px;
         }
+        .error-text2 {
+            color: #d32f2f;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+    
     </style>
 </head>
 
@@ -153,7 +160,7 @@
             <label>Password</label>
             <input type="password" name="password" class="form-control" required>
             <?php if(isset($_GET['password_error'])) { ?>
-                <div class="error-text">
+                <div class="error-text2">
                     <i class="bi bi-exclamation-circle-fill"></i>
                     <?php echo $_GET['password_error']; ?>
                 </div>
@@ -165,7 +172,7 @@
             <label>Confirm Password</label>
             <input type="password" name="confirm_password" class="form-control" required>
             <?php if(isset($_GET['error'])) { ?>
-                <div class="error-text">
+                <div class="error-text2">
                     <i class="bi bi-exclamation-circle-fill"></i>
                     <?php echo $_GET['error']; ?>
                 </div>
