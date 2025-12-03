@@ -145,7 +145,7 @@
         <div class="col-md-6">
             <label>Email</label>
             <input type="email" name="email" class="form-control" required
-                   value="<?php echo isset($_GET['email']) : ''; ?>">
+                   value="<?php echo isset($_GET['email']) ?>">
                    <?php if (isset($_GET['email_error'])) { ?>
                 <div class="error-message">
                     <div style="
