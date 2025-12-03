@@ -10,15 +10,40 @@ $confirm_password = $_POST['confirm_password'];
 $role = $_POST['role'];
 $district = $_POST['district'];
 
-// Check if password and confirm password match
+// Check password match
 if ($password !== $confirm_password) {
     header("Location: signup.php?error=Password and Confirm Password do not match!");
     exit();
 }
 
-// Insert Query
-$q = "INSERT INTO users (user_id, full_name, username, email, password, confirm_password, role, district)
-      VALUES (NULL, '$full_name', '$username', '$email', '$password', '$confirm_password', '$role', '$district')";
+// ---- CHECK USERNAME ----
+$checkUsername = "SELECT * FROM users WHERE username='$username'";
+$resUsername = mysqli_query($conn, $checkUsername);
+if (mysqli_num_rows($resUsername) > 0) {
+    header("Location: signup.php?error=Username already exists!");
+    exit();
+}
+
+// ---- CHECK EMAIL ----
+$checkEmail = "SELECT * FROM users WHERE email='$email'";
+$resEmail = mysqli_query($conn, $checkEmail);
+if (mysqli_num_rows($resEmail) > 0) {
+    header("Location: signup.php?error=Email already exists!");
+    exit();
+}
+
+// ---- CHECK PASSWORD ----
+// (Only works if passwords are stored as plain text)
+$checkPassword = "SELECT * FROM users WHERE password='$password'";
+$resPassword = mysqli_query($conn, $checkPassword);
+if (mysqli_num_rows($resPassword) > 0) {
+    header("Location: signup.php?error=Password already exists!");
+    exit();
+}
+
+// Insert Query (plain text password)
+$q = "INSERT INTO users (full_name, username, email, password, role, district)
+      VALUES ('$full_name', '$username', '$email', '$password', '$role', '$district')";
 
 $result = mysqli_query($conn, $q);
 
