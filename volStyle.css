@@ -29,7 +29,7 @@
 
 #brand .brand-logo {
   width: 48px;
-  height: 48px;
+  height: 20px;
   object-fit: cover;
   border-radius: 8px;
 }
