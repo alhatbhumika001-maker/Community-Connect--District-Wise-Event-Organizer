@@ -14,6 +14,7 @@ CREATE TABLE users (
     confirm_password VARCHAR(255) NOT NULL,
     role VARCHAR(100) NOT NULL,
     district VARCHAR(100) NOT NULL,
+    bio VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -92,5 +93,6 @@ CREATE TABLE registrations (
 -- =========================
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@gmail.com', 'admin123', 'admin');
+
 
 
