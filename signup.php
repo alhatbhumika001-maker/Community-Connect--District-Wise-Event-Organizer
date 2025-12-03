@@ -130,9 +130,22 @@
             <label>Email</label>
             <input type="email" name="email" class="form-control" required
                    value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>">
-            <?php if(isset($_GET['email_error'])) { ?>
-                <div class="error-message"><i class="bi bi-exclamation-circle-fill me-1"></i><?php echo $_GET['email_error']; ?></div>
-            <?php } ?>
+                   <?php if (isset($_GET['email_error'])) { ?>
+                <div class="error-message">
+                    <div style="
+                        border-left: 4px solid #d32f2f;
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['email_error']; ?>
+                    </div>
+                </div>
+            <?php } 
+            ?>
         </div>
 
         <div class="col-md-6">
