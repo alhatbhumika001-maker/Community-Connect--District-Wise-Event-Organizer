@@ -1,3 +1,6 @@
+<?php
+        include 'volHead.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -121,9 +124,7 @@
 </head>
 
 <body>
-    <?php
-        include 'volHead.php';
-    ?>
+    
     <?php 
         $active = 'home';
         include 'volNav.php';
@@ -132,7 +133,7 @@
     <main class="container my-4">
         <div class="wc">
             <h1 class="greeting">Welcome to Community Connect</h1>
-            <h2 class="name">{{name}}</h2>
+            <h2 class="name"><?php echo $full_name; ?></h2>
             <h3 class="wel text-muted"><i>Here's what's happening in your community today.</i></h3>
         </div>
 
