@@ -1,3 +1,6 @@
+<?php
+        include 'volHead.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,9 +196,6 @@
 
 <body>
 
-    <?php
-        include 'volHead.php';  
-    ?>
     <?php 
         $active = 'events';
         include 'volNav.php';

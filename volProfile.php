@@ -1,3 +1,6 @@
+<?php
+        include 'volHead.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -244,9 +247,7 @@
     </style>
 </head>
 <body>
-    <?php
-        include 'volHead.php';
-    ?>
+    
     <?php 
         $active = 'profile';
         include 'volNav.php';
