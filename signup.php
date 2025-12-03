@@ -221,6 +221,11 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label" >Add Bio:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="bio" required></textarea>
+            </div>
+
             <div class="col-12 text-end">
                 <button class="btn btn-info text-white px-4">Create Account</button>
             </div>
