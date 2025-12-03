@@ -1,6 +1,16 @@
 <?php
         include 'volHead.php';
-    ?>
+        if (isset($_SESSION['login_user'])) 
+        {
+
+            $username = $_SESSION['login_user']['username'];
+            $email = $_SESSION['login_user']['email'];
+            $full_name = $_SESSION['login_user']['full_name'];
+            $role = $_SESSION['login_user']['role'];
+            $district = $_SESSION['login_user']['district'];
+            $bio = $_SESSION['login_user']['bio'];
+        }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -244,6 +254,7 @@
             margin: 0 auto;
             text-align: left;
         }
+       
     </style>
 </head>
 <body>
@@ -259,9 +270,9 @@
                 <img class="user-logo" src="user.png" alt="user-icon">
             </div>
             <div class="user-heading">
-                <h2 class="name"> {{name}} </h2>
-                <h5 class="address text-muted"> {{Role}} • {{District}},Maharashtra </h5>
-                <h6 class="bio text-muted">{{Bio}}</h6>
+                <h2 class="name"><?php echo $full_name; ?></h2>
+                <h5 class="address text-muted"><?php echo $role; ?>  <?php echo $district; ?>, Maharashtra </h5>
+                <h6 class="bio text-muted"><?php echo $bio; ?></h6>
             </div>
             <button class="btn btn-outline-indigo btn-sm" data-bs-toggle="collapse" data-bs-target="#editProfileSection">
                 <i class="bi bi-pencil-square me-1"></i>Edit Profile
@@ -270,43 +281,45 @@
                 <div class="edit-card">
                     <h3 class="mb-4 mt-3">Edit Profile</h3>
             
-                    <form action="updateProfile.php" method="POST">
+                    <form action="update_Profile.php" method="POST">
             
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" value="{{name}}">
+                            <input type="text" name="full_name" class="form-control" value="<?php echo $full_name; ?>">
                         </div>
             
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" value="{{username}}">
+                            <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                         </div>
             
                         <div class="mb-3">
                             <label class="form-label">Role</label>
-                            <input type="text" name="role" class="form-control" value="{{Role}}">
+                            <input type="text" name="role" class="form-control" value="<?php echo $role; ?>">
                         </div>
             
                         <div class="mb-3">
                             <label class="form-label">District</label>
-                            <input type="text" name="district" class="form-control" value="{{District}}">
+                            <input type="text" name="district" class="form-control" value="<?php echo $district; ?>">
                         </div>
             
                         <div class="mb-3">
                             <label class="form-label">Bio</label>
-                            <textarea name="bio" class="form-control" rows="3">{{Bio}}</textarea>
+                            <textarea name="bio" class="form-control" rows="3"><?php echo $bio; ?></textarea>
                         </div>
             
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" value="{{Email}}">
+                            <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
                         </div>
             
                         <div class="d-flex justify-content-center mt-4">
                             <button class="btn btn-outline-indigo">Save Changes</button>
                         </div>
-            
+
                     </form>
+            
+
                 </div>
             </div>
 
