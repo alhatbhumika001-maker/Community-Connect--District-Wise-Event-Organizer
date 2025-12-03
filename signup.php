@@ -70,6 +70,13 @@
         select {
             font-size: 14px !important;
         }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -78,7 +85,6 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg bg-light shadow-sm fixed-top">
         <div class="container">
-
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="lg.png" class="brand-logo" alt="">
                 <span class="navbar-brand-text">Community Connect</span>
@@ -89,22 +95,18 @@
             </button>
 
             <div class="collapse navbar-collapse" id="nav">
-
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                 </ul>
-
                 <div class="d-flex gap-2">
                     <a href="signup.php" class="btn btn-outline-info btn-sm">Sign Up</a>
                     <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
                 </div>
-
             </div>
         </div>
     </nav>
-
 
     <!-- SIGNUP CARD -->
     <div class="signup-card">
@@ -114,17 +116,32 @@
 
             <div class="col-md-12">
                 <label>Full Name</label>
-                <input type="text" name="full_name" class="form-control" required>
+                <input type="text" name="full_name" class="form-control" required
+                    value="<?php echo isset($_GET['full_name']) ? htmlspecialchars($_GET['full_name']) : ''; ?>">
             </div>
 
             <div class="col-md-6">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control" required>
+                <input type="text" name="username" class="form-control" required
+                    value="<?php echo isset($_GET['username']) ? htmlspecialchars($_GET['username']) : ''; ?>">
+                <?php if (isset($_GET['username_error'])) { ?>
+                    <div class="error-message">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['username_error']; ?>
+                    </div>
+                <?php } ?>
             </div>
 
             <div class="col-md-6">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" required
+                    value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>">
+                <?php if (isset($_GET['email_error'])) { ?>
+                    <div class="error-message">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['email_error']; ?>
+                    </div>
+                <?php } ?>
             </div>
 
             <div class="col-md-6">
@@ -135,35 +152,21 @@
             <div class="col-md-6">
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_password" class="form-control" required>
-            </div>
-
-            <!-- 🔥 ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
-            
-            <?php if (isset($_GET['error'])) { ?>
-                <div class="col-12">
-                    <div style="
-                        border-left: 4px solid #d32f2f;
-                        padding-left: 10px;
-                        color: #d32f2f;
-                        font-size: 14px;
-                        font-weight: 600;
-                        margin-top: 6px;
-                    ">
+                <?php if (isset($_GET['password_error'])) { ?>
+                    <div class="error-message">
                         <i class="bi bi-exclamation-circle-fill me-1"></i>
-                        <?php echo $_GET['error']; ?>
+                        <?php echo $_GET['password_error']; ?>
                     </div>
-                </div>
-            <?php } 
-            ?>
-
+                <?php } ?>
+            </div>
 
             <div class="col-md-6">
                 <label>Role</label>
                 <select name="role" class="form-select" required>
                     <option value="">Select</option>
-                    <option value="admin">Admin</option>
-                    <option value="volunteer">Volunteer</option>
-                    <option value="organizer">Organizer</option>
+                    <option value="admin" <?php if(isset($_GET['role']) && $_GET['role']=='admin') echo 'selected'; ?>>Admin</option>
+                    <option value="volunteer" <?php if(isset($_GET['role']) && $_GET['role']=='volunteer') echo 'selected'; ?>>Volunteer</option>
+                    <option value="organizer" <?php if(isset($_GET['role']) && $_GET['role']=='organizer') echo 'selected'; ?>>Organizer</option>
                 </select>
             </div>
 
@@ -171,14 +174,13 @@
                 <label>District</label>
                 <select name="district" class="form-select" required>
                     <option value="">Select District</option>
-                    <option value="jalgaon">Jalgaon</option>
-                    <option value="pune">Pune</option>
-                    <option value="mumbai">Mumbai</option>
-                    <option value="nagpur">Nagpur</option>
-                    <option value="thane">Thane</option>
-                    <option value="nashik">Nashik</option>
-                    <option value="satara">Satara</option>
-                    <option value="kolhapur">Kolhapur</option>
+                    <?php
+                    $districts = ['jalgaon','pune','mumbai','nagpur','thane','nashik','satara','kolhapur'];
+                    foreach($districts as $district){
+                        $selected = (isset($_GET['district']) && $_GET['district']==$district) ? 'selected' : '';
+                        echo "<option value='$district' $selected>".ucfirst($district)."</option>";
+                    }
+                    ?>
                 </select>
             </div>
 
