@@ -15,7 +15,7 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
-                    <a href="/logout" class="btn btn-outline-indigo btn-sm">Logout</a>
+                    <a href="logout.php" class="btn btn-outline-indigo btn-sm">Logout</a>
                 </div>
             </div>
         </div>
