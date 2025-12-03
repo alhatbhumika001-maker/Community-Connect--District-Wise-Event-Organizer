@@ -12,7 +12,7 @@ $district = $_POST['district'];
 
 // Check if password and confirm password match
 if ($password !== $confirm_password) {
-    header("error=Password and Confirm Password do not match!");
+    header("Location: signup.php?error=Password and Confirm Password do not match!");
     exit();
 }
 
