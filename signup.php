@@ -70,17 +70,6 @@
         select {
             font-size: 14px !important;
         }
-
-        .error-text {
-            color: #d32f2f;
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 3px;
-        }
-
-        .is-invalid {
-            border: 2px solid #d32f2f !important;
-        }
     </style>
 </head>
 
@@ -116,67 +105,58 @@
         </div>
     </nav>
 
+
     <!-- SIGNUP CARD -->
     <div class="signup-card">
         <h3 class="text-center mb-3" style="font-family: Handlee, cursive; color:#00897B;">Create Your Account</h3>
 
         <form method="post" action="sign_up_insert.php" class="row g-3">
 
-            <!-- Full Name -->
             <div class="col-md-12">
                 <label>Full Name</label>
                 <input type="text" name="full_name" class="form-control" required>
             </div>
 
-            <!-- Username -->
             <div class="col-md-6">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control <?php if(isset($_GET['username_error'])) echo 'is-invalid'; ?>" required>
-                <?php if(isset($_GET['username_error'])) { ?>
-                    <div class="error-text">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <?php echo $_GET['username_error']; ?>
-                    </div>
-                <?php } ?>
+                <input type="text" name="username" class="form-control" required>
             </div>
 
-            <!-- Email -->
             <div class="col-md-6">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control <?php if(isset($_GET['email_error'])) echo 'is-invalid'; ?>" required>
-                <?php if(isset($_GET['email_error'])) { ?>
-                    <div class="error-text">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <?php echo $_GET['email_error']; ?>
-                    </div>
-                <?php } ?>
+                <input type="email" name="email" class="form-control" required>
             </div>
 
-            <!-- Password -->
             <div class="col-md-6">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php if(isset($_GET['password_error'])) echo 'is-invalid'; ?>" required>
-                <?php if(isset($_GET['password_error'])) { ?>
-                    <div class="error-text">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <?php echo $_GET['password_error']; ?>
-                    </div>
-                <?php } ?>
+                <input type="password" name="password" class="form-control" required>
             </div>
 
-            <!-- Confirm Password -->
             <div class="col-md-6">
                 <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control <?php if(isset($_GET['confirm_error'])) echo 'is-invalid'; ?>" required>
-                <?php if(isset($_GET['confirm_error'])) { ?>
-                    <div class="error-text">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <?php echo $_GET['confirm_error']; ?>
-                    </div>
-                <?php } ?>
+                <input type="password" name="confirm_password" class="form-control" required>
             </div>
 
-            <!-- Role -->
+            <!-- 🔥 ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
+            
+            <?php if (isset($_GET['error'])) { ?>
+                <div class="col-12">
+                    <div style="
+                        border-left: 4px solid #d32f2f;
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['error']; ?>
+                    </div>
+                </div>
+            <?php } 
+            ?>
+
+
             <div class="col-md-6">
                 <label>Role</label>
                 <select name="role" class="form-select" required>
@@ -187,7 +167,6 @@
                 </select>
             </div>
 
-            <!-- District -->
             <div class="col-md-6">
                 <label>District</label>
                 <select name="district" class="form-select" required>
