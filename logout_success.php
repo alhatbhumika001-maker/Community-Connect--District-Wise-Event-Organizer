@@ -14,7 +14,7 @@
             overflow: hidden;
             animation: fadeBG 1.2s ease-in-out;
 
-            background: linear-gradient(135deg, #e4a6f7ff, #6be884ff, #95e8eeff);
+            background: linear-gradient(135deg, #e096f7ff, #6be884ff, #96edf3ff);
             background-size: 400% 400%;
             animation: gradientFlow 15s ease infinite;
 
