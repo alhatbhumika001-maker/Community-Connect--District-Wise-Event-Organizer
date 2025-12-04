@@ -259,6 +259,7 @@
 </head>
 <body>
     
+    <?php include 'volHead.php'; ?>
     <?php 
         $active = 'profile';
         include 'volNav.php';
