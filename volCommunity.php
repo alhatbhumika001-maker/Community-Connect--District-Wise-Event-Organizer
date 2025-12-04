@@ -223,33 +223,101 @@
                 </form>
             </div>
         </div>
+        <style>
+                    .metric-card {
+                border-radius: 20px;
+                padding: 20px;
+                background: #ffffff;
+                box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+                transition: 0.3s ease;
+            }
 
-        <div class="row g-3 mb-4">
-            <div class="col-12 col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="text-muted">Total Communities that Joined Us</h6>
-                        <div class="h5 mb-0">{{Total_communities_in_website}}</div>
-                    </div>
+            .metric-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+            }
+
+            .metric-icon-box {
+                width: 80px;
+                height: 80px;
+                border-radius: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(135deg, #b388ff, #7b2ff7);
+                box-shadow: 0 6px 14px rgba(123, 47, 247, 0.35);
+            }
+
+            .metric-icon {
+                width: 50px;
+                height: 50px;
+                filter: brightness(0) invert(1);
+            }
+
+            .metric-title {
+                font-size: 22px;
+                font-weight: 800;
+                margin-right:36px;
+                color: #333;
+            }
+
+            .metric-title1 {
+                font-size: 22px;
+                font-weight: 800;
+                margin-right:85px;
+                color: #333;
+            }
+        </style>
+
+            <div class="row g-4 mb-4">
+
+    <!-- TOTAL COMMUNITIES -->
+        <div class="col-12 col-md-4">
+            <div class="metric-card d-flex align-items-center justify-content-between">
+
+                <!-- LEFT SIDE: ICON -->
+                <div class="metric-icon-box">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1250/1250678.png" class="metric-icon">
                 </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="text-muted">Total Communities in your District</h6>
-                        <div class="h5 mb-0">{{Total_communities_in_district}}</div>
-                    </div>
+
+                <!-- RIGHT SIDE: TITLE -->
+                <div class="metric-title">
+                    Total Communities <br>Joined Us
                 </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="text-muted">My Joined Communities</h6>
-                        <div class="h5 mb-0">{{Joined_communities_by_user}}</div>
-                    </div>
-                </div>
+                
+
+
             </div>
         </div>
+
+
+    <!-- COMMUNITIES IN DISTRICT -->
+    <div class="col-12 col-md-4">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div class="metric-icon-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="metric-icon">
+            </div>
+            <div>
+                <div class="metric-title">Total Communities <br>in Your District</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOINED COMMUNITIES -->
+    <div class="col-12 col-md-4">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div class="metric-icon-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" class="metric-icon">
+            </div>
+            <div>
+                <div class="metric-title1">My Joined <br>Communities</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 
         <!-- ========== SEARCH (FULL WIDTH on large screens) ========== -->
         <div class="search-full">
