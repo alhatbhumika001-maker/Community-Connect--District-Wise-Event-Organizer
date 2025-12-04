@@ -230,6 +230,7 @@
                 background: #ffffff;
                 box-shadow: 0 6px 18px rgba(0,0,0,0.12);
                 transition: 0.3s ease;
+                padding-bottom:70px;
             }
 
             .metric-card:hover {
@@ -284,9 +285,6 @@
                 <div class="metric-title">
                     Total Communities <br>Joined Us
                 </div>
-                
-
-
             </div>
         </div>
 
