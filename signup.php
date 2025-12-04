@@ -163,21 +163,33 @@
             ?>
         </div>
 
-        <div class="col-md-6">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
+                    <div class="col-md-6">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" required>
 
-        <div class="col-md-6">
-            <label>Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control" required>
-            <?php if(isset($_GET['password_error'])) { ?>
-                <div class="error-message"><i class="bi bi-exclamation-circle-fill me-1"></i><?php echo $_GET['password_error']; ?></div>
-            <?php } ?>
-        </div>
+                <!-- Password Error (individual field error) -->
+                <?php if(isset($_GET['password_error'])) { ?>
+                    <div style="
+                        padding-left: 10px;
+                        color: #d32f2f;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-top: 6px;
+                    ">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        <?php echo $_GET['password_error']; ?>
+                    </div>
+                <?php } ?>
+            </div>
 
-            <!--  ATTRACTIVE BOOTSTRAP ERROR MESSAGE -->
-            
+
+            <div class="col-md-6">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" class="form-control" required>
+            </div>
+
+
+            <!-- MAIN ERROR (shows below password fields) -->
             <?php if (isset($_GET['error'])) { ?>
                 <div class="col-12">
                     <div style="
@@ -186,14 +198,15 @@
                         color: #d32f2f;
                         font-size: 14px;
                         font-weight: 600;
-                        margin-top: 6px;
+                        margin-top: 10px;
                     ">
                         <i class="bi bi-exclamation-circle-fill me-1"></i>
                         <?php echo $_GET['error']; ?>
                     </div>
                 </div>
-            <?php } 
+            <?php }
             ?>
+
 
 
             <div class="col-md-6">
