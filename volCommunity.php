@@ -1,6 +1,6 @@
-    <?php
-        include 'volHead.php';
-    ?>
+<?php
+    include 'volHead.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +18,7 @@
     <!-- BOOTSTRAP CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- CUSTOM CSS --> 
+    <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="volStyle.css">
 
     <!-- BOOTSTRAP ICONS -->
@@ -32,20 +32,91 @@
             color: #111827;
         }
 
-        /* Metric cards */
-        .card {
-            background: #fff;
-            border: 0;
+        /* ---------- METRIC CARD STYLES ---------- */
+        .metric-card {
             border-radius: 20px;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
-            transition: transform .2s;
+            padding: 18px;
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            /* top row then count below */
+            justify-content: space-between;
+            min-height: 150px;
         }
 
-        .card:hover {
-            transform: translateY(-6px);
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
         }
 
-        /* Community card (responsive) - small clean rules */
+        .metric-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .metric-icon-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #b388ff, #7b2ff7);
+            box-shadow: 0 6px 14px rgba(123, 47, 247, 0.18);
+            flex-shrink: 0;
+        }
+
+        .metric-icon {
+            width: 44px;
+            height: 44px;
+            filter: brightness(0) invert(1);
+            display: block;
+        }
+
+        .metric-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.05;
+        }
+
+        .metric-count {
+            margin-top: 14px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        /* responsiveness for metrics */
+        @media (max-width: 767.98px) {
+            .metric-card {
+                padding: 14px;
+                min-height: 120px;
+            }
+
+            .metric-icon-box {
+                width: 60px;
+                height: 60px;
+            }
+
+            .metric-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .metric-title {
+                font-size: 16px;
+            }
+
+            .metric-count {
+                font-size: 22px;
+            }
+        }
+
+        /* Community card */
         .community-card {
             display: flex;
             gap: 0;
@@ -77,72 +148,8 @@
             box-sizing: border-box;
         }
 
-        /* ========== SEARCH: full-width on large screens, responsive on small ========== */
-        .search-full {
-            width: 100%;
-            margin-bottom: 1rem;
-            display: flex !important;
-        }
-
-        .search-full .input-group {
-            width: 100%;
-            align-items: center;
-        }
-
-        .search-full .form-control {
-            flex: 1 1 auto;
-            min-width: 220px;
-            border-radius: 0;
-        }
-
-        .search-full .form-select {
-            flex: 0 0 170px;
-            max-width: 220px;
-            margin-left: 10px;
-        }
-
-        .search-full .btn {
-            flex: 0 0 auto;
-            margin-left: 10px;
-        }
-
-        /* Input group */
-        .input-group .input-group-text {
-            background: #fff;
-            border-right: 0;
-            color: #8540f5;
-            padding: .35rem .6rem;
-            border-radius: .5rem 0 0 .5rem;
-        }
-
-        .input-group .form-control {
-            border-left: 0;
-            border-radius: 0 .5rem .5rem 0;
-        }
-
-        .input-group .form-select {
-            border-left: 0;
-        }
-
-        /* remove any leftover rule that made the icon giant */
-        .bi-search {
-            font-size: 12px;
-        }
-
-        /* Small screens: wrap & stack controls */
-        @media (max-width:767.98px) {
-            .search-full .input-group {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-            .search-full .form-select,
-            .search-full .btn {
-                width: 100%;
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-
+        /* Small screens: community card */
+        @media (max-width: 767.98px) {
             .community-card {
                 flex-direction: column;
             }
@@ -159,8 +166,6 @@
                 padding: 14px;
             }
         }
-
-        /* small visual helpers kept very small */
         .page-title {
             font-size: 2.0rem;
             margin: 0 0 .25rem;
@@ -177,8 +182,6 @@
             color: #8540f5;
             margin-bottom: 12px;
         }
-
-        /* focus outline for accessibility */
         .form-control:focus,
         .form-select:focus,
         .btn:focus {
@@ -186,19 +189,15 @@
             outline-offset: 2px;
             box-shadow: none;
         }
-        
     </style>
 </head>
 
 <body>
 
-   
-    <?php 
+    <?php
         $active = 'community';
         include 'volNav.php';
     ?>
-
-    <!-- ========== MAIN CONTENT (kept your structure) ========== -->
     <main class="container py-4">
 
         <div class="d-flex justify-content-between align-items-start mb-4">
@@ -223,136 +222,92 @@
                 </form>
             </div>
         </div>
-        <style>
-                    .metric-card {
-                border-radius: 20px;
-                padding: 20px;
-                background: #ffffff;
-                box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-                transition: 0.3s ease;
-                padding-bottom:70px;
-            }
+        <!-- Metric Cards -->
+        <div class="row g-4 mb-4">
+            <!-- TOTAL COMMUNITIES -->
+            <div class="col-12 col-md-4">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon-box">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1250/1250678.png" class="metric-icon"
+                                alt="communities icon">
+                        </div>
+                        <div class="metric-title">Total Communities<br>Joined Us</div>
+                    </div>
 
-            .metric-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 24px rgba(0,0,0,0.18);
-            }
-
-            .metric-icon-box {
-                width: 80px;
-                height: 80px;
-                border-radius: 18px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(135deg, #b388ff, #7b2ff7);
-                box-shadow: 0 6px 14px rgba(123, 47, 247, 0.35);
-            }
-
-            .metric-icon {
-                width: 50px;
-                height: 50px;
-                filter: brightness(0) invert(1);
-            }
-
-            .metric-title {
-                font-size: 22px;
-                font-weight: 800;
-                margin-right:36px;
-                color: #333;
-            }
-
-            .metric-title1 {
-                font-size: 22px;
-                font-weight: 800;
-                margin-right:85px;
-                color: #333;
-            }
-        </style>
-
-            <div class="row g-4 mb-4">
-
-    <!-- TOTAL COMMUNITIES -->
-        <div class="col-12 col-md-4">
-            <div class="metric-card d-flex align-items-center justify-content-between">
-
-                <!-- LEFT SIDE: ICON -->
-                <div class="metric-icon-box">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1250/1250678.png" class="metric-icon">
+                    <div class="metric-count">
+                        {{Total_communities_in_website}}
+                    </div>
                 </div>
+            </div>
 
-                <!-- RIGHT SIDE: TITLE -->
-                <div class="metric-title">
-                    Total Communities <br>Joined Us
+            <!-- COMMUNITIES IN DISTRICT -->
+            <div class="col-12 col-md-4">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon-box">
+                            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="metric-icon"
+                                alt="district icon">
+                        </div>
+                        <div class="metric-title">Total Communities<br>in Your District</div>
+                    </div>
+
+                    <div class="metric-count">
+                        {{Total_communities_in_district}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOINED COMMUNITIES -->
+            <div class="col-12 col-md-4">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon-box">
+                            <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" class="metric-icon"
+                                alt="joined icon">
+                        </div>
+                        <div class="metric-title">My Joined<br>Communities</div>
+                    </div>
+
+                    <div class="metric-count">
+                        {{Joined_communities_by_user}}
+                    </div>
                 </div>
             </div>
         </div>
 
-
-    <!-- COMMUNITIES IN DISTRICT -->
-    <div class="col-12 col-md-4">
-        <div class="metric-card d-flex align-items-center justify-content-between">
-            <div class="metric-icon-box">
-                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="metric-icon">
-            </div>
-            <div>
-                <div class="metric-title">Total Communities <br>in Your District</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JOINED COMMUNITIES -->
-    <div class="col-12 col-md-4">
-        <div class="metric-card d-flex align-items-center justify-content-between">
-            <div class="metric-icon-box">
-                <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" class="metric-icon">
-            </div>
-            <div>
-                <div class="metric-title1">My Joined <br>Communities</div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-
-        <!-- ========== SEARCH (FULL WIDTH on large screens) ========== -->
-        <div class="search-full">
-            <form method="GET" action="#" class="w-100">
-                <div class="input-group input-group-sm">
-                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-search"></i></span>
-                    <input name="q" type="text" class="form-control" placeholder="Search communities, tags..."
-                        aria-label="Search">
-                    <select name="sort" class="form-select ms-3">
-                        <option value="active">Most Active</option>
-                        <option value="new">Newest</option>
-                    </select>
-                    <button class="btn btn-outline-indigo ms-3" type="submit">Apply</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- ========== ONE COMMUNITY CARD (server will loop this part) ========== -->
+        <!-- Community card -->
         <div class="community-card mb-4">
             <div class="community-img">
                 <!-- server-side image e.g. <img src="banner.jpg" alt="banner"> -->
             </div>
             <div class="community-info">
                 <div>
-                    <h3 class="mb-1"><b>{{community_name}}</b></h3>
-                    <div class="text-muted mb-2">{{community_district}}</div>
-                    <p class="text-muted mb-2">{{community_description}}</p>
+                    <h3 class="mb-1"><b>
+                            <?php echo htmlspecialchars($example_name ?? '{{community_name}}'); ?>
+                        </b></h3>
+                    <div class="text-muted mb-2">
+                        <?php echo htmlspecialchars($example_district ?? '{{community_district}}'); ?>
+                    </div>
+                    <p class="text-muted mb-2">
+                        <?php echo htmlspecialchars($example_description ?? '{{community_description}}'); ?>
+                    </p>
                     <div class="d-flex gap-2 small text-muted mb-2">
-                        <div>Members: {{member_count}}</div>
+                        <div>Members:
+                            <?php echo htmlspecialchars($example_members ?? '{{member_count}}'); ?>
+                        </div>
                         <div>|</div>
-                        <div>{{public/private}}</div>
+                        <div>
+                            <?php echo htmlspecialchars($example_type ?? '{{public/private}}'); ?>
+                        </div>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end gap-2">
                     <a href="#" class="btn btn-outline-indigo btn-sm">View</a>
-                    <form method="POST" action="/communities/{{id}}/join" style="display:inline;">
+                    <form method="POST"
+                        action="/communities/<?php echo htmlspecialchars($example_id ?? '{{id}}'); ?>/join"
+                        style="display:inline;">
                         <button class="btn btn-outline-indigo btn-sm" type="submit">Join</button>
                     </form>
                 </div>
