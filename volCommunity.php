@@ -77,7 +77,7 @@
         }
 
         .metric-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
             color: #333;
             line-height: 1.05;
