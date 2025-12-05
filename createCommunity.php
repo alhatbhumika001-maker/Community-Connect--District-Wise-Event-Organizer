@@ -9,25 +9,19 @@
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: Inter, sans-serif;
-            background: #f7f9fa;
+            background: #f3f5f7;
             padding-top: 100px;
-            margin: 0;
         }
 
-        /* Brand Name */
+        /* Brand */
         #brand {
             position: fixed;
             top: 16px;
@@ -38,6 +32,7 @@
             font-family: "Handlee", cursive;
             font-size: 1.45rem;
             margin-left: 8px;
+            color: black;
         }
 
         #brand .brand-logo {
@@ -47,115 +42,181 @@
             border-radius: 8px;
         }
 
-        /* Card */
-        .signup-card {
-            max-width: 800px;
+        /* Main card */
+        .main-card {
+            max-width: 1100px;
             margin: auto;
             background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Left Side Layout */
+        .left-section {
+            padding: 40px 45px;
+        }
+
+        .section-title {
+            font-family: Handlee, cursive;
+            color: #00897B;
+            text-align: center;
+            margin-bottom: 25px;
         }
 
         label {
-            font-size: 14px;
             font-weight: 500;
+            font-size: 14px;
         }
 
         input,
         select {
             font-size: 14px !important;
         }
+
+        /* Custom Radio Button */
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #00897B !important;
+        }
+
+        .form-check-input:checked {
+            background-color: #00897B !important;
+        }
+
+        /* Right Image Section */
+        .right-section {
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            min-height: 550px;
+            width: 100p;
+        }
+
+        .right-overlay-text {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            color: white;
+            width: 90%;
+        }
+
+        .right-overlay-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .right-overlay-text .name {
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        #main
+        {
+            padding-top:-20px;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- BRAND -->
     <header id="brand" class="d-flex align-items-center">
         <img src="lg.png" class="brand-logo" alt="logo">
         <span class="brand-text">Community Connect</span>
     </header>
 
+    <!-- MAIN SPLIT CARD -->
+    <div class="main-card mt-5" id="main">
+        <div class="row g-0">
 
-    <!-- SIGNUP CARD -->
-    <div class="signup-card">
-        <h3 class="text-center mb-3" style="font-family: Handlee, cursive; color:#00897B;">Create Your Community</h3>
+            <!-- LEFT FORM SECTION -->
+            <div class="col-lg-7 left-section">
 
-        <form method="post" action="#" class="row g-3">
+                <h3 class="section-title">Create Your Community</h3>
 
-            <div class="col-md-12">
-                <label>Community Name</label>
-                <input type="text" name="com-name" class="form-control" required>
-            </div>
+                <form class="row g-3">
 
-            <div class="col-md-6">
-                <label>Category</label>
-                <select name="role" class="form-select" required>
-                    <option value="">Select</option>
-                    <option value="college-level">College Level</option>
-                    <option value="cultural">Cultural</option>
-                    <option value="festive">Festive</option>
-                    <option value="sports">Sports</option>
-                    <option value="social">Social</option>
-                    <option value="governmental">Governmental</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <!-- if category is other, then enable this input field -->
-            <div class="col-md-6">
-                <label>If Other - What Category?</label>
-                <input type="email" name="category" class="form-control">
-            </div>
-
-            <div class="col-md-6">
-                <label>Is your Community Private / Public?</label>
-                <div class="d-flex align-items-center">
-                    <div class="form-check me-4">
-                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
-                        <label class="form-check-label" for="radioDefault1">
-                            Private
-                        </label>
+                    <div class="col-md-12">
+                        <label>Community Name</label>
+                        <input type="text" class="form-control" required>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" checked>
-                        <label class="form-check-label" for="radioDefault2">
-                            Public
-                        </label>
+
+                    <div class="col-md-6">
+                        <label>Category</label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option value="college-level">College Level</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="festive">Festive</option>
+                            <option value="sports">Sports</option>
+                            <option value="social">Social</option>
+                            <option value="governmental">Governmental</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
+
+                    <div class="col-md-6">
+                        <label>If Other - What Category?</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Community Privacy</label>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="form-check me-4">
+                                <input class="form-check-input" type="radio" name="privacy" id="private">
+                                <label class="form-check-label" for="private">Private</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="privacy" id="public" checked>
+                                <label class="form-check-label" for="public">Public</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Community Banner</label>
+                        <input type="file" class="form-control" accept="image/*">
+                        <span class="badge text-secondary mt-1">Skip to use default image</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>District</label>
+                        <select class="form-select" required>
+                            <option value="">Select District</option>
+                            <option value="jalgaon">Jalgaon</option>
+                            <option value="pune">Pune</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="nagpur">Nagpur</option>
+                            <option value="thane">Thane</option>
+                            <option value="nashik">Nashik</option>
+                            <option value="satara">Satara</option>
+                            <option value="kolhapur">Kolhapur</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label>About Community</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="col-12 text-end mt-3">
+                        <button class="btn btn-info text-white px-4">Create Community</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- RIGHT IMAGE SECTION -->
+            <div class="col-lg-5 position-relative p-0">
+                <div class="right-section" style="background-image: url('co2.jpg');">
                 </div>
+
+               
             </div>
 
-            <div class="col-md-6">
-                <label>Community Banner</label>
-                <input type="file" name="banner" class="form-control" accept="image/*" required>
-                <span class="badge text-secondary">Skip to use default image</span>
-            </div>
-
-            <div class="col-md-6">
-                <label>District</label>
-                <select name="district" class="form-select" required>
-                    <option value="">Select District</option>
-                    <option value="jalgaon">Jalgaon</option>
-                    <option value="pune">Pune</option>
-                    <option value="mumbai">Mumbai</option>
-                    <option value="nagpur">Nagpur</option>
-                    <option value="thane">Thane</option>
-                    <option value="nashik">Nashik</option>
-                    <option value="satara">Satara</option>
-                    <option value="kolhapur">Kolhapur</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">About community</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-
-            <div class="col-12 text-end">
-                <button class="btn btn-info text-white px-4">Create Community</button>
-            </div>
-
-        </form>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
