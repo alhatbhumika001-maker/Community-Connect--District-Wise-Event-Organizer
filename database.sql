@@ -91,8 +91,7 @@ CREATE TABLE registrations (
 -- =========================
 -- DEFAULT ADMIN
 -- =========================
-INSERT INTO users (name, email, password, role) VALUES
-('Admin User', 'admin@gmail.com', 'admin123', 'admin');
+
 
 -- =========================
 -- DEFAULT USERS
@@ -123,6 +122,7 @@ CREATE TABLE communities (
 
    
 );
+
 
 
 
