@@ -144,15 +144,15 @@
             <div class="col-lg-7 left-section">
                 <h3 class="section-title">Create Your Community</h3>
 
-                <form class="row g-3">
+                <form class="row g-3" method="post" action="community_insert.php">
                     <div class="col-md-12">
                         <label>Community Name</label>
-                        <input type="text" class="form-control" required />
+                        <input type="text" class="form-control" name="community_name" required />
                     </div>
 
                     <div class="col-md-6">
                         <label>Category</label>
-                        <select class="form-select" required>
+                        <select class="form-select" required name="category">
                             <option value="">Select</option>
                             <option value="college-level">College Level</option>
                             <option value="cultural">Cultural</option>
@@ -166,18 +166,18 @@
 
                     <div class="col-md-6">
                         <label>If Other - What Category?</label>
-                        <input type="text" class="form-control" />
+                        <input type="text" class="form-control" name="other_category"/>
                     </div>
 
                     <div class="col-md-6">
                         <label>Community Privacy</label>
-                        <div class="d-flex align-items-center mt-1">
+                        <div class="d-flex align-items-center mt-1" >
                             <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="privacy" id="private" />
+                                <input class="form-check-input" type="radio" name="privacy" value="private" />
                                 <label class="form-check-label" for="private">Private</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="privacy" id="public" checked />
+                                <input class="form-check-input" type="radio" name="privacy" value="public" checked />
                                 <label class="form-check-label" for="public">Public</label>
                             </div>
                         </div>
@@ -185,13 +185,13 @@
 
                     <div class="col-md-6">
                         <label>Community Banner</label>
-                        <input type="file" class="form-control" accept="image/*" />
+                        <input type="file" class="form-control" name="image" />
                         <span class="badge text-secondary mt-1">Skip to use default image</span>
                     </div>
 
                     <div class="col-md-6">
                         <label>District</label>
-                        <select class="form-select" required>
+                        <select class="form-select" required name="district">
                             <option value="">Select District</option>
                             <option value="jalgaon">Jalgaon</option>
                             <option value="pune">Pune</option>
@@ -206,7 +206,7 @@
 
                     <div class="col-12">
                         <label>About Community</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea class="form-control" rows="3" name="about"></textarea>
                     </div>
 
                     <div class="col-12 text-end mt-3">
