@@ -1,7 +1,7 @@
 <?php
     include 'volHead.php';
     $conn = new mysqli("localhost", "root", "", "community_connect");
-    $q = 'select * from communities';
+    $q = 'select * from communities ORDER BY id DESC';
     $result=mysqli_query($conn,$q);
     $row= mysqli_num_rows($result);
 
@@ -213,17 +213,17 @@
 
             <div class="d-flex align-items-center gap-2">
                 <form method="GET" action="">
-                    <label class="small text-muted mb-1 d-block">District</label>
-                    <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
-                        <?php
-              $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
-              $selectedDistrict = $_SESSION['district'] ?? "";
-              foreach ($districts as $d) {
-                $sel = ($selectedDistrict == $d) ? 'selected' : '';
-                echo "<option value=\"{$d}\" {$sel}>{$d}</option>";
-              }
-            ?>
-                    </select>
+                                <label class="small text-muted mb-1 d-block">District</label>
+                                <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+                                    <?php
+                        $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
+                        $selectedDistrict = $_SESSION['district'] ?? "";
+                        foreach ($districts as $d) {
+                            $sel = ($selectedDistrict == $d) ? 'selected' : '';
+                            echo "<option value=\"{$d}\" {$sel}>{$d}</option>";
+                        }
+                        ?>
+                        </select>
                 </form>
             </div>
         </div>
