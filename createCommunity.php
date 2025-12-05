@@ -7,9 +7,9 @@
     <title>Sign Up — Community Connect</title>
 
     <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,7 +18,8 @@
         body {
             font-family: Inter, sans-serif;
             background: #f3f5f7;
-            padding-top: 100px;
+            padding-top: 100px; /* as you had */
+            margin: 0;
         }
 
         /* Brand */
@@ -26,6 +27,7 @@
             position: fixed;
             top: 16px;
             left: 16px;
+            /* no changes here */
         }
 
         #brand .brand-text {
@@ -43,14 +45,28 @@
         }
 
         /* Main card */
-        .main-card {
-            max-width: 1100px;
-            margin: auto;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-        }
+                    #brand {
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                height: 56px;
+                background: transparent;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+            }
+
+            .main-card {
+                max-width: 1100px;
+                margin: 80px auto 50px;
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+                position: relative;
+                z-index: 1;
+            }
+
 
         /* Left Side Layout */
         .left-section {
@@ -91,7 +107,7 @@
             background-position: center;
             height: 100%;
             min-height: 550px;
-            width: 100p;
+            width: 100%;
         }
 
         .right-overlay-text {
@@ -111,35 +127,27 @@
             margin-top: 8px;
             font-weight: bold;
         }
-        #main
-        {
-            padding-top:-20px;
-        }
     </style>
 </head>
 
 <body>
-
     <!-- BRAND -->
     <header id="brand" class="d-flex align-items-center">
-        <img src="lg.png" class="brand-logo" alt="logo">
+        <img src="lg.png" class="brand-logo" alt="logo" />
         <span class="brand-text">Community Connect</span>
     </header>
 
     <!-- MAIN SPLIT CARD -->
-    <div class="main-card mt-5" id="main">
+    <div class="main-card" id="main">
         <div class="row g-0">
-
             <!-- LEFT FORM SECTION -->
             <div class="col-lg-7 left-section">
-
                 <h3 class="section-title">Create Your Community</h3>
 
                 <form class="row g-3">
-
                     <div class="col-md-12">
                         <label>Community Name</label>
-                        <input type="text" class="form-control" required>
+                        <input type="text" class="form-control" required />
                     </div>
 
                     <div class="col-md-6">
@@ -158,18 +166,18 @@
 
                     <div class="col-md-6">
                         <label>If Other - What Category?</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
                         <label>Community Privacy</label>
                         <div class="d-flex align-items-center mt-1">
                             <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="privacy" id="private">
+                                <input class="form-check-input" type="radio" name="privacy" id="private" />
                                 <label class="form-check-label" for="private">Private</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="privacy" id="public" checked>
+                                <input class="form-check-input" type="radio" name="privacy" id="public" checked />
                                 <label class="form-check-label" for="public">Public</label>
                             </div>
                         </div>
@@ -177,7 +185,7 @@
 
                     <div class="col-md-6">
                         <label>Community Banner</label>
-                        <input type="file" class="form-control" accept="image/*">
+                        <input type="file" class="form-control" accept="image/*" />
                         <span class="badge text-secondary mt-1">Skip to use default image</span>
                     </div>
 
@@ -204,18 +212,13 @@
                     <div class="col-12 text-end mt-3">
                         <button class="btn btn-info text-white px-4">Create Community</button>
                     </div>
-
                 </form>
             </div>
 
             <!-- RIGHT IMAGE SECTION -->
             <div class="col-lg-5 position-relative p-0">
-                <div class="right-section" style="background-image: url('co2.jpg');">
-                </div>
-
-               
+                <div class="right-section" style="background-image: url('co2.jpg');"></div>
             </div>
-
         </div>
     </div>
 
