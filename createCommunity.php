@@ -135,7 +135,7 @@
             <div class="col-lg-7 left-section">
                 <h3 class="section-title">Create Your Community</h3>
 
-                <form class="row g-3" method="post" action="community_insert.php">
+                <form class="row g-3" method="post" action="community_insert.php" enctype="multipart/form-data">
                     <div class="col-md-12">
                         <label>Community Name</label>
                         <input type="text" class="form-control" name="community_name" required />
@@ -176,7 +176,7 @@
 
                     <div class="col-md-6">
                         <label>Community Banner</label>
-                        <input type="file" class="form-control" name="image" />
+                        <input type="file" class="form-control" name="image"/>
                         <span class="badge text-secondary mt-1">Skip to use default image</span>
                     </div>
 

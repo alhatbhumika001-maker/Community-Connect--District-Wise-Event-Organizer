@@ -1,5 +1,10 @@
 <?php
     include 'volHead.php';
+    $conn = new mysqli("localhost", "root", "", "community_connect");
+    $q = 'select * from communities';
+    $result=mysqli_query($conn,$q);
+    $row= mysqli_num_rows($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +90,7 @@
 
         .metric-count {
             margin-top: 14px;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 800;
             color: #111827;
         }
@@ -225,6 +230,14 @@
         <!-- Metric Cards -->
         <div class="row g-4 mb-4">
             <!-- TOTAL COMMUNITIES -->
+        <?php
+            // Get total communities in website
+            $totalCommunitiesQuery = "SELECT COUNT(*) AS total FROM communities";
+            $totalResult = mysqli_query($conn, $totalCommunitiesQuery);
+            $totalRow = mysqli_fetch_assoc($totalResult);
+            $totalCommunities = $totalRow['total'];
+        ?>
+
             <div class="col-12 col-md-4">
                 <div class="metric-card">
                     <div class="metric-top">
@@ -236,7 +249,7 @@
                     </div>
 
                     <div class="metric-count">
-                        {{Total_communities_in_website}}
+                        Total Communities : <?php echo $totalCommunities; ?>
                     </div>
                 </div>
             </div>
@@ -277,20 +290,31 @@
         </div>
 
         <!-- Community card -->
+            <?php
+                    while($row= mysqli_fetch_assoc($result))
+                    {
+            ?>
         <div class="community-card mb-4">
+            
             <div class="community-img">
                 <!-- server-side image e.g. <img src="banner.jpg" alt="banner"> -->
+                <img src="<?php echo $row['image']; ?>" alt="Community Image">
+
+
+
             </div>
             <div class="community-info">
+                
                 <div>
+
                     <h3 class="mb-1"><b>
-                            <?php echo htmlspecialchars($example_name ?? '{{community_name}}'); ?>
-                        </b></h3>
+                           <?php echo $row['community_name']; ?>
+                    </h3>
                     <div class="text-muted mb-2">
-                        <?php echo htmlspecialchars($example_district ?? '{{community_district}}'); ?>
+                            Category: <?php echo $row['category']; ?>
                     </div>
                     <p class="text-muted mb-2">
-                        <?php echo htmlspecialchars($example_description ?? '{{community_description}}'); ?>
+                        Privacy: <?php echo $row['privacy']; ?>
                     </p>
                     <div class="d-flex gap-2 small text-muted mb-2">
                         <div>Members:
@@ -298,9 +322,14 @@
                         </div>
                         <div>|</div>
                         <div>
-                            <?php echo htmlspecialchars($example_type ?? '{{public/private}}'); ?>
+                            <?php echo $row['district']; ?>	
                         </div>
                     </div>
+                    <div class="d-flex gap-2 small text-muted mb-2">
+                            Date & Time: <?php echo $row['created_at']; ?>	
+                     </div>
+                    
+                    
                 </div>
 
                 <div class="d-flex justify-content-end gap-2">
@@ -313,6 +342,13 @@
                 </div>
             </div>
         </div>
+
+        <?php
+        
+        
+             }
+
+        ?>
 
         <!-- empty state -->
         <div class="empty-card text-center mb-4">
