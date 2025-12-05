@@ -9,7 +9,8 @@
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
 
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,23 +19,17 @@
         body {
             font-family: Inter, sans-serif;
             background: #f3f5f7;
-            padding-top: 100px; /* as you had */
             margin: 0;
         }
 
-        /* Brand */
         #brand {
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            /* no changes here */
-        }
-
-        #brand .brand-text {
-            font-family: "Handlee", cursive;
-            font-size: 1.45rem;
-            margin-left: 8px;
-            color: black;
+            position: static;
+            height: 64px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         #brand .brand-logo {
@@ -42,33 +37,30 @@
             height: 48px;
             object-fit: cover;
             border-radius: 8px;
+            flex-shrink: 0;
         }
 
-        /* Main card */
-                    #brand {
-                position: fixed;
-                top: 16px;
-                left: 16px;
-                height: 56px;
-                background: transparent;
-                z-index: 1000;
-                display: flex;
-                align-items: center;
-            }
+        #brand .brand-text {
+            font-family: "Handlee", cursive;
+            font-size: 1.45rem;
+            margin-left: 10px;
+            color: #000;
+            line-height: 1;
+        }
 
-            .main-card {
-                max-width: 1100px;
-                margin: 80px auto 50px;
-                background: white;
-                border-radius: 15px;
-                overflow: hidden;
-                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-                position: relative;
-                z-index: 1;
-            }
+        /* --- Main card --- */
+        .main-card {
+            max-width: 1100px;
+            margin: 20px auto 50px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+        }
 
-
-        /* Left Side Layout */
+        /* --- Left-side form --- */
         .left-section {
             padding: 40px 45px;
         }
@@ -78,6 +70,7 @@
             color: #00897B;
             text-align: center;
             margin-bottom: 25px;
+            font-size: 28px;
         }
 
         label {
@@ -90,7 +83,6 @@
             font-size: 14px !important;
         }
 
-        /* Custom Radio Button */
         .form-check-input {
             width: 18px;
             height: 18px;
@@ -101,7 +93,6 @@
             background-color: #00897B !important;
         }
 
-        /* Right Image Section */
         .right-section {
             background-size: cover;
             background-position: center;
@@ -110,29 +101,29 @@
             width: 100%;
         }
 
-        .right-overlay-text {
-            position: absolute;
-            bottom: 25px;
-            left: 25px;
-            color: white;
-            width: 90%;
-        }
+        /* small-screen adjustments */
+        @media (max-width: 991px) {
+            #brand {
+                padding: 8px 12px;
+                height: 56px;
+            }
 
-        .right-overlay-text p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+            }
 
-        .right-overlay-text .name {
-            margin-top: 8px;
-            font-weight: bold;
+            .main-card {
+                margin: 10px;
+                border-radius: 12px;
+            }
         }
     </style>
 </head>
 
 <body>
     <!-- BRAND -->
-    <header id="brand" class="d-flex align-items-center">
+    <header id="brand">
         <img src="lg.png" class="brand-logo" alt="logo" />
         <span class="brand-text">Community Connect</span>
     </header>
