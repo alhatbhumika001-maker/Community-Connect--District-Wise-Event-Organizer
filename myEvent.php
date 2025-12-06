@@ -169,8 +169,9 @@
 
 <body>
     <?php include 'userHead.php'; ?>
-    <?php $active = 'myEvent';
-    include 'userNav.html'; ?>
+    <?php 
+    $active = 'myEvent';
+    include 'userNav.php'; ?>
     <div class="container-fluid mt-5 d-flex flex-column align-items-center">
         <div class="container mt-4 mb-2">
             <h2 class="fw-bold mb-3">My Created Events Dashboard</h2>
