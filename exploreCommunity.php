@@ -316,7 +316,7 @@
                         Category: <?php echo $row['category']; ?>
                     </div>
                     <p class="text-muted mb-2">
-                        Privacy: <?php echo $row['privacy']; ?>
+                        <?php echo $row['privacy']; ?>
                     </p>
                     <div class="d-flex gap-2 small text-muted mb-2">
                         <div>Members:
@@ -360,6 +360,10 @@
         </div>
 
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
