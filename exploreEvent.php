@@ -1,5 +1,5 @@
 <?php
-        include 'volHead.php';
+        include 'userHead.php';
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,180 +25,180 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
+    /* Smooth Scroll */
+    html {
+        scroll-behavior: smooth;
+    }
 
-        body {
-            font-family: "Outfit", sans-serif;
-            background: #f6fbfb;
-        }
+    body {
+        font-family: "Outfit", sans-serif;
+        background: #f6fbfb;
+    }
 
-        .event-page {
-            max-width: 1100px;
-            margin: 120px auto 40px;
-            padding: 0 15px;
-        }
+    .event-page {
+        max-width: 1100px;
+        margin: 120px auto 40px;
+        padding: 0 15px;
+    }
 
+    .event-card {
+        width: 100%;
+        max-width: 960px;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-template-rows: auto 220px auto;
+        /* (date, content), photo, button */
+        border-radius: 8px;
+        padding: 10px;
+        box-sizing: border-box;
+        background: #fff;
+    }
+
+    /* Date box (top-left) */
+    .date-box {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        border: var(--border);
+        border-radius: 6px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    /* Content (top-right) */
+    .content-box {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        border-radius: 6px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* Photo spanning full width under top row */
+    .photo-box {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        border-radius: 6px;
+        overflow: hidden;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f2f2f2;
+    }
+
+    .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Button*/
+    .button-box {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        padding: 6px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: end;
+    }
+
+    /* Responsive: stack to one column on small screens */
+    @media (max-width: 720px) {
         .event-card {
-            width: 100%;
-            max-width: 960px;
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            grid-template-rows: auto 220px auto;
-            /* (date, content), photo, button */
-            border-radius: 8px;
-            padding: 10px;
-            box-sizing: border-box;
-            background: #fff;
+            grid-template-columns: 1fr;
+            /* one column */
+            grid-template-rows: auto auto auto auto;
+            /* date, content, photo, button */
         }
 
-        /* Date box (top-left) */
         .date-box {
             grid-column: 1 / 2;
             grid-row: 1 / 2;
-            border: var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
+            text-align: left;
         }
 
-        /* Content (top-right) */
         .content-box {
-            grid-column: 2 / 3;
+            grid-column: 1 / 2;
             grid-row: 2 / 3;
-            border-radius: 6px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
         }
 
-        /* Photo spanning full width under top row */
         .photo-box {
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            border-radius: 6px;
-            overflow: hidden;
-            min-height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f2f2f2;
-        }
-
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Button*/
-        .button-box {
-            grid-column: 2 / 3;
+            grid-column: 1 / 2;
             grid-row: 3 / 4;
-            padding: 6px;
-            display: flex;
+            min-height: 220px;
+        }
+
+        .button-box {
+            grid-column: 1 / 2;
+            grid-row: 4 / 5;
             justify-content: flex-end;
-            align-items: end;
+            padding-right: 8px;
         }
+    }
 
-        /* Responsive: stack to one column on small screens */
-        @media (max-width: 720px) {
-            .event-card {
-                grid-template-columns: 1fr;
-                /* one column */
-                grid-template-rows: auto auto auto auto;
-                /* date, content, photo, button */
-            }
+    .title-lg {
+        font-size: 34px;
+        font-weight: 700;
+    }
 
-            .date-box {
-                grid-column: 1 / 2;
-                grid-row: 1 / 2;
-                text-align: left;
-            }
+    .search-box {
+        background: #fff;
+        border: 1px solid grey;
+        border-radius: 40px;
+        padding: 8px 14px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 8px 24px rgba(3, 39, 51, 0.05);
+    }
 
-            .content-box {
-                grid-column: 1 / 2;
-                grid-row: 2 / 3;
-            }
+    .search-box input {
+        border: none;
+        outline: none;
+        flex: 1;
+        background: transparent;
+    }
 
-            .photo-box {
-                grid-column: 1 / 2;
-                grid-row: 3 / 4;
-                min-height: 220px;
-            }
+    .filter-pill {
+        background: #fff;
+        border-radius: 20px;
+        padding: 8px 14px;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+    }
 
-            .button-box {
-                grid-column: 1 / 2;
-                grid-row: 4 / 5;
-                justify-content: flex-end;
-                padding-right: 8px;
-            }
-        }
+    .event-card {
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
+        overflow: hidden;
+    }
 
-        .title-lg {
-            font-size: 34px;
-            font-weight: 700;
-        }
+    .event-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
 
-        .search-box {
-            background: #fff;
-            border: 1px solid grey;
-            border-radius: 40px;
-            padding: 8px 14px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 8px 24px rgba(3, 39, 51, 0.05);
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            flex: 1;
-            background: transparent;
-        }
-
-        .filter-pill {
-            background: #fff;
-            border-radius: 20px;
-            padding: 8px 14px;
-            border: 1px solid #e5e7eb;
-            cursor: pointer;
-        }
-
-        .event-card {
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
-            overflow: hidden;
-        }
-
-        .event-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .tag {
-            background: #E0F2F1;
-            color: #00897B;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: inline-block;
-            margin-right: 6px;
-        }
+    .tag {
+        background: #E0F2F1;
+        color: #00897B;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        display: inline-block;
+        margin-right: 6px;
+    }
     </style>
 </head>
 
 <body>
 
     <?php 
-        $active = 'events';
-        include 'volNav.php';
+        $active = 'exploreEvents';
+        include 'userNav.php';
     ?>
 
     <!-- MAIN CONTENT -->
@@ -211,25 +211,25 @@
                 <p class="text-muted">Discover upcoming events near you</p>
             </div>
 
-        <!-- DISTRICT DROPDOWN -->
-        <form method="GET" action="volEvent.php">
-            <label class="small text-muted mb-1">District</label><br>
-        
-            <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
-        
-                <?php
+            <!-- DISTRICT DROPDOWN -->
+            <form method="GET" action="volEvent.php">
+                <label class="small text-muted mb-1">District</label><br>
+
+                <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+
+                    <?php
                 $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
                 $selectedDistrict = $_SESSION['district'] ?? ""; 
                 ?>
-        
-                <?php foreach ($districts as $d): ?>
-                <option value="<?= $d ?>" <?=($selectedDistrict==$d) ? "selected" : "" ?>>
-                    <?= $d ?>
-                </option>
-                <?php endforeach; ?>
-        
-            </select>
-        </form>
+
+                    <?php foreach ($districts as $d): ?>
+                    <option value="<?= $d ?>" <?=($selectedDistrict==$d) ? "selected" : "" ?>>
+                        <?= $d ?>
+                    </option>
+                    <?php endforeach; ?>
+
+                </select>
+            </form>
 
         </div>
 
@@ -295,7 +295,9 @@
         <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->
         <div class="empty-card text-center mb-4">
             <div style="font-size:48px;margin-bottom:12px;">📅</div>
-            <h4>No events found in <strong><!-- insert selected district here --></strong></h4>
+            <h4>No events found in <strong>
+                    <!-- insert selected district here -->
+                </strong></h4>
             <p class="text-muted">Try clearing filters or explore nearby districts.</p>
             <div class="d-flex justify-content-center mt-4">
                 <a href="volEvent.php" class="btn btn-outline-indigo filter-pill">Clear filters</a>

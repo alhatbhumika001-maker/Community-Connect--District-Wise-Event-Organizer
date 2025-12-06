@@ -1,5 +1,5 @@
 <?php
-        include 'volHead.php';
+        include 'userHead.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,111 +25,111 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
-        body {
-            background: #f7f9fb;
-            font-family: "Outfit", sans-serif;
-        }
+    body {
+        background: #f7f9fb;
+        font-family: "Outfit", sans-serif;
+    }
 
-        .greeting {
-            color: #18122B;
-        }
+    .greeting {
+        color: #18122B;
+    }
 
+    .event-card {
+        width: 100%;
+        max-width: 960px;
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-template-rows: auto 220px auto;
+        /* (date, content), photo, button */
+        border-radius: 8px;
+        padding: 10px;
+        box-sizing: border-box;
+        background: #fff;
+    }
+
+    /* Date box (top-left) */
+    .date-box {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        border: var(--border);
+        border-radius: 6px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    /* Content (top-right) */
+    .content-box {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        border-radius: 6px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* Photo (middle-right) */
+    .photo-box {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        border-radius: 6px;
+        overflow: hidden;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f2f2f2;
+    }
+
+    .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @media (max-width: 720px) {
         .event-card {
-            width: 100%;
-            max-width: 960px;
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            grid-template-rows: auto 220px auto;
-            /* (date, content), photo, button */
-            border-radius: 8px;
-            padding: 10px;
-            box-sizing: border-box;
-            background: #fff;
+            grid-template-columns: 1fr;
+            /* one column */
+            grid-template-rows: auto auto auto auto;
+            /* date, content, photo, button */
         }
 
-        /* Date box (top-left) */
         .date-box {
             grid-column: 1 / 2;
             grid-row: 1 / 2;
-            border: var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
+            text-align: left;
         }
 
-        /* Content (top-right) */
         .content-box {
-            grid-column: 2 / 3;
+            grid-column: 1 / 2;
             grid-row: 2 / 3;
-            border-radius: 6px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
         }
 
-        /* Photo (middle-right) */
         .photo-box {
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            border-radius: 6px;
-            overflow: hidden;
-            min-height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f2f2f2;
+            grid-column: 1 / 2;
+            grid-row: 3 / 4;
+            min-height: 220px;
         }
+    }
 
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        @media (max-width: 720px) {
-            .event-card {
-                grid-template-columns: 1fr;
-                /* one column */
-                grid-template-rows: auto auto auto auto;
-                /* date, content, photo, button */
-            }
-
-            .date-box {
-                grid-column: 1 / 2;
-                grid-row: 1 / 2;
-                text-align: left;
-            }
-
-            .content-box {
-                grid-column: 1 / 2;
-                grid-row: 2 / 3;
-            }
-
-            .photo-box {
-                grid-column: 1 / 2;
-                grid-row: 3 / 4;
-                min-height: 220px;
-            }
-        }
-
-        .bi-calendar-plus {
-            color: #8540f5;
-            font-size: 70px;
-            margin-bottom: 20px;
-        }
+    .bi-calendar-plus {
+        color: #8540f5;
+        font-size: 70px;
+        margin-bottom: 20px;
+    }
     </style>
 </head>
 
 <body>
-    
+
     <?php 
         $active = 'home';
-        include 'volNav.php';
+        include 'Nav.php';
     ?>
-    
+
     <main class="container my-4">
         <div class="wc">
             <h1 class="greeting">Welcome to Community Connect</h1>
