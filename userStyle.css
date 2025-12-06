@@ -24,7 +24,7 @@
 }
 
 .dropdown-menu {
-  background-color: hsla(281, 54%, 52%, 0.3);
+  background-color: hsla(281, 54%, 52%);
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   border: none;
 }
