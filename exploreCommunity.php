@@ -1,10 +1,13 @@
 <?php
     include 'userHead.php';
     $conn = new mysqli("localhost", "root", "", "community_connect");
-    $q = 'select * from communities ORDER BY id DESC';
-    $result=mysqli_query($conn,$q);
-    $row= mysqli_num_rows($result);
+    // LIST OF COMMUNITIES
+    $user_id = $_SESSION['user_id'] ?? 0;
 
+    // Fetch communities created by logged-in user
+    $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
+    $community_result = mysqli_query($conn, $community_query);
+    $community_count = mysqli_num_rows($community_result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -232,13 +235,7 @@
         <!-- Metric Cards -->
         <div class="row g-4 mb-4">
             <!-- TOTAL COMMUNITIES -->
-            <?php
-            // Get total communities in website
-            $totalCommunitiesQuery = "SELECT COUNT(*) AS total FROM communities";
-            $totalResult = mysqli_query($conn, $totalCommunitiesQuery);
-            $totalRow = mysqli_fetch_assoc($totalResult);
-            $totalCommunities = $totalRow['total'];
-        ?>
+            
 
             <div class="col-12 col-md-4">
                 <div class="metric-card">
@@ -251,7 +248,7 @@
                     </div>
 
                     <div class="metric-count">
-                        Total Communities : <?php echo $totalCommunities; ?>
+                        Total Communities : <?php echo $community_count; ?>
                     </div>
                 </div>
             </div>
@@ -291,73 +288,52 @@
             </div>
         </div>
 
-        <!-- Community card -->
-        <?php
-                    while($row= mysqli_fetch_assoc($result))
-                    {
-            ?>
-        <div class="community-card mb-4">
+        
+        <!-- Community cards -->
+        <?php if ($community_count > 0): ?>
+            <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
+                <div class="community-card mb-4">
 
-            <div class="community-img">
-                <!-- server-side image e.g. <img src="banner.jpg" alt="banner"> -->
-                <img src="<?php echo $row['image']; ?>" alt="Community Image">
-
-
-
-            </div>
-            <div class="community-info">
-
-                <div>
-
-                    <h3 class="mb-1"><b>
-                            <?php echo $row['community_name']; ?>
-                    </h3>
-                    <div class="text-muted mb-2">
-                        Category: <?php echo $row['category']; ?>
+                    <div class="community-img">
+                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="Community Image">
                     </div>
-                    <p class="text-muted mb-2">
-                        <?php echo $row['privacy']; ?>
-                    </p>
-                    <div class="d-flex gap-2 small text-muted mb-2">
-                        <div>Members:
-                            <?php echo htmlspecialchars($example_members ?? '{{member_count}}'); ?>
+
+                    <div class="community-info">
+                        <h3 class="mb-1"><b><?= htmlspecialchars($row['community_name']) ?></b></h3>
+                        <div class="text-muted mb-2">Category: <?= htmlspecialchars($row['category']) ?></div>
+                        <p class="text-muted mb-2"><?= htmlspecialchars($row['privacy']) ?></p>
+
+                        <div class="d-flex gap-2 small text-muted mb-2">
+                            <div>Members: <?= htmlspecialchars($row['member_count'] ?? 0) ?></div>
+                            <div>|</div>
+                            <div><?= htmlspecialchars($row['district']) ?></div>
                         </div>
-                        <div>|</div>
-                        <div>
-                            <?php echo $row['district']; ?>
+
+                        <div class="d-flex gap-2 small text-muted mb-2">
+                            Date & Time: <?= htmlspecialchars($row['created_at']) ?>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-2">
+                            <a href="#" class="btn btn-outline-indigo btn-sm">View</a>
+                            <form method="POST" action="/communities/<?= htmlspecialchars($row['id']) ?>/join" style="display:inline;">
+                                <button class="btn btn-outline-indigo btn-sm" type="submit">Join</button>
+                            </form>
                         </div>
                     </div>
-                    <div class="d-flex gap-2 small text-muted mb-2">
-                        Date & Time: <?php echo $row['created_at']; ?>
-                    </div>
-
-
                 </div>
+            <?php endwhile; ?>
 
-                <div class="d-flex justify-content-end gap-2">
-                    <a href="#" class="btn btn-outline-indigo btn-sm">View</a>
-                    <form method="POST"
-                        action="/communities/<?php echo htmlspecialchars($example_id ?? '{{id}}'); ?>/join"
-                        style="display:inline;">
-                        <button class="btn btn-outline-indigo btn-sm" type="submit">Join</button>
-                    </form>
+        <?php else: ?>
+            <!-- EMPTY STATE -->
+            <div class="empty-card text-center mb-4">
+                <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
+                <h4>No Communities found</h4>
+                <p class="text-muted">You have not created any communities yet.</p>
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
                 </div>
             </div>
-        </div>
-
-        <?php
-        
-        
-             }
-
-        ?>
-
-        <!-- empty state -->
-        <div class="empty-card text-center mb-4">
-            <div class="bi bi-emoji-frown" style="font-size:48px;color:#8540f5;margin-bottom:12px"></div>
-            <h4>No communities found in your area</h4>
-            <p class="text-muted">Try exploring other districts</p>
-        </div>
+        <?php endif; ?>
 
     </main>
 

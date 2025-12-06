@@ -1,5 +1,28 @@
+ <!-- if there are any events for the user - show the following. Only show the registered event -->
 <?php
         include 'userHead.php';
+          $conn = new mysqli("localhost", "root", "", "community_connect");
+        // LIST OF COMMUNITIES
+        $user_id = $_SESSION['user_id'] ?? 0;
+
+                // Fetch events created by logged-in user
+                   $event_query = "
+    SELECT e.*, c.community_name 
+    FROM community_events e
+    LEFT JOIN communities c ON e.id = c.id
+    WHERE e.created_by = '$user_id'
+    ORDER BY e.id DESC
+";
+
+$event_result = mysqli_query($conn, $event_query);
+
+if (!$event_result) {
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+$event_count = mysqli_num_rows($event_result);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,34 +161,55 @@
         </div>
 
         <div class="upcoming-events">
-            <!-- if there are any events for the user - show the following. Only show the registered event -->
-            <div class="event-card mb-5 pe-4">
-                <div class="date-box ">
-                    {{ DATE }}<br>
-                    <small>{{ TIME }}</small>
-                </div>
-                <div class="photo-box mt-3 mb-3">
-                    <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                    <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                    <!-- If you prefer no image, leave this empty and it will show neutral background -->
-                </div>
-                <div class="content-box">
-                    <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                    <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                    <div class="mb-2 text-muted fs-6">{{ EVENT_DISTRICT }}</div>
-                    <div class="text-muted mb-2 fs-6">{{ EVENT_DESCRIPTION }}</div>
-                </div>
+
+                <?php if ($event_count > 0) { ?>
+
+                    <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
+                        <div class="event-card mb-5 pe-4">
+
+                            <div class="date-box">
+                                <?php echo date("d M Y", strtotime($row['created_at'])); ?><br>
+                                <small><?php echo date("h:i A", strtotime($row['created_at'])); ?></small>
+                            </div>
+
+                            <div class="photo-box mt-3 mb-3">
+                                <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>">
+                            </div>
+
+                            <div class="content-box">
+                                <div class="mb-2" style="font-weight:700">
+                                    <?php echo $row['event_name']; ?>
+                                </div>
+                                <div class="mb-2">
+                                    <?php echo $row['community_name']; ?>
+                                </div>
+                                <div class="mb-2 text-muted fs-6">
+                                    <?php echo $row['district']; ?>
+                                </div>
+                                <div class="text-muted mb-2 fs-6">
+                                    <?php echo $row['about']; ?>
+                                </div>
+                            </div>
+
+                        </div>
+                    <?php } ?>
+
+                <?php } else { ?>
+
+                    <!-- EMPTY STATE -->
+                    <div class="empty-card text-center mb-4">
+                        <div><i class="bi bi-calendar-plus"></i></div>
+                        <h4>No upcoming event found</h4>
+                        <p class="text-muted">Explore more events</p>
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
+                        </div>
+                    </div>
+
+                <?php } ?>
+
             </div>
-            <!-- else the following block should be executed -->
-            <div class="empty-card text-center mb-4">
-                <div><i class="bi bi-calendar-plus"></i></div>
-                <h4>No upcoming event found</h4>
-                <p class="text-muted">Explore more events</p>
-                <div class="d-flex justify-content-center mt-4">
-                    <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
-                </div>
-            </div>
-        </div>
+
     </main>
 
     <!-- BOOTSTRAP JS (required for collapse/toggler) -->

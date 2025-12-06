@@ -11,6 +11,7 @@ $result = mysqli_query($link, $q);
 if (mysqli_num_rows($result) >= 1) {       
     $data = mysqli_fetch_assoc($result);   
     $_SESSION['login_user'] = $data;
+     $_SESSION['user_id'] = $data['user_id'];
 
     $role = strtolower($data['role']);  // normalize case
 

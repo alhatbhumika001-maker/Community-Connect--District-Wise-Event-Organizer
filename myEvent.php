@@ -1,3 +1,14 @@
+<?php
+    include 'userHead.php'; 
+    $conn = mysqli_connect("localhost", "root", "", "community_connect");
+        // LIST OF EVENTS: Show only events created by logged-in user
+        $user_id = $_SESSION['user_id'] ?? 0;
+
+        // Fetch events created by logged-in user
+        $event_query = "SELECT * FROM community_events WHERE created_by = $user_id ORDER BY id DESC";
+        $event_result = mysqli_query($conn, $event_query);
+        $event_count = mysqli_num_rows($event_result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -168,7 +179,7 @@
 </head>
 
 <body>
-    <?php include 'userHead.php'; ?>
+    
     <?php 
     $active = 'myEvent';
     include 'userNav.php'; ?>
@@ -190,11 +201,12 @@
                             <span class="metric-title">Total Events</span>
                         </div>
                         <div class="metric-value">
-                            <?= $total_events ?? 0 ?>
+                            <?= $event_count ?>
                         </div>
                         <div class="metric-desc">Events you have organized</div>
                     </div>
                 </div>
+
 
                 <!-- CARD 2 -->
                 <div class="col-12 col-md-4">
@@ -227,40 +239,43 @@
             </div>
         </div>
 
-        <div class="event-card mt-3 mb-4">
-            <div class="date-box ">
-                {{ DATE }}<br>
-                <small>{{ TIME }}</small>
-            </div>
-            <div class="photo-box mt-3 mb-3">
-                <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                <!-- If you prefer no image, leave this empty and it will show neutral background -->
-            </div>
-            <div class="content-box">
-                <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                <div class="mb-2 text-muted" style="font: size 14px;">{{ EVENT_DISTRICT }}</div>
-                <div class="text-muted mb-2" style="font-size:13px;">{{ EVENT_DESCRIPTION }}</div>
-            </div>
-        </div>
+        <?php
+                if ($event_count > 0) {
+                while ($row = mysqli_fetch_assoc($event_result)) {
+                    ?>
+                    <div class="event-card mt-3 mb-4">
+                        <div class="date-box">
+                            Date & Time: <br>
+                            <small><?= $row['created_at'] ?></small>
+                        </div>
 
-        <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0  -->
-        <div class="empty-card text-center mb-4">
-            <div><i class="bi bi-emoji-neutral"></i></div>
-            <h4>No events found</h4>
-            <!-- if the user has not created any community yet, First make them create a community. Then only allow them to create events. -->
-            <p class="text-muted">Create Your First Event here.</p>
-            <div class="d-flex justify-content-center mt-4">
-                <a href="createEvent.php" class="btn btn-outline-indigo filter-pill">Create Event</a>
-            </div>
-        </div>
-        <!-- === END EMPTY === -->
+                        <div class="photo-box mt-3 mb-3">
+                            <img src="<?= $row['image'] ?>" alt="Event Image">
+                        </div>
 
-        <!-- LOAD MORE BUTTON -->
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-outline-indigo filter-pill">Load more</a>
+                        <div class="content-box">
+                            <div class="mb-2" style="font-weight:700"><?= $row['event_name'] ?></div>
+                            <div class="mb-2 text-muted" style="font-size:14px;"><?= $row['district'] ?></div>
+                            <div class="text-muted mb-2" style="font-size:13px;"><?= $row['about'] ?></div>
+                        </div>
+                    </div>
+        <?php
+    }
+} else {
+    ?>
+    <!-- EMPTY STATE -->
+    <div class="empty-card text-center mb-4">
+        <div><i class="bi bi-emoji-neutral"></i></div>
+        <h4>No events found</h4>
+        <p class="text-muted">You have not created any events yet.</p>
+        <div class="d-flex justify-content-center mt-4">
+            <a href="createEvent.php" class="btn btn-outline-indigo filter-pill">Create Event</a>
         </div>
+    </div>
+    <?php
+}
+?>
+   
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
