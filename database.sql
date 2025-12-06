@@ -112,10 +112,12 @@ CREATE TABLE communities (
     other_category VARCHAR(100),
     privacy VARCHAR(100) NOT NULL,
     image VARCHAR(255),
-    districtVARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
     about VARCHAR(300),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 
 
 
