@@ -1,7 +1,7 @@
 <?php
  session_start();
   $username='Guest';
-if (isset($_SESSION['login_user'])) {
+    if (isset($_SESSION['login_user'])) {
     $username = $_SESSION['login_user']['username'];
     $full_name = $_SESSION['login_user']['full_name'];
 
@@ -16,7 +16,7 @@ if (isset($_SESSION['login_user'])) {
 
     <div id="user" class="d-flex align-items-center">
         <span class="user-name">
-           Welcome <?php echo $username; ?>
+            Welcome <?php echo $username; ?>
         </span>
         <img src="user.png" class="user-icon" alt="User Icon">
     </div>

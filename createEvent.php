@@ -202,9 +202,38 @@
                         <span class="badge text-secondary mt-1">Skip to use default image</span>
                     </div>
 
+                    <div class="col-md-6">
+                        <label for="event_type" class="form-label">Event Type</label>
+                        <select id="event_type" name="event_type" class="form-select" required>
+                            <option value="" disabled selected>Select Event Type</option>
+
+                            <option value="Seminar">Seminar</option>
+                            <option value="Webinar">Webinar</option>
+                            <option value="Workshop">Workshop</option>
+
+                            <option value="Community Service">Community Service</option>
+                            <option value="Fundraising Event">Fundraising Event</option>
+                            <option value="Donation Drive">Donation Drive</option>
+                            <option value="Cleanliness Drive">Cleanliness Drive</option>
+                            <option value="Blood Donation Camp">Blood Donation Camp</option>
+
+                            <option value="Sports / Fitness Event">Sports / Fitness Event</option>
+                            <option value="Cultural Program">Cultural Program</option>
+
+                            <option value="Awareness Campaign">Awareness Campaign</option>
+
+                            <option value="Tech Event">Tech Event</option>
+                            <option value="Networking Event">Networking Event</option>
+                            <option value="Career / Job Fair">Career / Job Fair</option>
+                            <option value="Hackathon">Hackathon</option>
+                        </select>
+
+                    </div>
+
                     <div class="col-12">
                         <label>Event Description</label>
                         <textarea class="form-control" rows="3" name="about"></textarea>
+                        <span class="badge text-secondary mt-1">Provide a webinar link if required</span>
                     </div>
 
                     <div class="col-12 text-end mt-3">
