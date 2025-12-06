@@ -106,17 +106,15 @@ VALUES
 ('Nikita Patil', 'nikita', 'nikitapatil@gmail.com', '123', '123', 'admin', 'mumbai', 'Default Admin User');
 
 CREATE TABLE communities (
-    community_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     community_name VARCHAR(255) NOT NULL,
-    community_description TEXT,
-    community_district VARCHAR(150) NOT NULL,
-    community_image VARCHAR(255) DEFAULT 'default.png',
-    
-    created_by VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX (community_district),
-    INDEX (created_by)
+    category VARCHAR(100) NOT NULL,
+    other_category VARCHAR(100),
+    privacy VARCHAR(100) NOT NULL,
+    image VARCHAR(255),
+    districtVARCHAR(100) NOT NULL,
+    about VARCHAR(300),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
