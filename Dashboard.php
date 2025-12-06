@@ -127,7 +127,7 @@
 
     <?php 
         $active = 'home';
-        include 'Nav.php';
+        include 'userNav.php';
     ?>
 
     <main class="container my-4">
