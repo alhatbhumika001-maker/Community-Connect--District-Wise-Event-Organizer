@@ -12,7 +12,7 @@
                         aria-current="page" href="Dashboard.php">Home</a></li>
 
                 <li class="nav-item dropdown <?php
-                                                if (in_array($active, ['exploreEvent', 'myEvents']))
+                                                if (in_array($active, ['exploreEvent', 'myEvent']))
                                                     echo 'active'; ?>">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -24,7 +24,7 @@
                                 href="exploreEvent.php">Explore</a></li>
                         <!-- Show created events by user here -->
                         <li><a class="dropdown-item <?php if ($active == 'myEvent') echo 'active'; ?>"
-                                href="myEvents.php">Created events</a></li>
+                                href="myEvent.php">Created events</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
