@@ -1,7 +1,7 @@
 <?php
     include 'userHead.php';
     $conn = new mysqli("localhost", "root", "", "community_connect");
-    $q = 'select * from communities ORDER BY id DESC';
+    $q = 'select * from communities ORDER BY community_id DESC';
     $result=mysqli_query($conn,$q);
     $row= mysqli_num_rows($result);
 
