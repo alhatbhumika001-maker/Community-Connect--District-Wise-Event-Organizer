@@ -18,10 +18,10 @@ if (mysqli_num_rows($result) >= 1) {
         header("Location: adminDashboard.php");
     } 
     elseif ($role == 'volunteer') {
-        header("Location: volunteerDashboard.php");
+        header("Location: Dashboard.php");
     } 
     elseif ($role == 'organizer') {
-        header("Location: index.php");
+        header("Location: Dashboard.php");
     }
     else {
         // Fallback redirect if role doesn't match
