@@ -91,7 +91,7 @@ CREATE TABLE registrations (
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (event_id) REFERENCES events(event_id)
+    FOREIGN KEY (event_id) REFERENCES community_events(id)
 );
 
 -- =========================
@@ -123,6 +123,7 @@ CREATE TABLE communities (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by INT DEFAULT NULL
 );
+
 
 
 
