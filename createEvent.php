@@ -67,11 +67,11 @@ if (mysqli_num_rows($community_result) == 0) {
                 <!-- SELECT COMMUNITY -->
                 <div class="col-md-12">
                     <label><b>Select Community</b></label>
-                    <select name="community_id" class="form-select" required>
+                    <select name="community" class="form-select" required>
                         <option value="">-- Select Community --</option>
 
                         <?php while ($c = mysqli_fetch_assoc($community_result)) { ?>
-                            <option value="<?= $c['id']; ?>"><?= $c['community_name']; ?></option>
+                            <option value="<?= $c['community_name']; ?>"><?= $c['community_name']; ?></option>
                         <?php } ?>
 
                     </select>
