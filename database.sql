@@ -57,22 +57,28 @@ INSERT INTO categories (category_name) VALUES
 -- =========================
 -- EVENTS TABLE
 -- =========================
-CREATE TABLE events (
-    event_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    district_id INT,
-    category_id INT,
-    organizer_id INT,
-    event_date DATE NOT NULL,
-    event_time TIME,
-    image VARCHAR(255),
-    status ENUM('pending','approved','rejected') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE community_events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
 
-    FOREIGN KEY (district_id) REFERENCES districts(district_id),
-    FOREIGN KEY (category_id) REFERENCES categories(category_id),
-    FOREIGN KEY (organizer_id) REFERENCES users(user_id)
+    event_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    other_category VARCHAR(255),
+
+    district VARCHAR(100) NOT NULL,
+
+    start_time TIME,
+    end_time TIME,
+
+    date DATE,
+
+    image VARCHAR(255) DEFAULT 'default_event.jpg',
+
+    event_type VARCHAR(150) NOT NULL,
+
+    about TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT DEFAULT NULL
 );
 
 -- =========================
@@ -114,7 +120,8 @@ CREATE TABLE communities (
     image VARCHAR(255),
     district VARCHAR(100) NOT NULL,
     about VARCHAR(300),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT DEFAULT NULL
 );
 
 
