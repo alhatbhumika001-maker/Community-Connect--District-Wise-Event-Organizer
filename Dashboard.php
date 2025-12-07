@@ -132,9 +132,9 @@ $event_count = mysqli_num_rows($event_result);
         }
 
         .photo-box {
-            grid-column: 1 / 2;
-            grid-row: 3 / 4;
-            min-height: 220px;
+            height:30px;
+            width: 100%;
+           
         }
     }
 

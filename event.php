@@ -1,3 +1,11 @@
+    <?php
+        $conn = mysqli_connect("localhost", "root", "", "community_connect");   
+        // Fetch events created by logged-in user
+        
+        $event_query = "SELECT * FROM community_events ORDER BY id DESC";
+        $event_result = mysqli_query($conn, $event_query);
+        $event_count = mysqli_num_rows($event_result);
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,23 +80,14 @@
 
         /* Photo spanning full width under top row */
         .photo-box {
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            border-radius: 6px;
-            overflow: hidden;
-            min-height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f2f2f2;
+            min-height: 120px;   /* smaller image */
+            max-height: 120px;
+        }
+        .photo-box img {
+            height: 120px;      /* fixed small height */
+            object-fit: cover;
         }
 
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
 
         /* Button*/
         .button-box {
@@ -186,6 +185,65 @@
             display: inline-block;
             margin-right: 6px;
         }
+
+        /* GRID LAYOUT FOR SQUARE CARDS */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* FULL SQUARE CARD */
+.event-card-square {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.event-card-square:hover {
+    transform: translateY(-4px);
+}
+
+/* IMAGE FIXED SQUARE STYLE */
+.event-card-square img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+/* CONTENT AREA */
+.event-content {
+    padding: 10px;
+}
+
+.event-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.event-meta {
+    font-size: 14px;
+    color: #443e3eff;
+}
+
+.event-description {
+    font-size: 14px;
+    color: #392c2cff;
+    margin-bottom: 10px;
+}
+
+.event-btn {
+    text-align: right;
+}
+ span{
+
+    font-size:15px;
+    color:black;
+
+ }
     </style>
 </head>
 
@@ -247,37 +305,44 @@
         </div>
 
         <!-- EVENT CARD -->
-        <!-- EVENTS fetch karne ke liye php idhar likhna  -->
-        <!--
-          Server-side must do:
-          if (events.length > 0) {
-            for each event in events -> render ONE event card block (HTML below)
-          } else {
-            render the EMPTY-STATE block (HTML shown below)
-          }
-        -->
+        
+<div class="event-grid">
+    <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
 
-        <!-- === Event card TEMPLATE (repeat this block for each event on the server) === -->
-        <div class="event-card mb-5 pe-4">
-            <div class="date-box ">
-                {{ DATE }}<br>
-                <small>{{ TIME }}</small>
+        <div class="event-card-square">
+
+                <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>">
+
+                <div class="event-content">
+                    
+                    <div class="event-title">
+                        <?php echo $row['event_name']; ?>
+                    </div>
+
+                    <div class="event-meta">
+                        <span>Community: </span> <?php echo $row['community']; ?>
+                    </div>
+
+                    <!-- DATE / TIME-->
+                    <div class="event-meta">
+                         <span>Date:</span> <?php echo date("d M Y", strtotime($row['date'])); ?><br>
+                          <span>Time: </span><small><?php echo date("h:i A", strtotime($row['start_time'])); ?> | <?php echo $row['district']; ?></small>
+                    </div>
+
+                    <div class="event-description">
+                      <?php echo substr($row['about'], 0, 100); ?>...
+                    </div>
+
+                    <div class="event-btn">
+                        <button class="btn-outline-info filter-pill">Register</button>
+                    </div>
+
+                </div>
             </div>
-            <div class="photo-box mt-3 mb-3">
-                <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                <!-- If you prefer no image, leave this empty and it will show neutral background -->
-            </div>
-            <div class="content-box">
-                <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                <div class="mb-2 text-muted" style="font: size 14px;">{{ EVENT_DISTRICT }}</div>
-                <div class="text-muted mb-2" style="font-size:13px;">{{ EVENT_DESCRIPTION }}</div>
-            </div>
-            <div class="button-box">
-                <button class="btn-outline-info filter-pill">Register</button>
-            </div>
-        </div>
+
+        <?php } ?>
+</div>
+
 
         <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->
         <div class="empty-card text-center mb-4">
