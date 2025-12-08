@@ -188,7 +188,7 @@
                         <?php while ($row = mysqli_fetch_assoc($event_result)): ?>
                             <div class="card mb-3">
                                 <div class="card-header">
-                                    <h5><?php echo htmlspecialchars($row['event_name']); ?></h5>
+                                    <h5><?php echo $row['event_name']; ?></h5>
                                     <small>
                                         <?php 
                                         $event_datetime = date("F j, Y — g:i A", strtotime($row['date'])); 
