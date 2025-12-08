@@ -1,3 +1,36 @@
+   <?php
+    $conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // Get the community ID from URL or request
+    if (!isset($_GET['id'])) {
+        die("Community ID not specified.");
+    }
+
+    $id = intval($_GET['id']); // always sanitize input
+
+    // SQL Query: fetch events only for this community
+    $event_query = "
+        SELECT community_events.*, communities.community_name 
+        FROM community_events 
+        JOIN communities ON community_events.community = communities.id
+        WHERE communities.id = $id
+        ORDER BY community_events.id DESC
+    ";
+
+    $event_result = mysqli_query($conn, $event_query);
+
+    if (!$event_result) {
+        die("SQL Error: " . mysqli_error($conn));
+    }
+
+    $event_count = mysqli_num_rows($event_result);
+
+    
+?>
  <?php
     include 'userHead.php';
     ?>
@@ -146,55 +179,70 @@
 
         <!-- main inner container (keeps content centered) -->
         <div class="container page-inner mt-3">
-
+            
             <div class="row gx-4">
 
                 <!-- LEFT: Events column -->
                 <div class="col-lg-8 col-12">
-                    <!-- Simple event card with carousel -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Sample Event Title</h5>
-                            <small>June 10, 2025 — 6:00 PM</small>
-                        </div>
-
-                        <div class="card-body">
-                            <!-- Bootstrap Carousel: keep only one .carousel-item in template.
-                   Server/PHP will loop and output multiple .carousel-item blocks as needed. -->
-                            <div id="eventCarousel123" class="carousel slide mb-3" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <!-- Repeat this block server-side for each image; first one must have 'active' -->
-                                    <div class="carousel-item active">
-                                        <img src="https://via.placeholder.com/1200x500?text=Event+Image+1"
-                                            class="d-block w-100 event-photo" alt="event image">
-                                    </div>
-                                    <!-- Add Other photos through loop, if needed -->
+                    <?php if ($event_count > 0): ?>
+                        <?php while ($row = mysqli_fetch_assoc($event_result)): ?>
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5><?php echo htmlspecialchars($row['event_name']); ?></h5>
+                                    <small>
+                                        <?php 
+                                        $event_datetime = date("F j, Y — g:i A", strtotime($row['date'])); 
+                                        echo $event_datetime; 
+                                        ?>
+                                    </small>
                                 </div>
 
-                                <!-- controls for photos-->
-                                <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel123"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel123"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </button>
+                                <div class="card-body">
+                                    <!-- Bootstrap Carousel -->
+                                    <?php
+                                    // Images from the database
+                                    $images = !empty($row['image']) ? explode(",", $row['image']) : [];
+                                    ?>
+
+                                    <?php if (count($images) > 0): ?>
+                                        <?php if (count($images) === 1): ?>
+                                            <!-- Only one image: show without carousel controls -->
+                                            <img src="<?php echo $row['image']; ?>" class="d-block w-100 event-photo mb-3" alt="event image">
+                                        <?php else: ?>
+                                            <!-- Multiple images: use carousel -->
+                                            <div id="eventCarousel<?php echo $row['id']; ?>" class="carousel slide mb-3" data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <?php foreach ($images as $index => $img): ?>
+                                                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                                                            <img src="<?php echo htmlspecialchars($img); ?>" class="d-block w-100 event-photo" alt="event image">
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel<?php echo $row['id']; ?>" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon"></span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel<?php echo $row['id']; ?>" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon"></span>
+                                                </button>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <!-- No image -->
+                                        <img src="https://via.placeholder.com/1200x500?text=No+Image" class="d-block w-100 event-photo mb-3" alt="no image">
+                                    <?php endif; ?>
+
+
+                                    <p class="card-text"> <?php echo substr($row['about'], 0, 200); ?>...</p>
+                                </div>
                             </div>
-
-                            <p class="card-text">Short description about the event. Location, quick highlights and what
-                                to expect.</p>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <!-- Empty state -->
+                        <div class="empty-card text-center mb-4">
+                            <div class="bi bi-emoji-frown"></div>
+                            <h4 class="mt-2">No event conducted yet..</h4>
                         </div>
-                    </div>
-
-                    <!-- divider -->
-                    <hr class="dropdown-divider">
-
-                    <!-- empty state example -->
-                    <div class="empty-card text-center mb-4">
-                        <div class="bi bi-emoji-frown"></div>
-                        <h4 class="mt-2">No event conducted yet..</h4>
-                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- RIGHT: Members column -->

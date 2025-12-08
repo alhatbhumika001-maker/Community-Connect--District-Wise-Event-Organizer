@@ -26,7 +26,8 @@ $start_time    = $_POST['start_time'];
 $end_time      = $_POST['end_time'];
 $date          = $_POST['date'];
 $event_type    = $_POST['event_type'];
-$community  = $_POST['community']; 
+// Receive data  
+$community = $_POST['community'];  // INT value
 $about         = $_POST['about'];
 
 // Insert query

@@ -1,11 +1,25 @@
     <?php
-        $conn = mysqli_connect("localhost", "root", "", "community_connect");   
-        // Fetch events created by logged-in user
-        
-        $event_query = "SELECT * FROM community_events ORDER BY id DESC";
-        $event_result = mysqli_query($conn, $event_query);
-        $event_count = mysqli_num_rows($event_result);
-    ?>
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+// 2. Correct SQL Query
+$event_query = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+    ORDER BY community_events.id DESC
+";
+
+$event_result = mysqli_query($conn, $event_query);
+
+// 3. Check result
+if (!$event_result) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+
+$event_count = mysqli_num_rows($event_result);
+$row = mysqli_fetch_assoc($event_result);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -320,7 +334,7 @@
                     </div>
 
                     <div class="event-meta">
-                        <span>Community: </span> <?php echo $row['community']; ?>
+                        <span>Community: </span> <?php echo $row['community_name']; ?>
                     </div>
 
                     <!-- DATE / TIME-->

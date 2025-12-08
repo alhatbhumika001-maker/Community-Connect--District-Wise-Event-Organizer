@@ -242,7 +242,7 @@
         <?php
                 if ($event_count > 0) {
                 while ($row = mysqli_fetch_assoc($event_result)) {
-                    ?>
+        ?>
                     <div class="event-card mt-3 mb-4">
                         <div class="date-box">
                             Date & Time: <br>
