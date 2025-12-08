@@ -1,3 +1,6 @@
+ <?php
+    include 'userHead.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +17,10 @@
 
     <!-- BOOTSTRAP CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="userStyle.css">
+    <link rel="stylesheet" href="comStyle.css">
 
     <!-- BOOTSTRAP ICONS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
@@ -117,13 +124,9 @@
 
 <body>
 
-    <?php
-    include 'userHead.php';
-    ?>
+   
 
-    <?php
-    include 'userHead.php';
-    ?>
+   
 
     <div class="container-fluid">
 
