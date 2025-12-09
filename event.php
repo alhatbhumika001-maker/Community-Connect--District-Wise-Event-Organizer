@@ -1,11 +1,26 @@
-    <?php
-        $conn = mysqli_connect("localhost", "root", "", "community_connect");   
-        // Fetch events created by logged-in user
-        
-        $event_query = "SELECT * FROM community_events ORDER BY id DESC";
-        $event_result = mysqli_query($conn, $event_query);
-        $event_count = mysqli_num_rows($event_result);
-    ?>
+ <?php
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// SQL Query: fetch all events with community name
+$event_query = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+    ORDER BY community_events.id DESC
+";
+
+$event_result = mysqli_query($conn, $event_query);
+
+if (!$event_result) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+
+$event_count = mysqli_num_rows($event_result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -308,40 +323,50 @@
         
 <div class="event-grid">
     <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
+        <div class="event-card-square" style="position: relative; display: flex; flex-direction: column;">
 
-        <div class="event-card-square">
+            <img src="<?php echo !empty($row['image']) ? $row['image'] : 'https://via.placeholder.com/300x210?text=No+Image'; ?>" alt="<?php echo $row['event_name']; ?>">
 
-                <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>">
+            <div class="event-content" style="flex: 1; padding-bottom: 50px;"> <!-- space for buttons -->
 
-                <div class="event-content">
-                    
-                    <div class="event-title">
-                        <?php echo $row['event_name']; ?>
-                    </div>
+                <div class="event-title">
+                    <?php echo $row['event_name']; ?>
+                </div>
 
-                    <div class="event-meta">
-                        <span>Community: </span> <?php echo $row['community']; ?>
-                    </div>
+                <div class="event-meta">
+                    <span>Community: </span> <?php echo $row['community_name']; ?>
+                </div>
 
-                    <!-- DATE / TIME-->
-                    <div class="event-meta">
-                         <span>Date:</span> <?php echo date("d M Y", strtotime($row['date'])); ?><br>
-                          <span>Time: </span><small><?php echo date("h:i A", strtotime($row['start_time'])); ?> | <?php echo $row['district']; ?></small>
-                    </div>
+                <div class="event-meta">
+                     <span>Date:</span> <?php echo date("d M Y", strtotime($row['date'])); ?><br>
+                     <span>Time: </span><?php echo date("h:i A", strtotime($row['start_time'])); ?> | <?php echo $row['district']; ?>
+                </div>
 
-                    <div class="event-description">
-                      <?php echo substr($row['about'], 0, 100); ?>...
-                    </div>
-
-                    <div class="event-btn">
-                        <button class="btn-outline-info filter-pill">Register</button>
-                    </div>
-
+                <div class="event-description">
+                    <?php 
+                        $desc = strip_tags($row['about']);
+                        if(strlen($desc) > 50) {
+                            echo substr($desc, 0, 50) . "...";
+                        } else {
+                            echo str_pad($desc, 50, " ");
+                        }
+                    ?>
                 </div>
             </div>
 
-        <?php } ?>
+          
+             <!-- BUTTONS FIXED AT BOTTOM RIGHT -->
+            <div class="event-btn" style="position: absolute; bottom: 10px; left: 10px; display: flex; gap: 10px;">
+                <button class="btn btn-outline-info">Register</button>
+                <button class="btn btn-outline-secondary">View</button>
+            </div>
+
+           
+
+        </div>
+    <?php } ?>
 </div>
+
 
 
         <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->

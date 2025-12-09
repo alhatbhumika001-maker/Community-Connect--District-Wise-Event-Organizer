@@ -314,7 +314,8 @@
                         </div>
 
                         <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a href="#" class="btn btn-outline-indigo btn-sm">View</a>
+                            <a href="com-Events.php?id=<?= $row['id']; ?>" class="btn btn-outline-indigo btn-sm">View</a>
+
                             <form method="POST" action="/communities/<?= htmlspecialchars($row['id']) ?>/join" style="display:inline;">
                                 <button class="btn btn-outline-indigo btn-sm" type="submit">Join</button>
                             </form>
