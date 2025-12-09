@@ -152,7 +152,7 @@
     ?>
 
     <?php
-    include 'userHead.php';
+    include 'userNav.php';
     ?>
 
     <div class="container-fluid">

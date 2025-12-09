@@ -30,8 +30,8 @@ if (!$community) {
 
 <!-- Banner -->
 <div class="com-banner mt-4 mb-1">
-    <img class="com-banner-img" src="<?php echo $community['image']; ?>" 
-         alt="<?php echo $community['community_name']; ?>">
+    <img class="com-banner-img" src="<?php echo $community['image']; ?>"
+        alt="<?php echo $community['community_name']; ?>">
 </div>
 
 <!-- Community Header -->
@@ -40,3 +40,18 @@ if (!$community) {
     <h5 class="text-muted"><?php echo $community['privacy']; ?> • 0 Members</h5>
     <p class="text-muted"><?php echo $community['about']; ?></p>
 </div>
+
+<!-- nav tabs -->
+<nav class="com-nav">
+    <ul class="nav com-nav-ul">
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == 'com-Events') echo 'active'; ?>" href="com-Events.php">Events</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == 'com-Notice') echo 'active'; ?>" href="com-Notice.php">Notice</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == 'com-Post') echo 'active'; ?>" href="com-Post.php">Post</a>
+        </li>
+    </ul>
+</nav>
