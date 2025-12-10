@@ -51,7 +51,7 @@ if (!$community) {
             <a class="nav-link <?php if ($active == 'com-Notice') echo 'active'; ?>" href="com-Notice.php">Notice</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if ($active == 'com-Post') echo 'active'; ?>" href="com-Post.php">Post</a>
+            <a class="nav-link" href="com-Post.php?id=<?= $community['id']; ?>" >Post</a>
         </li>
     </ul>
 </nav>

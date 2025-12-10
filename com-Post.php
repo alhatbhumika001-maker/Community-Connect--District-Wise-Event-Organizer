@@ -1,3 +1,107 @@
+ <?php
+    include 'userHead.php';
+    ?>
+<?php
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+// 1️⃣ Get logged-in user
+$user_id = $_SESSION['user_id'] ?? 0;
+if ($user_id == 0) { die("You must be logged in."); }
+
+// 2️⃣ Get community ID
+$id = $_POST['id'] ?? ($_GET['id'] ?? 0);
+$id = intval($id);
+if ($id <= 0) { die("Invalid community!"); }
+
+// 3️⃣ Fetch community details
+$com_query = "SELECT * FROM communities WHERE id = $id";
+$com_res = mysqli_query($conn, $com_query);
+$community = mysqli_fetch_assoc($com_res);
+if (!$community) { die("Community not found!"); }
+
+// 4️⃣ Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // --- POST SUBMISSION ---
+    if (isset($_POST['post_text'])) {  // only runs when post form is submitted
+        $content = trim($_POST['post_text']);
+        if (empty($content)) {
+            echo "<script>alert('Post content cannot be empty!');</script>";
+            exit;
+        }
+
+        $content = mysqli_real_escape_string($conn, $content);
+
+        $folder = ""; // default empty
+        if (!empty($_FILES["post"]["name"])) {
+            $image = $_FILES["post"]["name"];
+            $tmp = $_FILES["post"]["tmp_name"];
+            $folder = "posts_image/" . $image;
+            move_uploaded_file($tmp, $folder);
+        }
+
+        $q = "INSERT INTO posts (community_id, user_id, content, post) 
+              VALUES ('$id', '$user_id', '$content', '$folder')";
+        $result = mysqli_query($conn, $q);
+
+        if ($result) {
+            echo "<script>alert('Post Sent Successfully'); window.location='com-Post.php?id=$id';</script>";
+            exit;
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
+
+    // --- COMMENT SUBMISSION ---
+    if (isset($_POST['comment_text'])) {  // only runs when comment form is submitted
+        $comment_text = trim($_POST['comment_text']);
+        $post_id = intval($_POST['post_id']);
+
+        if (empty($comment_text)) {
+            echo "<script>alert('Comment cannot be empty!');</script>";
+            exit;
+        }
+
+        if ($post_id <= 0) {
+            echo "<script>alert('Invalid post!');</script>";
+            exit;
+        }
+
+        $comment_text = mysqli_real_escape_string($conn, $comment_text);
+
+        $insert_comment = "
+            INSERT INTO comments (post_id, community_id, user_id, content, created_at)
+            VALUES ('$post_id', '$id', '$user_id', '$comment_text', NOW())
+        ";
+        if (mysqli_query($conn, $insert_comment)) {
+            mysqli_query($conn, "UPDATE posts SET comments = comments + 1 WHERE id = $post_id");
+            echo "<script>
+                alert('Comment added!');
+                window.location='com-Post.php?id=$id';
+            </script>";
+            exit;
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
+}
+
+?>
+<?php
+$post_query = mysqli_query($conn, "
+    SELECT posts.*, users.username
+    FROM posts
+    JOIN users ON users.user_id = posts.user_id
+    WHERE posts.community_id = $id
+    ORDER BY posts.id DESC
+");
+
+if (!$post_query) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -192,6 +296,8 @@
     .like-btn {
         background: none;
         border: none;
+        margin-top:5px;
+        margin-bottom:-10px;
         padding: 0;
         color: #343a40;
         font-weight: 600;
@@ -200,14 +306,23 @@
         gap: 6px;
         cursor: pointer;
     }
+    .like-btn {
+    background-color: #fff;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.like-btn.clicked {
+    color: #e74c3c; /* Red color when liked */
+    transform: scale(1.3); /* Pop effect */
+}
+
     </style>
 </head>
 
 <body>
-    <?php
-    include 'userHead.php';
-    ?>
-
+   
     <?php
     include 'userNav.php';
     ?>
@@ -223,59 +338,99 @@
         <div class="row gx-4">
 
             <!-- posts -->
-            <div class="col-lg-8 col-12">
-                <div class="post" id="post-1">
-                    <div class="postHead">
-                        <h5>Username</h5>
-                        <h6>2h ago</h6>
-                    </div>
-                    <hr>
-                    <div class="postContent">
-                        <p>This is a sample post. Users can read and scroll while the composer remains accessible.
-                        </p>
-                    </div>
+       
 
-                    <div class="d-flex align-items-center mt-2">
-                        <form action="/like.php" method="post" class="me-3">
-                            <input type="hidden" name="post_id" value="1">
-                            <button class="like-btn"><i class="bi bi-hand-thumbs-up"></i> Like</button>
-                        </form>
+<div class="col-lg-8 col-12">
+     <?php
+        while ($row = mysqli_fetch_assoc($post_query)):
+    ?>
 
-                        <div class="ms-auto text-muted">Likes: <strong>3</strong> · Comments: <strong>2</strong>
-                        </div>
-                    </div>
+    <div class="post">
+        
+        <div class="postHead">
+            <h5><?= htmlspecialchars($row['username']) ?></h5>
+            <h6><?= date("d M Y, h:i A", strtotime($row['created_at'])) ?></h6>
+        </div>
 
-                    <details>
-                        <!-- Should Come from backend -->
-                        <summary><i class="bi bi-chat"></i> Comments (1)</summary>
+        <hr>
 
-                        <div class="mt-3">
-                            <div class="mb-2">
-                                <!-- Should give username -->
-                                <strong>Member A</strong> <small class="text-muted">· 1h</small>
-                                <div>Nice — I'll join.</div>
-                                <hr>
-                            </div>
+        <div class="postContent">
+            <p><?= nl2br(htmlspecialchars($row['content'])) ?></p>
 
-                            <form action="/comment.php" method="post">
-                                <input type="hidden" name="post_id" value="1">
-                                <div class="input-group input-group-sm mt-2">
-                                    <input type="text" name="comment_text" class="form-control"
-                                        placeholder="Write a comment...">
-                                    <button class="btn btn-outline-indigo btn-sm" type="submit">Send</button>
-                                </div>
-                            </form>
-                        </div>
-                    </details>
-                </div>
+            <?php if (!empty($row['post'])): ?>
+                <img src="<?= $row['post'] ?>" 
+                     class="img-fluid rounded mt-2" 
+                     style="max-height: 350px; object-fit: cover;">
+            <?php endif; ?>
+        </div>
 
-                <!-- ... more posts ... -->
+        <div class="d-flex align-items-center mt-2">
+            <!-- Like button form -->
+            <form action="like.php" method="post" class="me-3 like-form">
+                <input type="hidden" name="id" value="<?= $row['id'] ?>"> <!-- Post ID -->
+                <button type="submit" class="like-btn">
+                    <i class="bi bi-hand-thumbs-up"></i> Like
+                </button>
+            </form>
 
-                <!-- IMPORTANT: composer DOM position is AFTER posts (keeps server order logical)
-             but we make it fixed via CSS so it's always visible.
-             The form has id="createPostForm" so the fixed element can be targeted by form attributes.
-        -->
-                <form id="createPostForm" action="/create_post.php" method="post" enctype="multipart/form-data">
+            <!-- Display likes and comments -->
+            <div class="ms-auto text-muted">
+                Likes: <strong><?= $row['likes'] ?? 0 ?></strong> · 
+                Comments: <strong><?= $row['comments'] ?? 0 ?></strong>
+            </div>
+        </div>
+
+
+
+            <details>
+    <summary>
+        <i class="bi bi-chat"></i> Comments (<?= $row['comments'] ?? 0 ?>)
+    </summary>
+
+    <div class="mt-3">
+
+        <?php
+        //fetch comments...
+
+        $post_id = $row['id'];
+
+        $comment_list = mysqli_query($conn, "
+            SELECT comments.*, users.username 
+            FROM comments 
+            JOIN users ON users.user_id = comments.user_id
+            WHERE comments.post_id = $post_id
+            ORDER BY comments.id DESC
+        ");
+        ?>
+
+        <?php while ($c = mysqli_fetch_assoc($comment_list)): ?>
+            <div class="mb-2">
+                <strong><?= htmlspecialchars($c['username']) ?></strong>
+                <small class="text-muted">· <?= date("d M Y h:i A", strtotime($c['created_at'])) ?></small>
+                <div><?= nl2br(htmlspecialchars($c['content'])) ?></div>
+                <hr>
+            </div>
+        <?php endwhile; ?>
+
+        <form action="com-Post.php" method="post">
+            <input type="hidden" name="post_id" value="<?= $row['id']; ?>">
+            <input type="hidden" name="id" value="<?= $community['id']; ?>">
+            <div class="input-group input-group-sm mt-2">
+                <input type="text" name="comment_text" class="form-control" placeholder="Write a comment..." required>
+                <button class="btn btn-outline-primary btn-sm" type="submit">Send</button>
+            </div>
+        </form>
+
+
+    </div>
+</details>
+    </div>
+<?php endwhile; ?>
+
+</div>
+
+
+                 <form id="createPostForm"  method="post" enctype="multipart/form-data" action="com-Post.php?id=<?= $community['id'];?>">
                     <!-- note: this form exists in DOM here but will be visually fixed -->
                     <div class="composer-fixed" aria-hidden="false">
                         <div class="composer-inner">
@@ -283,7 +438,7 @@
                             <div class="composer-left">
                                 <!-- label triggers hidden file input (no JS) -->
                                 <label for="imageInput" class="add-btn" title="Add photos">+</label>
-                                <input type="file" id="imageInput" name="images[]" accept="image/*" multiple hidden>
+                                <input type="file" id="imageInput" name="post" accept="image/*" multiple hidden>
 
                                 <input type="text" name="post_text" class="composer-input"
                                     placeholder="Write your post..." aria-label="Write your post" required>

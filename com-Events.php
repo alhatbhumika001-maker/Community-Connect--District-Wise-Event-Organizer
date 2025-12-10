@@ -1,3 +1,6 @@
+    <?php
+    include 'userHead.php';
+    ?>
    <?php
     $conn = mysqli_connect("localhost", "root", "", "community_connect");
 
@@ -31,9 +34,7 @@
 
 
     ?>
-   <?php
-    include 'userHead.php';
-    ?>
+  
    <!DOCTYPE html>
    <html lang="en">
 
@@ -157,9 +158,7 @@
 
    <body>
 
-       <?php
-        include 'userHead.php';
-        ?>
+      
 
        <?php
         include 'userNav.php';
