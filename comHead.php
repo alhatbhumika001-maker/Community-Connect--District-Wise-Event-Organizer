@@ -45,10 +45,10 @@ if (!$community) {
 <nav class="com-nav">
     <ul class="nav com-nav-ul">
         <li class="nav-item">
-            <a class="nav-link <?php if ($active == 'com-Events') echo 'active'; ?>" href="com-Events.php">Events</a>
+            <a class="nav-link <?php if ($active == 'com-Events') echo 'active'; ?>" href="com-Events.php?id=<?= $community['id']; ?>">Events</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if ($active == 'com-Notice') echo 'active'; ?>" href="com-Notice.php">Notice</a>
+            <a class="nav-link <?php if ($active == 'com-Notice') echo 'active'; ?>" href="com-Notice.php?id=<?= $community['id']; ?>">Notice</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="com-Post.php?id=<?= $community['id']; ?>" >Post</a>
