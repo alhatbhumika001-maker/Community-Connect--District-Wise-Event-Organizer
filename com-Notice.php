@@ -1,3 +1,81 @@
+    
+    <?php
+ include 'userHead.php';
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+// Get community ID
+$id = $_GET['id'] ?? $_POST['id'] ?? 0;
+$id = intval($id);
+
+if ($id <= 0) {
+    die("Invalid community!");
+}
+
+// Fetch community info
+$com_query = "SELECT * FROM communities WHERE id = $id";
+$com_res = mysqli_query($conn, $com_query);
+
+if (!$com_res) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+
+$community = mysqli_fetch_assoc($com_res);
+
+if (!$community) {
+    die("Community not found!");
+}
+
+// Logged-in user's ID
+$user_id = $_SESSION['user_id'] ?? 0;
+
+/* --------------------- INSERT NOTICE --------------------- */
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
+
+    $title = mysqli_real_escape_string($conn, trim($_POST['title']));
+    $content = mysqli_real_escape_string($conn, trim($_POST['not-content']));
+
+    if (empty($title)) {
+        echo "<script>alert('Notice Title cannot be empty!');</script>";
+    } else {
+
+        $insert_query = "
+            INSERT INTO notices (community_id, user_id, title, content)
+            VALUES ('$id', '$user_id', '$title', '$content')
+        ";
+
+        if (mysqli_query($conn, $insert_query)) {
+            echo "<script>
+                    alert('Notice created successfully!');
+                    window.location='com-Notice.php?id=$id';
+                  </script>";
+            exit;
+        } else {
+            echo "Insert Error: " . mysqli_error($conn);
+        }
+    }
+}
+
+/* --------------------- FETCH ALL NOTICES --------------------- */
+
+$notice_query = "
+    SELECT notices.*, users.username 
+    FROM notices
+    LEFT JOIN users ON notices.user_id = users.user_id
+    WHERE notices.community_id = $id
+    ORDER BY notices.id DESC
+";
+
+$notice_res = mysqli_query($conn, $notice_query);
+
+if (!$notice_res) {
+    die("Notice SQL Error: " . mysqli_error($conn));
+}
+
+
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,10 +226,6 @@
 <body>
 
     <?php
-    include 'userHead.php';
-    ?>
-
-    <?php
     include 'userNav.php';
     ?>
 
@@ -162,11 +236,14 @@
         ?>
 
         <!-- Create button -->
-        <div class="create-notice-wrap">
-            <button class="create-notice-btn" data-bs-toggle="modal" data-bs-target="#createNoticeModal">
-                + Create Notice
-            </button>
-        </div>
+        <?php if ($community['created_by'] == $user_id): ?>
+            <div class="create-notice-wrap">
+                <button class="create-notice-btn" data-bs-toggle="modal" data-bs-target="#createNoticeModal">
+                    + Create Notice
+                </button>
+            </div>
+        <?php endif; ?>
+
 
 
         <!-- Main layout -->
@@ -176,26 +253,36 @@
                 <!-- LEFT COLUMN -->
                 <div class="col-lg-8 col-12">
 
-                    <div class="notice">
-                        <div class="noticeHead">
-                            <h5 class="not-head">Title For Notice</h5>
-                            <h6 class="not-time">Date & Time of posting</h6>
-                        </div>
-                        <hr>
-                        <div class="not-content">
-                            <p>
-                                Content for the notice. For example, instructions for event, change of time or date
-                                or
-                                something the attendee should know.
-                            </p>
-                        </div>
-                    </div>
+                    <?php if (mysqli_num_rows($notice_res) > 0): ?>
 
-                    <!-- Empty State Example (hidden by default) -->
-                    <div class="empty-card text-center mb-4">
-                        <div class="bi bi-emoji-frown"></div>
-                        <h4 class="mt-2">No notices yet</h4>
-                    </div>
+    <?php while ($row = mysqli_fetch_assoc($notice_res)): ?>
+        <div class="notice">
+            <div class="noticeHead">
+
+                <h5 class="not-head"><?php echo $row['title']?></h5>
+
+                <h6 class="not-time">
+                    Posted by <? echo $row['username'] ?? 'Unknown' ?> |
+                    <?= date("d M, Y h:i A", strtotime($row['created_at'])) ?>
+                </h6>
+            </div>
+
+            <hr>
+
+            <div class="not-content">
+                <p><?= nl2br(htmlspecialchars($row['content'])) ?></p>
+            </div>
+        </div>
+    <?php endwhile; ?>
+
+<?php else: ?>
+
+    <div class="empty-card text-center mb-4">
+        <div class="bi bi-emoji-frown"></div>
+        <h4 class="mt-2">No notices yet</h4>
+    </div>
+
+<?php endif; ?>
 
                 </div>
 
