@@ -5,10 +5,48 @@
     $user_id = $_SESSION['user_id'] ?? 0;
 
     // Fetch communities created by logged-in user
-    $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
+    $community_query = "SELECT * FROM communities ORDER BY id DESC";
     $community_result = mysqli_query($conn, $community_query);
     $community_count = mysqli_num_rows($community_result);
 ?>
+<?php
+// FETCH MEMBERSHIP STATUS FOR CURRENT USER
+$membership_query = mysqli_query($conn,
+    "SELECT community_id, status FROM community_members WHERE user_id = $user_id"
+);
+
+$membership_status = [];
+while ($m = mysqli_fetch_assoc($membership_query)) {
+    $membership_status[$m['community_id']] = $m['status']; // pending / approved
+}
+
+//JOIN COMMUNITY MEMBERS....
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
+    $community_id = intval($_POST['id']); // from hidden input
+    $user_id = $_SESSION['user_id'] ?? 0;
+
+    // check if already joined
+    $check = mysqli_query($conn, "SELECT * FROM community_members WHERE community_id=$community_id AND user_id=$user_id");
+
+    if ($check && mysqli_num_rows($check) > 0) {
+        echo "<script>alert('You are already a member of this community!');</script>";
+    } else {
+        $insert = mysqli_query($conn, "INSERT INTO community_members (community_id, user_id, status) VALUES ($community_id, $user_id, 'pending')");
+
+        if ($insert) {
+            echo "<script>
+                    alert('Joined community successfully!');
+                    window.location = window.location.href;
+                  </script>";
+            exit;
+        } else {
+            echo "Join Error: " . mysqli_error($conn);
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -290,41 +328,100 @@
 
         
         <!-- Community cards -->
-        <?php if ($community_count > 0): ?>
-            <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
-                <div class="community-card mb-4">
+      <!-- Community cards -->
+<?php if ($community_count > 0): ?>
 
-                    <div class="community-img">
-                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="Community Image">
-                    </div>
+    <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
+        <?php $cid = $row['id']; ?>
 
-                    <div class="community-info">
-                        <h3 class="mb-1"><b><?= htmlspecialchars($row['community_name']) ?></b></h3>
-                        <div class="text-muted mb-2">Category: <?= htmlspecialchars($row['category']) ?></div>
-                        <p class="text-muted mb-2"><?= htmlspecialchars($row['privacy']) ?></p>
+        <div class="community-card mb-4">
 
-                        <div class="d-flex gap-2 small text-muted mb-2">
-                            <div>Members: <?= htmlspecialchars($row['member_count'] ?? 0) ?></div>
-                            <div>|</div>
-                            <div><?= htmlspecialchars($row['district']) ?></div>
-                        </div>
+            <div class="community-img">
+                <img src="<?= htmlspecialchars($row['image']) ?>" alt="Community Image">
+            </div>
 
-                        <div class="d-flex gap-2 small text-muted mb-2">
-                            Date & Time: <?= htmlspecialchars($row['created_at']) ?>
-                        </div>
+            <div class="community-info">
+                <h3 class="mb-1"><b><?= htmlspecialchars($row['community_name']) ?></b></h3>
+                <div class="text-muted mb-2">Category: <?= htmlspecialchars($row['category']) ?></div>
+                <p class="text-muted mb-2"><?= htmlspecialchars($row['privacy']) ?></p>
 
-                        <div class="d-flex justify-content-end gap-2 mt-2">
-                            <a href="com-Events.php?id=<?= $row['id']; ?>" class="btn btn-outline-indigo btn-sm">View</a>
-
-                            <form method="POST" action="/communities/<?= htmlspecialchars($row['id']) ?>/join" style="display:inline;">
-                                <button class="btn btn-outline-indigo btn-sm" type="submit">Join</button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="d-flex gap-2 small text-muted mb-2">
+                    <div>Members: <?= htmlspecialchars($row['member_count'] ?? 0) ?></div>
+                    <div>|</div>
+                    <div><?= htmlspecialchars($row['district']) ?></div>
                 </div>
-            <?php endwhile; ?>
 
-        <?php else: ?>
+                <div class="d-flex gap-2 small text-muted mb-2">
+                    Date & Time: <?= htmlspecialchars($row['created_at']) ?>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                    <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-outline-indigo btn-sm">
+                        View
+                    </a>
+
+                    <!-- MEMBERSHIP LOGIC -->
+                    <?php if (isset($membership_status[$cid])): ?>
+
+                        <?php if ($membership_status[$cid] === 'pending'): ?>
+                            <span class="badge bg-warning text-dark px-3 py-2">Request Pending</span>
+
+                        <?php elseif ($membership_status[$cid] === 'approved'): ?>
+                            <span class="badge bg-success px-3 py-2">Joined</span>
+
+                        <?php endif; ?>
+
+                    <?php else: ?>
+
+                        <!-- JOIN BUTTON -->
+                        <button class="btn btn-outline-indigo btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#joinModal<?= $cid ?>">
+                            Join
+                        </button>
+
+                        <!-- JOIN MODAL -->
+                        <div class="modal fade" id="joinModal<?= $cid ?>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <form action="" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Join Community</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Do you want to join this community?</p>
+
+                                            <input type="hidden" name="id" value="<?= $cid ?>">
+                                            <input type="hidden" name="join_request" value="1">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">No</button>
+
+                                            <button type="submit" class="btn btn-success">
+                                                Yes, Join
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END MODAL -->
+
+                    <?php endif; ?>
+
+                </div>
+            </div>
+        </div>
+    <?php endwhile; ?>
+
+<?php else: ?>
+
             <!-- EMPTY STATE -->
             <div class="empty-card text-center mb-4">
                 <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>

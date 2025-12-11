@@ -1,3 +1,55 @@
+<?php 
+    include 'userHead.php';
+    $conn = new mysqli("localhost", "root", "", "community_connect");
+    // LIST OF COMMUNITIES
+    $user_id = $_SESSION['user_id'] ?? 0;
+
+    // Fetch communities created by logged-in user
+    $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
+    $community_result = mysqli_query($conn, $community_query);
+    $community_count = mysqli_num_rows($community_result);
+?>
+<?php
+// Reject a pending request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject_request'])) {
+
+    $request_id = intval($_POST['request_id']);
+
+    $delete = $conn->query("DELETE FROM community_members WHERE id = $request_id");
+
+    if ($delete) {
+        echo "<script>
+                alert('Request rejected successfully!');
+                window.location = window.location.href;
+              </script>";
+        exit;
+    } else {
+        echo "Error rejecting request: " . $conn->error;
+    }
+}
+
+// Approve a pending request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
+
+    $request_id = intval($_POST['request_id']); // FIXED HERE
+
+    $update = $conn->query("UPDATE community_members 
+                            SET status='approved' 
+                            WHERE id=$request_id");
+
+    if ($update) {
+        echo "<script>
+                alert('Request approved successfully!');
+                window.location = window.location.href;
+              </script>";
+        exit;
+    } else {
+        echo "Error approving request: " . $conn->error;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,13 +145,12 @@
 
     /* ---------- Community card ---------- */
     .community {
-        width: 100%;
-        border-radius: 12px;
-        padding: 20px;
-        background-color: #ffffff;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-        margin-bottom: 20px;
-    }
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
 
     /* Banner container to keep consistent cropping */
     .com-banner {
@@ -216,7 +267,7 @@
         }
 
         .com-banner {
-            height: 140px;
+            height: 300px;
         }
 
         .community {
@@ -242,11 +293,18 @@
             justify-content: flex-end;
         }
 
-        .request-actions .btn {
-            flex: 1 1 auto;
-            /* allows them to share line width */
-            min-width: 0;
+         .request-actions .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .request-actions .btn {
+                min-width: 70px;
+                text-align: center;
+            }
+
+
 
         /* center button but make it full width on very small devices */
         .buttons {
@@ -256,18 +314,16 @@
 
         .buttons .btn {
             width: 100%;
-            max-width: 320px;
+            max-width: 200px;
         }
+     
     }
     </style>
 </head>
 
 <body>
 
-    <?php 
-    include 'userHead.php'
-    ?>
-
+    
     <?php
     $active = 'exploreCommunity';
     include 'userNav.php';
@@ -329,70 +385,141 @@
         </div>
 
         <!-- If more than one has been created, loop should be created. -->
-        <div class="community">
-            <div class="com-banner" aria-hidden="true">
-                <img src="com-banner.png" alt="Community banner">
-            </div>
+            <?php if ($community_count > 0): ?>
 
-            <h3>
-                Community name
-            </h3>
-            <h4>
-                Date of creation
-            </h4>
+    <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
 
-            <div>
-                <h5>Manage</h5>
-                <!-- The request section should only be visible for the private community. -->
-                <h6>New requests:</h6>
+        <div class="col-12 col-md-6 col-lg-12"> <!-- responsive card width -->
 
-                <!-- Loop this section for listing the request sent for joining the community -->
-                <div class="request-box">
-                    <img src="#" alt="Requester's avatar">
-                    <div class="meta">
-                        <p style="font-weight:600;margin:0;">Name</p>
-                        <p class="username" style="margin:0;color:#6b7280;">@username</p>
-                    </div>
+            <div class="community">
+
+                <div class="com-banner" aria-hidden="true">
+                    <img src="<?php echo $row['image'] ?>" alt="Community banner">
+                </div>
+
+                <h3><?php echo $row['community_name'] ?></h3>
+                <h4><?php echo date("d M Y H:i:s", strtotime($row['created_at'])); ?></h4>
+
+                <div>
+                    <?php
+                    // Fetch pending requests for THIS community
+                    $community_id = $row['id'];
+
+                 $stmt = $conn->prepare(
+                    "SELECT cm.id, cm.user_id, cm.community_id, cm.joined_at, u.full_name, u.username
+                    FROM community_members cm
+                    JOIN users u ON u.user_id = cm.user_id
+                    WHERE cm.community_id = ? AND cm.status='pending'"
+                );
+
+
+                    if (!$stmt) {
+                        die("Prepare failed: " . $conn->error);
+                    }
+
+                    $stmt->bind_param("i", $community_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $requests = $result->fetch_all(MYSQLI_ASSOC);
+                    ?>
+
+                    <h5>Manage</h5>
+                    <h6>New requests:</h6>
+
+                    <?php if(count($requests) > 0): ?>
+                <?php foreach($requests as $req): ?>
+                    <div class="request-box">
+                        <img src="/" alt="Requester's avatar">
+                        <div class="meta">
+                            <p style="font-weight:600;margin:0;"><?= htmlspecialchars($req['full_name']) ?></p>
+                            <p class="username" style="margin:0;color:#6b7280;">
+                                @<?= htmlspecialchars($req['username']) ?> • <?= htmlspecialchars($req['joined_at']) ?>
+                            </p>
+                        </div>
+                        
 
                     <div class="request-actions">
-                        <button class="btn btn-sm btn-outline-indigo">View Profile</button>
-                        <button class="btn btn-sm btn-outline-indigo">Accept</button>
-                    </div>
-                </div>
 
-                <h6>Members:</h6>
-                <!-- Loop to get the members list -->
-                <div class="member">
-                    <div class="d-flex align-items-center">
-                        <img class="user-logo" src="#" alt="member avatar">
-                        <div class="ms-3">
-                            <div class="username">
-                                Member Name
+                        <!-- VIEW BUTTON -->
+                        <a href="com-Events.php?id=<?= $community_id ?>" 
+                        class="btn btn-sm btn-outline-primary">
+                            View
+                        </a>
+
+                        <!-- ACCEPT BUTTON -->
+                        <form action="myCommunity.php" method="post">
+                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                            <input type="hidden" name="approve_request" value="1">
+                            <button type="submit" class="btn btn-sm btn-outline-success">Accept</button>
+                        </form>
+
+                        <!-- REJECT BUTTON -->
+                        <form action="myCommunity.php" method="post">
+                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                            <input type="hidden" name="reject_request" value="1">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                        </form>
+
+                    </div>
+
+
+                    </div>
+                <?php endforeach; ?>
+
+                    <?php else: ?>
+                        <p>No pending requests.</p>
+                    <?php endif; ?>
+
+                    <h6>Members:</h6>
+                    <!-- Example member loop (replace with real members) -->
+                    <div class="member">
+                        <div class="d-flex align-items-center">
+                            <img class="user-logo" src="#" alt="member avatar">
+                            <div class="ms-3">
+                                <div class="username">Member Name</div>
+                                <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 2d ago</div>
                             </div>
-                            <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 2d ago</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="member">
-                    <div class="d-flex align-items-center">
-                        <img class="user-logo" src="#" alt="member avatar">
-                        <div class="ms-3">
-                            <div class="username">
-                                Another Member
+                    <div class="member">
+                        <div class="d-flex align-items-center">
+                            <img class="user-logo" src="#" alt="member avatar">
+                            <div class="ms-3">
+                                <div class="username">Another Member</div>
+                                <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 5d ago</div>
                             </div>
-                            <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 5d ago</div>
                         </div>
                     </div>
+
+                </div> <!-- end requests & members section -->
+
+                <div class="buttons mt-3 text-center">
+                    <a href="communityView.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-indigo">
+                        View Community
+                    </a>
                 </div>
 
-            </div>
+            </div> <!-- end community card -->
 
-            <div class="buttons d-flex justify-content-center mt-3">
-                <button class="btn btn-sm btn-outline-indigo">View Community</button>
-            </div>
+        </div> <!-- end col -->
+
+    <?php endwhile; ?>
+
+<?php else: ?>
+
+    <p>No communities created yet.</p>
+    <div class="empty-card text-center mb-4">
+        <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
+        <h4>No Communities found</h4>
+        <p class="text-muted">You have not created any communities yet.</p>
+        <div class="d-flex justify-content-center mt-4">
+            <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
         </div>
     </div>
+
+<?php endif; ?>
+
 </body>
 
 </html>
