@@ -43,7 +43,7 @@ if (!$community) {
 
 <!-- nav tabs -->
 <nav class="com-nav">
-    <ul class="nav com-nav-ul">
+    <ul class="nav com-nav-ul mb-4">
         <li class="nav-item">
             <a class="nav-link <?php if ($active == 'com-Events') echo 'active'; ?>" href="com-Events.php">Events</a>
         </li>
