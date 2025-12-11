@@ -1,5 +1,7 @@
 <?php
         include 'userHead.php';
+            $conn = mysqli_connect("localhost", "root", "", "community_connect");
+
         if (isset($_SESSION['login_user'])) 
         {
 
@@ -325,22 +327,52 @@
 
         </div>
 
-        <div class="community container-fluid">
-            <h3 class="com-head">Communities Joined</h3>
-            <!-- if any communities joined, display them here -->
-            <div class="com-list me-3 mb-3">
-                <p class="com-name">{{Community_Name}}</p>
+                    
+            <?php
+// Get user_id from session
+$user_id = $_SESSION['login_user']['user_id']; // make sure this exists in session
+
+// Fetch joined communities
+$sql = "SELECT c.id, c.community_name, c.about
+        FROM communities c
+        JOIN community_members uc ON c.id = uc.community_id
+        WHERE uc.user_id = ?";
+
+
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$joinedCommunities = [];
+while ($row = $result->fetch_assoc()) {
+    $joinedCommunities[] = $row;
+}
+        ?>
+                    <div class="community container-fluid">
+                <h3 class="com-head">Communities Joined</h3>
+
+                <?php if(count($joinedCommunities) > 0): ?>
+                    <div class="com-list me-3 mb-3">
+                        <?php foreach($joinedCommunities as $community): ?>
+                            <p class="com-name"><?= htmlspecialchars($community['community_name']) ?></p> <br>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="no-com text-center mb-4">
+                        <div><i class="bi bi-emoji-neutral"></i></div>
+                        <h4>No communities found</h4>
+                        <p class="text-muted">Explore more communities</p>
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="exploreCommunity.php" class="btn btn-outline-indigo filter-pill">Explore</a>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-            <!-- else display the following message -->
-            <div class="no-com text-center mb-4">
-                <div><i class="bi bi-emoji-neutral"></i></div>
-                <h4>No communities found</h4>
-                <p class="text-muted">Explore more communities</p>
-                <div class="d-flex justify-content-center mt-4">
-                    <a href="exploreCommunity.php" class="btn btn-outline-indigo filter-pill">Explore</a>
-                </div>
-            </div>
-        </div>
+
 
         <div class="past-event container-fluid">
             <h3 class="com-head">Past Events Registered</h3>
@@ -375,7 +407,7 @@
 
         <div class="contact container-fluid">
             <h3 class="com-head">Connect with me -</h3>
-            <p class="text-muted">Email: {{Email}}</p>
+            <p class="text-muted">Email: <?php echo $email; ?></p>
         </div>
 
         <div class="create container-fluid">
