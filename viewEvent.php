@@ -1,3 +1,41 @@
+<?php
+include 'userHead.php';
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Get the event ID from URL
+if (!isset($_GET['id'])) {
+    die("Event ID not specified.");
+}
+
+$event_id = intval($_GET['id']); // sanitize input
+
+// SQL Query: fetch only this event
+$event_query = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+    WHERE community_events.id = $event_id
+    LIMIT 1
+";
+
+$event_result = mysqli_query($conn, $event_query);
+
+if (!$event_result) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($event_result) == 0) {
+    die("Event not found.");
+}
+
+// Fetch the single event
+$row = mysqli_fetch_assoc($event_result);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +68,7 @@
     /* Card container */
     .view-event {
         width: 100%;
-        max-width: 650px;
+        max-width: 1100px;
         /* prevents too wide layouts on desktop */
         margin: 20px auto;
         padding: 20px;
@@ -84,47 +122,40 @@
 
 <body>
 
-    <?php
-    include 'userHead.php';
-    ?>
-
+    
     <?php
     include 'userNav.php';
     ?>
-
-    <div class="view-event container-fluid mt-3 mb-3">
-        <h3 class="event-name">
-            {{Event Name}}
-        </h3>
-
-        <h5 class="event-dateTime">
-            Date & Time
-        </h5>
-
-        <h6 class="event-district">
-            Community Name • District
-        </h6>
-
-        <hr>
-
-        <div class="event-photo mb-3">
-            <img src="eventPoster.png" alt="Event Poster">
+   
+        <div class="view-event container-fluid mt-3 mb-3">
+            <h3 class="event-name">
+                <?= htmlspecialchars($row['event_name']) ?> | <?= htmlspecialchars($row['event_type']) ?>
+            </h3>
+            <h5 class="event-dateTime">
+                <?= htmlspecialchars($row['date']) ?> at <?= htmlspecialchars($row['start_time']) ?>
+            </h5>
+           
+            <hr>
+            <div class="event-photo mb-3">
+               
+            <img src="<?php echo !empty($row['image']) ? $row['image'] : 'https://via.placeholder.com/300x210?text=No+Image'; ?>" alt="<?php echo $row['event_name']; ?>">
+                
+            </div>
+            <h5>
+                Sponsor Community: <?= htmlspecialchars($row['community_name']) ?> 
+            </h5>
+           
+            <p class="eve-description"><?= nl2br(htmlspecialchars($row['about'])) ?></p>
+            <p class="eve-address">District: <?= htmlspecialchars($row['district']) ?></p>
+            <div class="event-button d-flex justify-content-end">
+                <button class="btn btn-sm btn-outline-indigo px-4" type="button">
+                    Register
+                </button>
+            </div>
         </div>
+ 
 
-        <p class="eve-description">
-            {{Event Description (Detailed Information about Event)}}
-        </p>
 
-        <p class="eve-address">
-            {{Event Address}}
-        </p>
-
-        <div class="event-button d-flex justify-content-end">
-            <button class="btn btn-sm btn-outline-indigo px-4" type="button">
-                Register
-            </button>
-        </div>
-    </div>
 
     <div class="back-to-explore d-flex justify-content-end mb-4" style="max-width:650px; margin:auto;">
         <button class="btn btn-sm btn-outline-indigo px-4" type="button">
