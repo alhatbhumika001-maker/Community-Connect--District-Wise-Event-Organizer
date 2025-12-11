@@ -8,6 +8,11 @@
     $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
     $community_result = mysqli_query($conn, $community_query);
     $community_count = mysqli_num_rows($community_result);
+
+    // Fetch Members Joined 
+    $community_members = "SELECT * FROM community_members ";
+    $result = mysqli_query($conn, $community_members );
+    $res_count = mysqli_num_rows($result);
 ?>
 <?php
 // Reject a pending request
@@ -346,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                        {{Total_communities_created-by_user}}
+                         Total Communities: <?= $community_count ?>
                     </div>
                 </div>
             </div>
@@ -362,7 +367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                        {{Total_communities_member}}
+                       Total Members: <?= $res_count ?>
                     </div>
                 </div>
             </div>
@@ -378,7 +383,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                        {{Members_joined_in_last_week}}
+                          New Members Join : <?= $res_count ?>
                     </div>
                 </div>
             </div>
@@ -429,7 +434,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     <?php if(count($requests) > 0): ?>
                 <?php foreach($requests as $req): ?>
                     <div class="request-box">
-                        <img src="/" alt="Requester's avatar">
+                        <img src="l.png" alt="Requester's avatar">
                         <div class="meta">
                             <p style="font-weight:600;margin:0;"><?= htmlspecialchars($req['full_name']) ?></p>
                             <p class="username" style="margin:0;color:#6b7280;">
@@ -470,32 +475,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                         <p>No pending requests.</p>
                     <?php endif; ?>
 
-                    <h6>Members:</h6>
-                    <!-- Example member loop (replace with real members) -->
-                    <div class="member">
-                        <div class="d-flex align-items-center">
-                            <img class="user-logo" src="#" alt="member avatar">
-                            <div class="ms-3">
-                                <div class="username">Member Name</div>
-                                <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 2d ago</div>
-                            </div>
-                        </div>
-                    </div>
+                  <?php
+// Assuming $community_id is correctly set inside communities loop
+$sql_members = "
+SELECT u.full_name, u.username, cm.joined_at
+FROM community_members cm
+JOIN users u ON cm.user_id = u.user_id
+WHERE cm.community_id = $community_id
+AND cm.status = 'approved'   -- Use exact enum value here
+";
 
-                    <div class="member">
-                        <div class="d-flex align-items-center">
-                            <img class="user-logo" src="#" alt="member avatar">
-                            <div class="ms-3">
-                                <div class="username">Another Member</div>
-                                <div style="color:#6b7280;font-size:13px;margin-top:4px;">Last active · 5d ago</div>
-                            </div>
-                        </div>
-                    </div>
+$result_members = $conn->query($sql_members);
+if (!$result_members) {
+    die("SQL Error: " . $conn->error);
+}
+?>
 
+<h5>Members:</h5>
+<?php if($result_members->num_rows > 0): ?>
+    <?php while($member = $result_members->fetch_assoc()): ?>
+        <div class="member">
+            <div class="d-flex align-items-center">
+                <img class="user-logo" src="lo.webp" alt="member avatar">
+                <div class="ms-3">
+                    <div class="username"><?= htmlspecialchars($member['full_name']) ?>  (@<?= htmlspecialchars($member['username']) ?>)</div>
+                    <div style="color:#6b7280;font-size:13px;margin-top:4px;">
+                        Joined at · <?= $member['joined_at'] ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endwhile; ?>
+<?php else: ?>
+    <p>No members joined yet.</p>
+<?php endif; ?>
+
+                    
                 </div> <!-- end requests & members section -->
 
                 <div class="buttons mt-3 text-center">
-                    <a href="communityView.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-indigo">
+                    <a href="com-Events.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-indigo">
                         View Community
                     </a>
                 </div>

@@ -57,8 +57,8 @@
 
     .metric-value {
         font-size: 30px;
-        font-weight: 700;
-        color: #111827;
+        font-weight: 200;
+        color: #374563ff;
     }
 
     .metric-desc {
@@ -201,7 +201,7 @@
                             <span class="metric-title">Total Events</span>
                         </div>
                         <div class="metric-value">
-                            <?= $event_count ?>
+                            Total Events: <?= $event_count ?>
                         </div>
                         <div class="metric-desc">Events you have organized</div>
                     </div>
@@ -216,7 +216,7 @@
                             <span class="metric-title">Registrations</span>
                         </div>
                         <div class="metric-value">
-                            <?= $total_registrations ?? 0 ?>
+                           Total participant: <?= $total_registrations ?? 0 ?>
                         </div>
                         <div class="metric-desc">Total participant registrations</div>
                     </div>
@@ -230,7 +230,7 @@
                             <span class="metric-title">Upcoming</span>
                         </div>
                         <div class="metric-value">
-                            <?= $upcoming_events ?? 0 ?>
+                            Happening soon: <?= $upcoming_events ?? 0 ?>
                         </div>
                         <div class="metric-desc">Happening soon</div>
                     </div>
