@@ -126,8 +126,8 @@ $event_count = mysqli_num_rows($event_result);
     }
 
     .event-meta {
-        color: #6b7280;
-        font-size: 14px;
+        color: #3e4044ff;
+        font-size: 16px;
         margin-bottom: 6px;
     }
 
@@ -185,15 +185,9 @@ $event_count = mysqli_num_rows($event_result);
     include 'userNav.php';
     ?>
 
-<<<<<<< HEAD
-    <main class="container my-4">
-        <div class="wc">
-            <h1 class="greeting">Welcome to Community Connect(ONlY SHOW REEGISTERED EVENTS)</h1>
-=======
     <main class="container my-4 d-flex flex-column align-items-center">
         <div class="wc" style="max-width:1100px; width:100%;">
             <h1 class="greeting">Welcome to Community Connect</h1>
->>>>>>> 1bd40165bc9a0efac7cdd00ccd2beea2efa72653
             <h2 class="name"><?php echo $full_name; ?></h2>
             <h3 class="wel text-muted"><i>Here's what's happening in your community today.</i></h3>
         </div>
@@ -206,11 +200,7 @@ $event_count = mysqli_num_rows($event_result);
             <div class="event-card mb-4">
                 <div class="event-row">
 
-                    <div class="event-date">
-                        <div class="date"><?php echo date("d M Y", strtotime($row['created_at'])); ?></div>
-                        <div class="time"><small><?php echo date("h:i A", strtotime($row['created_at'])); ?></small>
-                        </div>
-                    </div>
+                    
 
                     <div class="event-content">
                         <div class="photo-box">
@@ -225,6 +215,10 @@ $event_count = mysqli_num_rows($event_result);
 
                         <div>
                             <div class="event-title"><?php echo htmlspecialchars($row['event_name']); ?></div>
+                            Date: <?php echo date("d M Y", strtotime($row['created_at'])); ?> | <?php echo date("h:i A", strtotime($row['created_at'])); ?>
+                       
+                        </div>
+                    
                             <div class="event-meta"><?php echo htmlspecialchars($row['community_name']); ?> •
                                 <?php echo htmlspecialchars($row['district']); ?></div>
                             <div class="event-desc"><?php echo nl2br(htmlspecialchars($row['about'])); ?></div>
