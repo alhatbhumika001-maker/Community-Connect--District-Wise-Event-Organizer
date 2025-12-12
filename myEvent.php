@@ -227,8 +227,6 @@ $event_count = mysqli_num_rows($event_result);
                                 <div class="text-end">
                                     <a href="viewEvent.php?id=<?= $row['id'] ?>"
                                         class="btn btn-sm btn-outline-secondary mb-1">View</a><br>
-                                    <a href="editEvent.php?id=<?= $row['id'] ?>"
-                                        class="btn btn-sm btn-outline-secondary">Edit</a>
                                 </div>
                             </div>
 
