@@ -124,17 +124,6 @@ include 'userHead.php';
         cursor: pointer;
     }
 
-    .btn-outline-indigo {
-        color: #6c4ce0;
-        border-color: rgba(108, 76, 224, 0.18);
-        background: transparent;
-    }
-
-    .btn-outline-indigo:hover {
-        background: rgba(108, 76, 224, 0.06);
-        color: #4b2fc9;
-    }
-
     /* SEARCH BAR */
     .input-group .form-control {
         border-radius: 999px;
