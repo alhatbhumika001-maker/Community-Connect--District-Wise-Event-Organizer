@@ -148,9 +148,9 @@ $row = mysqli_fetch_assoc($event_result);
             <p class="eve-description"><?= nl2br(htmlspecialchars($row['about'])) ?></p>
             <p class="eve-address">District: <?= htmlspecialchars($row['district']) ?></p>
             <div class="event-button d-flex justify-content-end">
-                <button class="btn btn-sm btn-outline-indigo px-4" type="button">
+                <a href="registerEvent.php?id=<?php echo $row['id'];?>" class="btn btn-sm btn-outline-indigo px-4" type="button">
                     Register
-                </button>
+                </a>
             </div>
         </div>
  

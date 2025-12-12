@@ -357,7 +357,7 @@ $event_count = mysqli_num_rows($event_result);
           
              <!-- BUTTONS FIXED AT BOTTOM RIGHT -->
             <div class="event-btn" style="position: absolute; bottom: 10px; left: 10px; display: flex; gap: 10px;">
-                <button class="btn btn-outline-info">Register</button>
+                <a href="registerEvent.php?id=<?php echo $row['id'];?>" class="btn btn-outline-info">Register</a>
                 <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-secondary">View</a>
             </div>
 

@@ -499,7 +499,7 @@ if (!$result_members) {
                 <img class="user-logo" src="lo.webp" alt="member avatar">
                 <div class="ms-3">
                     <div class="username"><?= htmlspecialchars($member['full_name']) ?>  (@<?= htmlspecialchars($member['username']) ?>)</div>
-                    <div style="color:#6b7280;font-size:13px;margin-top:4px;">
+                    <div style="color:#6b7280;font-size:13px;margin-top:4px; font-weight:600;">
                         Joined at · <?= $member['joined_at'] ?>
                     </div>
                 </div>

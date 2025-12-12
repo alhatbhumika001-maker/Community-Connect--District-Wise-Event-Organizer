@@ -114,7 +114,30 @@ include 'userNav.php'; ?>
 
                 <div class="text-muted"><?= $row['about'] ?></div>
 
+                <!-- Buttons Row -->
+            <div class="d-flex gap-2 mt-3">
+
+                <!-- View Button -->
+                <a href="view_event.php" class="btn btn-primary btn-sm">
+                    👁 View
+                </a>
+
+                <!-- Member Requests -->
+                <a href="member_requests.php" class="btn btn-warning btn-sm">
+                    📨 Requests
+                </a>
+
+                <!-- Joined Members -->
+                <a href="joined_members.php" class="btn btn-success btn-sm">
+                    ✔ Joined
+                </a>
+
             </div>
+
+                
+
+            </div>
+            
 
         </div>
         <!-- END card column -->

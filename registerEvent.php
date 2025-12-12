@@ -1,3 +1,35 @@
+<?php
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Get the event ID from URL
+if (!isset($_GET['id'])) {
+    die("Event ID not specified.");
+}
+
+$event_id = intval($_GET['id']); // sanitize input
+
+// SQL Query: fetch only this event
+$event_query = "
+    SELECT * from community_events
+    WHERE id = $event_id";
+
+$event_result = mysqli_query($conn, $event_query);
+
+if (!$event_result) {
+    die("SQL Error: " . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($event_result) == 0) {
+    die("Event not found.");
+}
+
+// Fetch the single event
+$row = mysqli_fetch_assoc($event_result);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -54,7 +86,7 @@
 
     /* Register Card */
     .login-card {
-        max-width: 520px;
+        max-width: 700px;
         margin: 32px auto;
         background: #fff;
         padding: 28px;
@@ -82,6 +114,9 @@
     .muted {
         color: #6b7280;
         font-size: 13px;
+    }
+    .dis{
+        margin-bottom:4px;
     }
     </style>
 </head>
@@ -117,8 +152,18 @@
                 <input id="phone" name="phone" type="tel" class="form-control" required />
             </div>
 
+            <div class="mb-3">
+                <label for="id" class="form-label">ID Card</label>
+                <input id="phone" name="image" type="file" class="form-control" required />
+            </div>
+
+             <div class="mb-3">
+                <label for="id" class="form-label">Event Code (Required For Private Event)</label>
+                <input id="phone" name="code" type="text" class="form-control"/>
+            </div>
+
             <div class="col-md-6">
-                <label>District</label>
+                <label class="dis">District</label>
                 <select name="district" class="form-select" required>
                     <option value="">Select District</option>
                     <option value="jalgaon">Jalgaon</option>
@@ -132,27 +177,38 @@
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Event Name</label>
-                <input type="text" id="eventName" name="eventName" value="{{Event_name}}" class="form-control" readonly>
-            </div>
+            
+
 
             <div class="mb-3">
+                <label for="email" class="form-label">Event Name</label>
+                <input type="text" id="eventName" name="eventName" value="<?php echo $row['event_name'] ?>" class="form-control" readonly>
+            </div>
+
+                        <div class="mb-3">
                 <label for="eventDate">Event Date</label>
-                <input type="date" id="eventDate" name="eventDate" class="form-control" value="{{Event_date}}" readonly>
+                <input type="date" id="eventDate" name="eventDate"
+                    class="form-control"
+                    value="<?php echo $row['date']; ?>"
+                    readonly>
             </div>
 
             <div class="mb-3">
                 <label for="startTime">Start Time</label>
-                <input type="time" id="startTime" name="startTime" class="form-control" value="{{Starting_time}}"
+                <input type="time" id="startTime" name="startTime"
+                    class="form-control"
+                    value="<?php echo $row['start_time']; ?>"
                     readonly>
             </div>
 
             <div class="mb-3">
                 <label for="eventLocation">Event Location</label>
-                <input type="text" id="eventLocation" name="eventLocation" class="form-control"
-                    value="{{Event_Address}}" readonly>
+                <input type="text" id="eventLocation" name="eventLocation"
+                    class="form-control"
+                    value="<?php echo $row['location']; ?>"
+                    readonly>
             </div>
+
 
             <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" value="" id="shareDetails" required>
