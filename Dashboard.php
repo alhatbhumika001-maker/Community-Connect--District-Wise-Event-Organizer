@@ -155,7 +155,7 @@ $event_count = mysqli_num_rows($event_result);
 
     <main class="container my-4">
         <div class="wc">
-            <h1 class="greeting">Welcome to Community Connect</h1>
+            <h1 class="greeting">Welcome to Community Connect(ONlY SHOW REEGISTERED EVENTS)</h1>
             <h2 class="name"><?php echo $full_name; ?></h2>
             <h3 class="wel text-muted"><i>Here's what's happening in your community today.</i></h3>
         </div>
