@@ -1,6 +1,6 @@
 <?php
-        include 'userHead.php';
-    ?>
+include 'userHead.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,54 +37,53 @@
 
     .event-page {
         max-width: 1100px;
-        margin: 120px auto 40px;
+        margin: 90px auto 40px;
         padding: 0 15px;
     }
 
+    /* event card using flex for robustness */
     .event-card {
-        width: 100%;
-        max-width: 960px;
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        grid-template-rows: auto 220px auto;
-        /* (date, content), photo, button */
-        border-radius: 8px;
-        padding: 10px;
-        box-sizing: border-box;
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+        padding: 18px;
+        border-radius: 12px;
         background: #fff;
+        box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
-    /* Date box (top-left) */
-    .date-box {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        border: var(--border);
-        border-radius: 6px;
-        padding: 8px;
+    .event-left {
+        flex: 0 0 120px;
+        max-width: 140px;
         text-align: center;
+        border-right: 1px dashed rgba(0, 0, 0, 0.04);
+        padding-right: 12px;
     }
 
-    /* Content (top-right) */
-    .content-box {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-        border-radius: 6px;
-        padding: 8px;
+    .event-left .date {
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .event-left small {
+        color: #6b7280;
+        display: block;
+    }
+
+    .event-right {
+        flex: 1 1 0;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 10px;
     }
 
-    /* Photo spanning full width under top row */
     .photo-box {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        border-radius: 6px;
+        width: 100%;
+        height: 200px;
+        border-radius: 8px;
         overflow: hidden;
-        min-height: 180px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background: #f2f2f2;
     }
 
@@ -95,70 +94,26 @@
         display: block;
     }
 
-    /* Button*/
-    .button-box {
-        grid-column: 2 / 3;
-        grid-row: 3 / 4;
-        padding: 6px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: end;
-    }
-
-    /* Responsive: stack to one column on small screens */
-    @media (max-width: 720px) {
-        .event-card {
-            grid-template-columns: 1fr;
-            /* one column */
-            grid-template-rows: auto auto auto auto;
-            /* date, content, photo, button */
-        }
-
-        .date-box {
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
-            text-align: left;
-        }
-
-        .content-box {
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
-        }
-
-        .photo-box {
-            grid-column: 1 / 2;
-            grid-row: 3 / 4;
-            min-height: 220px;
-        }
-
-        .button-box {
-            grid-column: 1 / 2;
-            grid-row: 4 / 5;
-            justify-content: flex-end;
-            padding-right: 8px;
-        }
-    }
-
-    .title-lg {
-        font-size: 34px;
+    .event-title {
+        font-size: 20px;
         font-weight: 700;
     }
 
-    .search-box {
-        background: #fff;
-        border: 1px solid grey;
-        border-radius: 40px;
-        padding: 8px 14px;
-        display: flex;
-        align-items: center;
-        box-shadow: 0 8px 24px rgba(3, 39, 51, 0.05);
+    .event-meta {
+        color: #6b7280;
+        font-size: 14px;
     }
 
-    .search-box input {
-        border: none;
-        outline: none;
-        flex: 1;
-        background: transparent;
+    .event-desc {
+        font-size: 14px;
+        color: #374151;
+    }
+
+    .event-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: auto;
     }
 
     .filter-pill {
@@ -169,39 +124,50 @@
         cursor: pointer;
     }
 
-    .event-card {
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
-        overflow: hidden;
+    .btn-outline-indigo {
+        color: #6c4ce0;
+        border-color: rgba(108, 76, 224, 0.18);
+        background: transparent;
     }
 
-    .event-img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
+    .btn-outline-indigo:hover {
+        background: rgba(108, 76, 224, 0.06);
+        color: #4b2fc9;
     }
 
-    .tag {
-        background: #E0F2F1;
-        color: #00897B;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        display: inline-block;
-        margin-right: 6px;
+    @media (max-width: 900px) {
+        .event-card {
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .event-left {
+            border-right: none;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.04);
+            padding-bottom: 12px;
+            text-align: left;
+        }
+
+        .photo-box {
+            height: 180px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .photo-box {
+            height: 140px;
+        }
     }
     </style>
 </head>
 
 <body>
 
-    <?php 
-        $active = 'exploreEvents';
-        include 'userNav.php';
+    <?php
+    $active = 'exploreEvents';
+    include 'userNav.php';
     ?>
 
-    <!-- MAIN CONTENT -->
     <div class="event-page">
 
         <!-- HEADING + DISTRICT -->
@@ -218,12 +184,12 @@
                 <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
 
                     <?php
-                $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
-                $selectedDistrict = $_SESSION['district'] ?? ""; 
-                ?>
+                    $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
+                    $selectedDistrict = $_SESSION['district'] ?? "";
+                    ?>
 
                     <?php foreach ($districts as $d): ?>
-                    <option value="<?= $d ?>" <?=($selectedDistrict==$d) ? "selected" : "" ?>>
+                    <option value="<?= $d ?>" <?= ($selectedDistrict == $d) ? "selected" : "" ?>>
                         <?= $d ?>
                     </option>
                     <?php endforeach; ?>
@@ -239,7 +205,7 @@
 
             <div class="search-box flex-grow-1">
                 <i class="bi bi-search text-muted"></i>
-                <input type="search" name="q" placeholder="Search events...">
+                <input type="search" name="q" placeholder="Search events..." class="form-control border-0 shadow-none">
             </div>
 
             <button class="btn btn-outline-indigo filter-pill">Search</button>
@@ -257,58 +223,55 @@
             <button type="submit" name="nearby" value="1" class="btn btn-outline-indigo filter-pill">Nearby</button>
         </div>
 
-        <!-- EVENT CARD (repeat this block for each event) -->
-        <!-- EVENTS fetch karne ke liye php idhar likhna  -->
-        <!--
-          Server-side must do:
-          if (events.length > 0) {
-            for each event in events -> render ONE event card block (HTML below)
-          } else {
-            render the EMPTY-STATE block (HTML shown below)
-          }
-        -->
+        <!-- EVENT CARD (repeat server-side) -->
+        <!-- Example template - include your server rendering loop here -->
+        <?php
+        // Placeholder loop (replace with your server loop). Keeping PHP out as you asked.
+        // Example: while ($row = mysqli_fetch_assoc($result)) { ... render card ... }
+        ?>
 
-        <!-- === Event card TEMPLATE (repeat this block for each event on the server) === -->
+        <!-- SAMPLE EVENT CARD (server should output similar structure per event) -->
         <div class="event-card mb-5">
-            <div class="date-box ">
-                {{ DATE }}<br>
-                <small>{{ TIME }}</small>
+            <div class="event-left">
+                <div class="date">20 Dec</div>
+                <small>09:30 AM</small>
             </div>
-            <div class="photo-box mt-3 mb-3">
-                <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                <!-- If you prefer no image, leave this empty and it will show neutral background -->
-            </div>
-            <div class="content-box">
-                <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                <div class="mb-2 text-muted" style="font: size 14px;">{{ EVENT_DISTRICT }}</div>
-                <div class="text-muted mb-2" style="font-size:13px;">{{ EVENT_DESCRIPTION }}</div>
-            </div>
-            <div class="button-box">
-                <button class="btn-outline-indigo filter-pill">Register</button>
+
+            <div class="event-right">
+                <div class="photo-box">
+                    <!-- <img src="..." alt="Event"> -->
+                    <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-calendar-event"
+                            style="font-size:48px;color:#d1d5db"></i></div>
+                </div>
+
+                <div>
+                    <div class="event-title">{{ EVENT_NAME }}</div>
+                    <div class="event-meta">{{ COMMUNITY_NAME }} • {{ EVENT_DISTRICT }}</div>
+                    <div class="event-desc mt-2">{{ EVENT_DESCRIPTION }}</div>
+                </div>
+
+                <div class="event-actions">
+                    <a href="viewEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">View Event</a>
+                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-primary text-white">Register</a>
+                </div>
             </div>
         </div>
 
-        <!-- === END template === -->
-
-        <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->
+        <!-- EMPTY STATE -->
         <div class="empty-card text-center mb-4">
             <div style="font-size:48px;margin-bottom:12px;">📅</div>
-            <h4>No events found in <strong>
-                    <!-- insert selected district here -->
-                </strong></h4>
+            <h4>No events found in <strong></strong></h4>
             <p class="text-muted">Try clearing filters or explore nearby districts.</p>
             <div class="d-flex justify-content-center mt-4">
                 <a href="volEvent.php" class="btn btn-outline-indigo filter-pill">Clear filters</a>
             </div>
         </div>
-        <!-- === END EMPTY === -->
 
         <!-- LOAD MORE BUTTON -->
         <div class="text-center mt-4">
             <a href="#" class="btn btn-outline-indigo filter-pill">Load more</a>
         </div>
+
     </div>
 
     <!-- Bootstrap JS -->
