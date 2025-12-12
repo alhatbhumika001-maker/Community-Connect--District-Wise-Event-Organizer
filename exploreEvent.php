@@ -41,7 +41,7 @@ include 'userHead.php';
         padding: 0 15px;
     }
 
-    /* event card using flex for robustness */
+    /* event card using flex */
     .event-card {
         display: flex;
         gap: 18px;
@@ -135,6 +135,53 @@ include 'userHead.php';
         color: #4b2fc9;
     }
 
+    /* SEARCH BAR */
+    .input-group .form-control {
+        border-radius: 999px;
+        padding: 10px 16px;
+        min-height: 44px;
+        box-shadow: none;
+    }
+
+    .input-group .input-group-text {
+        border-radius: 999px 0 0 999px;
+        border: none;
+        padding-left: 12px;
+        padding-right: 8px;
+        background: transparent;
+    }
+
+    .btn.rounded-pill {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    /* Mobile: stack input and button */
+    @media (max-width: 520px) {
+        .input-group {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group .input-group-text {
+            border-radius: 12px;
+        }
+
+        .input-group .form-control {
+            border-radius: 12px;
+        }
+
+        .btn.rounded-pill {
+            border-radius: 12px;
+            width: 100%;
+        }
+    }
+
     @media (max-width: 900px) {
         .event-card {
             flex-direction: column;
@@ -168,6 +215,7 @@ include 'userHead.php';
     include 'userNav.php';
     ?>
 
+    <!-- MAIN CONTENT -->
     <div class="event-page">
 
         <!-- HEADING + DISTRICT -->
@@ -200,15 +248,21 @@ include 'userHead.php';
         </div>
 
         <!-- SEARCH BAR -->
-        <form class="mb-4 d-flex gap-2" method="GET" action="event.php">
+        <form class="mb-4" method="GET" action="event.php">
             <input type="hidden" name="district" value="Mumbai">
 
-            <div class="search-box flex-grow-1">
-                <i class="bi bi-search text-muted"></i>
-                <input type="search" name="q" placeholder="Search events..." class="form-control border-0 shadow-none">
-            </div>
+            <div class="d-flex gap-2">
+                <div class="input-group flex-grow-1" style="min-width:220px; max-width:900px;">
+                    <span class="input-group-text bg-white" id="search-icon">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
 
-            <button class="btn btn-outline-indigo filter-pill">Search</button>
+                    <input class="form-control shadow-none" type="search" name="q" placeholder="Search events..."
+                        aria-label="Search events" aria-describedby="search-icon" />
+
+                    <button class="btn btn-sm btn-outline=indigo ms-2 rounded-pill" type="submit">Search</button>
+                </div>
+            </div>
         </form>
 
         <!-- FILTERS -->
@@ -223,27 +277,31 @@ include 'userHead.php';
             <button type="submit" name="nearby" value="1" class="btn btn-outline-indigo filter-pill">Nearby</button>
         </div>
 
-        <!-- EVENT CARD (repeat server-side) -->
-        <!-- Example template - include your server rendering loop here -->
-        <?php
-        // Placeholder loop (replace with your server loop). Keeping PHP out as you asked.
-        // Example: while ($row = mysqli_fetch_assoc($result)) { ... render card ... }
-        ?>
+        <!-- EVENT CARD (repeat this block for each event) -->
+        <!-- EVENTS fetch karne ke liye php idhar likhna  -->
+        <!--
+          Server-side must do:
+          if (events.length > 0) {
+            for each event in events -> render ONE event card block (HTML below)
+          } else {
+            render the EMPTY-STATE block (HTML shown below)
+          }
+        -->
 
-        <!-- SAMPLE EVENT CARD (server should output similar structure per event) -->
+        <!-- === Event card TEMPLATE (repeat this block for each event on the server) === -->
         <div class="event-card mb-5">
             <div class="event-left">
                 <div class="date">20 Dec</div>
                 <small>09:30 AM</small>
             </div>
-
             <div class="event-right">
-                <div class="photo-box">
-                    <!-- <img src="..." alt="Event"> -->
+                <div class="photo-box mt-3 mb-3">
+                    <!-- server: either render <img src="..."> or leave as empty placeholder -->
+                    <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
+                    <!-- If you prefer no image, leave this empty and it will show neutral background -->
                     <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-calendar-event"
                             style="font-size:48px;color:#d1d5db"></i></div>
                 </div>
-
                 <div>
                     <div class="event-title">{{ EVENT_NAME }}</div>
                     <div class="event-meta">{{ COMMUNITY_NAME }} • {{ EVENT_DISTRICT }}</div>
@@ -252,26 +310,30 @@ include 'userHead.php';
 
                 <div class="event-actions">
                     <a href="viewEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">View Event</a>
-                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">Register</a>
+                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-primary text-white">Register</a>
                 </div>
             </div>
         </div>
 
-        <!-- EMPTY STATE -->
+        <!-- === END template === -->
+
+        <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->
         <div class="empty-card text-center mb-4">
             <div style="font-size:48px;margin-bottom:12px;">📅</div>
-            <h4>No events found in <strong></strong></h4>
+            <h4>No events found in <strong>
+                    <!-- insert selected district here -->
+                </strong></h4>
             <p class="text-muted">Try clearing filters or explore nearby districts.</p>
             <div class="d-flex justify-content-center mt-4">
                 <a href="volEvent.php" class="btn btn-outline-indigo filter-pill">Clear filters</a>
             </div>
         </div>
+        <!-- === END EMPTY === -->
 
         <!-- LOAD MORE BUTTON -->
         <div class="text-center mt-4">
             <a href="#" class="btn btn-outline-indigo filter-pill">Load more</a>
         </div>
-
     </div>
 
     <!-- Bootstrap JS -->
