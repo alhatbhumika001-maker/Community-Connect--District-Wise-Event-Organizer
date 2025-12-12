@@ -39,140 +39,204 @@ if (mysqli_num_rows($community_result) == 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-        body { font-family: Inter, sans-serif; background: #f3f5f7; margin: 0; }
-        #brand { height: 64px; background: #fff; display: flex; align-items: center; padding: 10px 20px; box-shadow: 2px 2px 8px rgba(0,0,0,0.2); }
-        .brand-logo { width: 48px; height: 48px; border-radius: 8px; }
-        .brand-text { font-family: "Handlee"; font-size: 1.45rem; margin-left: 10px; }
-        .main-card { max-width: 1100px; margin: 20px auto 50px; background: #fff; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
-        .left-section { padding: 40px 45px; }
-        .section-title { font-family: Handlee; color: #00897B; text-align: center; margin-bottom: 25px; font-size: 28px; }
-        .right-section { background-image: url('createEvent.png'); background-size: cover; min-height: 500px; }
+    body {
+        font-family: Inter, sans-serif;
+        background: #f3f5f7;
+        margin: 0;
+    }
+
+    #brand {
+        height: 64px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+    }
+
+    .brand-text {
+        font-family: "Handlee";
+        font-size: 1.45rem;
+        margin-left: 10px;
+    }
+
+    .main-card {
+        max-width: 1100px;
+        margin: 20px auto 50px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .left-section {
+        padding: 40px 45px;
+    }
+
+    .section-title {
+        font-family: Handlee;
+        color: #00897B;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+    }
+
+    .right-section {
+        background-image: url('createEvent.png');
+        background-size: cover;
+        min-height: 500px;
+    }
     </style>
 </head>
 
 <body>
 
-<header id="brand">
-    <img src="lg.png" class="brand-logo" alt="logo" />
-    <span class="brand-text">Community Connect</span>
-</header>
+    <header id="brand">
+        <img src="lg.png" class="brand-logo" alt="logo" />
+        <span class="brand-text">Community Connect</span>
+    </header>
 
-<div class="main-card mt-5" id="main">
-    <div class="row g-0">
-        <div class="col-lg-7 left-section">
-            <h3 class="section-title">Create Event</h3>
+    <div class="main-card mt-5" id="main">
+        <div class="row g-0">
+            <div class="col-lg-7 left-section">
+                <h3 class="section-title">Create Event</h3>
 
-            <form class="row g-3" method="post" action="event_insert.php" enctype="multipart/form-data">
+                <form class="row g-3" method="post" action="event_insert.php" enctype="multipart/form-data">
 
-                <!-- SELECT COMMUNITY -->
-                <div class="col-md-12">
-                    <label><b>Select Community</b></label>
-                    <select name="community" class="form-select" required>
-                        <option value="">-- Select Community --</option>
+                    <!-- SELECT COMMUNITY -->
+                    <div class="col-md-12">
+                        <label><b>Select Community</b></label>
+                        <select name="community" class="form-select" required>
+                            <option value="">-- Select Community --</option>
 
-                        <?php while ($c = mysqli_fetch_assoc($community_result)) { ?>
+                            <?php while ($c = mysqli_fetch_assoc($community_result)) { ?>
                             <option value="<?= $c['id']; ?>"><?= $c['community_name']; ?></option>
-                        <?php } ?>
+                            <?php } ?>
 
-                    </select>
-                </div>
+                        </select>
+                    </div>
 
-                <div class="col-md-12">
-                    <label>Event Name</label>
-                    <input type="text" class="form-control" name="event_name" required />
-                </div>
+                    <div class="col-md-12">
+                        <label>Event Name</label>
+                        <input type="text" class="form-control" name="event_name" required />
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Category</label>
-                    <select class="form-select" required name="category">
-                        <option value="">Select</option>
-                        <option value="college-level">College Level</option>
-                        <option value="cultural">Cultural</option>
-                        <option value="festive">Festive</option>
-                        <option value="sports">Sports</option>
-                        <option value="social">Social</option>
-                        <option value="governmental">Governmental</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
+                    <div class="col-md-6">
+                        <label>Category</label>
+                        <select class="form-select" required name="category">
+                            <option value="">Select</option>
+                            <option value="college-level">College Level</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="festive">Festive</option>
+                            <option value="sports">Sports</option>
+                            <option value="social">Social</option>
+                            <option value="governmental">Governmental</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-6">
-                    <label>If Other - What Category?</label>
-                    <input type="text" class="form-control" name="other_category" />
-                </div>
+                    <div class="col-md-6">
+                        <label>If Other - What Category?</label>
+                        <input type="text" class="form-control" name="other_category" />
+                    </div>
 
-                <div class="col-md-6">
-                    <label>District</label>
-                    <select class="form-select" required name="district">
-                        <option value="">Select District</option>
-                        <option value="jalgaon">Jalgaon</option>
-                        <option value="pune">Pune</option>
-                        <option value="mumbai">Mumbai</option>
-                        <option value="nagpur">Nagpur</option>
-                        <option value="thane">Thane</option>
-                        <option value="nashik">Nashik</option>
-                        <option value="satara">Satara</option>
-                        <option value="kolhapur">Kolhapur</option>
-                    </select>
-                </div>
+                    <div class="col-md-6">
+                        <label>District</label>
+                        <select class="form-select" required name="district">
+                            <option value="">Select District</option>
+                            <option value="jalgaon">Jalgaon</option>
+                            <option value="pune">Pune</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="nagpur">Nagpur</option>
+                            <option value="thane">Thane</option>
+                            <option value="nashik">Nashik</option>
+                            <option value="satara">Satara</option>
+                            <option value="kolhapur">Kolhapur</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Start Time</label>
-                    <input type="time" class="form-control" name="start_time" />
-                </div>
+                    <div class="col-md-6">
+                        <label for="address">Address</label><input type="text" name="address" id="address"
+                            class="form-control">
+                    </div>
 
-                <div class="col-md-6">
-                    <label>End Time</label>
-                    <input type="time" class="form-control" name="end_time" />
-                </div>
+                    <div class="col-md-6">
+                        <label>Start Time</label>
+                        <input type="time" class="form-control" name="start_time" />
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <input type="date" class="form-control" name="date" />
-                </div>
+                    <div class="col-md-6">
+                        <label>End Time</label>
+                        <input type="time" class="form-control" name="end_time" />
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Event Banner</label>
-                    <input type="file" class="form-control" name="image" />
-                </div>
+                    <div class="col-md-6">
+                        <label>Date</label>
+                        <input type="date" class="form-control" name="date" />
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Event Type</label>
-                    <select name="event_type" class="form-select" required>
-                        <option value="" disabled selected>Select Event Type</option>
-                        <option value="Seminar">Seminar</option>
-                        <option value="Webinar">Webinar</option>
-                        <option value="Workshop">Workshop</option>
-                        <option value="Community Service">Community Service</option>
-                        <option value="Fundraising Event">Fundraising Event</option>
-                        <option value="Donation Drive">Donation Drive</option>
-                        <option value="Cleanliness Drive">Cleanliness Drive</option>
-                        <option value="Blood Donation Camp">Blood Donation Camp</option>
-                        <option value="Sports Event">Sports Event</option>
-                        <option value="Cultural Program">Cultural Program</option>
-                        <option value="Tech Event">Tech Event</option>
-                        <option value="Job Fair">Job Fair</option>
-                        <option value="Hackathon">Hackathon</option>
-                    </select>
-                </div>
+                    <div class="col-md-6">
+                        <label>Event Banner</label>
+                        <input type="file" class="form-control" name="image" />
+                    </div>
 
-                <div class="col-12">
-                    <label>Event Description</label>
-                    <textarea class="form-control" rows="3" name="about"></textarea>
-                </div>
+                    <div class="col-md-6">
+                        <label>Event Privacy</label>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="form-check me-4">
+                                <input class="form-check-input" type="radio" name="privacy" value="private" />
+                                <label class="form-check-label" for="private">Private</label>
+                            </div>
 
-                <div class="col-12 text-end mt-3">
-                    <button class="btn btn-info text-white px-4">Create Event</button>
-                </div>
+                            <div class="col-md-6">
+                                <label>Event Type</label>
+                                <select name="event_type" class="form-select" required>
+                                    <option value="" disabled selected>Select Event Type</option>
+                                    <option value="Seminar">Seminar</option>
+                                    <option value="Webinar">Webinar</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Community Service">Community Service</option>
+                                    <option value="Fundraising Event">Fundraising Event</option>
+                                    <option value="Donation Drive">Donation Drive</option>
+                                    <option value="Cleanliness Drive">Cleanliness Drive</option>
+                                    <option value="Blood Donation Camp">Blood Donation Camp</option>
+                                    <option value="Sports Event">Sports Event</option>
+                                    <option value="Cultural Program">Cultural Program</option>
+                                    <option value="Tech Event">Tech Event</option>
+                                    <option value="Job Fair">Job Fair</option>
+                                    <option value="Hackathon">Hackathon</option>
+                                </select>
+                            </div>
 
-            </form>
-        </div>
+                            <div class="col-12">
+                                <label>Event Description</label>
+                                <textarea class="form-control" rows="3" name="about"></textarea>
+                            </div>
 
-        <div class="col-lg-5 p-0">
-            <div class="right-section"></div>
+                            <div class="col-12">
+                                <label>Event Details(Please make it deatiled. Include link of meeting if
+                                    webinar.)</label>
+                                <textarea class="form-control" rows="5" name="about"></textarea>
+                            </div>
+
+                            <div class="col-12 text-end mt-3">
+                                <button class="btn btn-info text-white px-4">Create Event</button>
+                            </div>
+
+                </form>
+            </div>
+
+            <div class="col-lg-5 p-0">
+                <div class="right-section"></div>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
+
 </html>
