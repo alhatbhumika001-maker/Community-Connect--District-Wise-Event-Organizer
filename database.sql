@@ -158,6 +158,17 @@ VALUES
 
 
 
+CREATE TABLE `community_members` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `community_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `status` ENUM('pending', 'approved') DEFAULT 'pending',
+  `joined_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `community_id` (`community_id`),
+  KEY `user_id` (`user_id`)
+);
+
 
 
 
