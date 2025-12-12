@@ -260,7 +260,7 @@ include 'userHead.php';
                     <input class="form-control shadow-none" type="search" name="q" placeholder="Search events..."
                         aria-label="Search events" aria-describedby="search-icon" />
 
-                    <button class="btn btn-sm btn-outline=indigo ms-2 rounded-pill" type="submit">Search</button>
+                    <button class="btn btn-sm btn-outline-indigo ms-2 rounded-pill" type="submit">Search</button>
                 </div>
             </div>
         </form>
