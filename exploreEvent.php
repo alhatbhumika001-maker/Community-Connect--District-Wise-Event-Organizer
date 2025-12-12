@@ -252,7 +252,7 @@ include 'userHead.php';
 
                 <div class="event-actions">
                     <a href="viewEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">View Event</a>
-                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-primary text-white">Register</a>
+                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">Register</a>
                 </div>
             </div>
         </div>
