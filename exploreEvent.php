@@ -1,6 +1,6 @@
 <?php
-        include 'userHead.php';
-    ?>
+include 'userHead.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,54 +37,53 @@
 
     .event-page {
         max-width: 1100px;
-        margin: 120px auto 40px;
+        margin: 90px auto 40px;
         padding: 0 15px;
     }
 
+    /* event card using flex */
     .event-card {
-        width: 100%;
-        max-width: 960px;
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        grid-template-rows: auto 220px auto;
-        /* (date, content), photo, button */
-        border-radius: 8px;
-        padding: 10px;
-        box-sizing: border-box;
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+        padding: 18px;
+        border-radius: 12px;
         background: #fff;
+        box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
-    /* Date box (top-left) */
-    .date-box {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        border: var(--border);
-        border-radius: 6px;
-        padding: 8px;
+    .event-left {
+        flex: 0 0 120px;
+        max-width: 140px;
         text-align: center;
+        border-right: 1px dashed rgba(0, 0, 0, 0.04);
+        padding-right: 12px;
     }
 
-    /* Content (top-right) */
-    .content-box {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-        border-radius: 6px;
-        padding: 8px;
+    .event-left .date {
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .event-left small {
+        color: #6b7280;
+        display: block;
+    }
+
+    .event-right {
+        flex: 1 1 0;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 10px;
     }
 
-    /* Photo spanning full width under top row */
     .photo-box {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        border-radius: 6px;
+        width: 100%;
+        height: 200px;
+        border-radius: 8px;
         overflow: hidden;
-        min-height: 180px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background: #f2f2f2;
     }
 
@@ -95,70 +94,26 @@
         display: block;
     }
 
-    /* Button*/
-    .button-box {
-        grid-column: 2 / 3;
-        grid-row: 3 / 4;
-        padding: 6px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: end;
-    }
-
-    /* Responsive: stack to one column on small screens */
-    @media (max-width: 720px) {
-        .event-card {
-            grid-template-columns: 1fr;
-            /* one column */
-            grid-template-rows: auto auto auto auto;
-            /* date, content, photo, button */
-        }
-
-        .date-box {
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
-            text-align: left;
-        }
-
-        .content-box {
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
-        }
-
-        .photo-box {
-            grid-column: 1 / 2;
-            grid-row: 3 / 4;
-            min-height: 220px;
-        }
-
-        .button-box {
-            grid-column: 1 / 2;
-            grid-row: 4 / 5;
-            justify-content: flex-end;
-            padding-right: 8px;
-        }
-    }
-
-    .title-lg {
-        font-size: 34px;
+    .event-title {
+        font-size: 20px;
         font-weight: 700;
     }
 
-    .search-box {
-        background: #fff;
-        border: 1px solid grey;
-        border-radius: 40px;
-        padding: 8px 14px;
-        display: flex;
-        align-items: center;
-        box-shadow: 0 8px 24px rgba(3, 39, 51, 0.05);
+    .event-meta {
+        color: #6b7280;
+        font-size: 14px;
     }
 
-    .search-box input {
-        border: none;
-        outline: none;
-        flex: 1;
-        background: transparent;
+    .event-desc {
+        font-size: 14px;
+        color: #374151;
+    }
+
+    .event-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: auto;
     }
 
     .filter-pill {
@@ -169,36 +124,84 @@
         cursor: pointer;
     }
 
-    .event-card {
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: 0 8px 28px rgba(3, 39, 51, 0.08);
-        overflow: hidden;
+    /* SEARCH BAR */
+    .input-group .form-control {
+        border-radius: 999px;
+        padding: 10px 16px;
+        min-height: 44px;
+        box-shadow: none;
     }
 
-    .event-img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
+    .input-group .input-group-text {
+        border-radius: 999px 0 0 999px;
+        border: none;
+        padding-left: 12px;
+        padding-right: 8px;
+        background: transparent;
     }
 
-    .tag {
-        background: #E0F2F1;
-        color: #00897B;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        display: inline-block;
-        margin-right: 6px;
+    .btn.rounded-pill {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    /* Mobile: stack input and button */
+    @media (max-width: 520px) {
+        .input-group {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group .input-group-text {
+            border-radius: 12px;
+        }
+
+        .input-group .form-control {
+            border-radius: 12px;
+        }
+
+        .btn.rounded-pill {
+            border-radius: 12px;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .event-card {
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .event-left {
+            border-right: none;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.04);
+            padding-bottom: 12px;
+            text-align: left;
+        }
+
+        .photo-box {
+            height: 180px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .photo-box {
+            height: 140px;
+        }
     }
     </style>
 </head>
 
 <body>
 
-    <?php 
-        $active = 'exploreEvents';
-        include 'userNav.php';
+    <?php
+    $active = 'exploreEvents';
+    include 'userNav.php';
     ?>
 
     <!-- MAIN CONTENT -->
@@ -218,12 +221,12 @@
                 <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
 
                     <?php
-                $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
-                $selectedDistrict = $_SESSION['district'] ?? ""; 
-                ?>
+                    $districts = ["Jalgaon", "Pune", "Mumbai", "Nagpur", "Thane", "Nashik", "Satara", "Kolhapur"];
+                    $selectedDistrict = $_SESSION['district'] ?? "";
+                    ?>
 
                     <?php foreach ($districts as $d): ?>
-                    <option value="<?= $d ?>" <?=($selectedDistrict==$d) ? "selected" : "" ?>>
+                    <option value="<?= $d ?>" <?= ($selectedDistrict == $d) ? "selected" : "" ?>>
                         <?= $d ?>
                     </option>
                     <?php endforeach; ?>
@@ -234,15 +237,21 @@
         </div>
 
         <!-- SEARCH BAR -->
-        <form class="mb-4 d-flex gap-2" method="GET" action="event.php">
+        <form class="mb-4" method="GET" action="event.php">
             <input type="hidden" name="district" value="Mumbai">
 
-            <div class="search-box flex-grow-1">
-                <i class="bi bi-search text-muted"></i>
-                <input type="search" name="q" placeholder="Search events...">
-            </div>
+            <div class="d-flex gap-2">
+                <div class="input-group flex-grow-1" style="min-width:220px; max-width:900px;">
+                    <span class="input-group-text bg-white" id="search-icon">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
 
-            <button class="btn btn-outline-indigo filter-pill">Search</button>
+                    <input class="form-control shadow-none" type="search" name="q" placeholder="Search events..."
+                        aria-label="Search events" aria-describedby="search-icon" />
+
+                    <button class="btn btn-sm btn-outline-indigo ms-2 rounded-pill" type="submit">Search</button>
+                </div>
+            </div>
         </form>
 
         <!-- FILTERS -->
@@ -270,23 +279,28 @@
 
         <!-- === Event card TEMPLATE (repeat this block for each event on the server) === -->
         <div class="event-card mb-5">
-            <div class="date-box ">
-                {{ DATE }}<br>
-                <small>{{ TIME }}</small>
+            <div class="event-left">
+                <div class="date">20 Dec</div>
+                <small>09:30 AM</small>
             </div>
-            <div class="photo-box mt-3 mb-3">
-                <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                <!-- If you prefer no image, leave this empty and it will show neutral background -->
-            </div>
-            <div class="content-box">
-                <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                <div class="mb-2 text-muted" style="font: size 14px;">{{ EVENT_DISTRICT }}</div>
-                <div class="text-muted mb-2" style="font-size:13px;">{{ EVENT_DESCRIPTION }}</div>
-            </div>
-            <div class="button-box">
-                <button class="btn-outline-indigo filter-pill">Register</button>
+            <div class="event-right">
+                <div class="photo-box mt-3 mb-3">
+                    <!-- server: either render <img src="..."> or leave as empty placeholder -->
+                    <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
+                    <!-- If you prefer no image, leave this empty and it will show neutral background -->
+                    <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-calendar-event"
+                            style="font-size:48px;color:#d1d5db"></i></div>
+                </div>
+                <div>
+                    <div class="event-title">{{ EVENT_NAME }}</div>
+                    <div class="event-meta">{{ COMMUNITY_NAME }} • {{ EVENT_DISTRICT }}</div>
+                    <div class="event-desc mt-2">{{ EVENT_DESCRIPTION }}</div>
+                </div>
+
+                <div class="event-actions">
+                    <a href="viewEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">View Event</a>
+                    <a href="registerEvent.php?id={{ ID }}" class="btn btn-sm btn-outline-indigo">Register</a>
+                </div>
             </div>
         </div>
 

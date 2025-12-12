@@ -7,11 +7,12 @@ if (!$conn) {
 
 // SQL Query: fetch all events with community name
 $event_query = "
-    SELECT community_events.*, communities.community_name 
-    FROM community_events 
-    JOIN communities ON community_events.community = communities.id
+    SELECT community_events.*, communities.community_name
+    FROM community_events
+    JOIN communities ON community_events.category = communities.id
     ORDER BY community_events.id DESC
 ";
+
 
 $event_result = mysqli_query($conn, $event_query);
 

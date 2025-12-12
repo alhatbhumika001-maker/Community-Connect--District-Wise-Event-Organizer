@@ -1,12 +1,11 @@
- <!-- if there are any events for the user - show the following. Only show the registered event -->
 <?php
-        include 'userHead.php';
-          $conn = new mysqli("localhost", "root", "", "community_connect");
-        // LIST OF COMMUNITIES
-        $user_id = $_SESSION['user_id'] ?? 0;
+include 'userHead.php';
+$conn = new mysqli("localhost", "root", "", "community_connect");
+// LIST OF COMMUNITIES
+$user_id = $_SESSION['user_id'] ?? 0;
 
-                // Fetch events created by logged-in user
-                   $event_query = "
+// Fetch events created by logged-in user
+$event_query = "
     SELECT e.*, c.community_name 
     FROM community_events e
     LEFT JOIN communities c ON e.id = c.id
@@ -21,8 +20,6 @@ if (!$event_result) {
 }
 
 $event_count = mysqli_num_rows($event_result);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,51 +54,61 @@ $event_count = mysqli_num_rows($event_result);
         color: #18122B;
     }
 
+    /* Event row card - responsive using flex */
     .event-card {
         width: 100%;
-        max-width: 960px;
+        max-width: 1100px;
         margin-top: 20px;
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        grid-template-rows: auto 220px auto;
-        /* (date, content), photo, button */
-        border-radius: 8px;
-        padding: 10px;
-        box-sizing: border-box;
         background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
-    /* Date box (top-left) */
-    .date-box {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        border: var(--border);
-        border-radius: 6px;
-        padding: 8px;
+    .event-row {
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+        padding: 18px;
+        flex-wrap: wrap;
+    }
+
+    /* left (date) column */
+    .event-date {
+        min-width: 120px;
+        max-width: 140px;
+        flex: 0 0 140px;
         text-align: center;
+        border-right: 1px dashed rgba(0, 0, 0, 0.04);
+        padding-right: 12px;
     }
 
-    /* Content (top-right) */
-    .content-box {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-        border-radius: 6px;
-        padding: 8px;
+    .event-date .date {
+        font-weight: 700;
+        font-size: 18px;
+        color: #111827;
+    }
+
+    .event-date .time {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    /* right (content) column */
+    .event-content {
+        flex: 1 1 0;
+        min-width: 220px;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 10px;
     }
 
-    /* Photo (middle-right) */
     .photo-box {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        border-radius: 6px;
+        width: 100%;
+        height: 220px;
         overflow: hidden;
-        min-height: 180px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        border-radius: 8px;
         background: #f2f2f2;
     }
 
@@ -112,107 +119,149 @@ $event_count = mysqli_num_rows($event_result);
         display: block;
     }
 
-    @media (max-width: 720px) {
-        .event-card {
-            grid-template-columns: 1fr;
-            /* one column */
-            grid-template-rows: auto auto auto auto;
-            /* date, content, photo, button */
+    .event-title {
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .event-meta {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .event-desc {
+        color: #431e43ff;
+        font-weight: 500;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    /* bottom-right actions */
+    .event-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: auto;
+        /* push to bottom */
+    }
+
+
+    @media (max-width: 900px) {
+        .event-row {
+            padding: 14px;
         }
 
-        .date-box {
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
+        .event-date {
+            flex-basis: 100%;
+            border-right: none;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.04);
+            padding-bottom: 12px;
             text-align: left;
         }
 
-        .content-box {
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
+        .event-content {
+            gap: 8px;
         }
 
         .photo-box {
-            height:30px;
-            width: 100%;
-           
+            height: 180px;
         }
     }
 
-    .bi-calendar-plus {
-        color: #8540f5;
-        font-size: 70px;
-        margin-bottom: 20px;
+    @media (max-width: 480px) {
+        .photo-box {
+            height: 140px;
+        }
     }
     </style>
 </head>
 
 <body>
 
-    <?php 
-        $active = 'home';
-        include 'userNav.php';
+    <?php
+    $active = 'home';
+    include 'userNav.php';
     ?>
 
+<<<<<<< HEAD
     <main class="container my-4">
         <div class="wc">
             <h1 class="greeting">Welcome to Community Connect(ONlY SHOW REEGISTERED EVENTS)</h1>
+=======
+    <main class="container my-4 d-flex flex-column align-items-center">
+        <div class="wc" style="max-width:1100px; width:100%;">
+            <h1 class="greeting">Welcome to Community Connect</h1>
+>>>>>>> 1bd40165bc9a0efac7cdd00ccd2beea2efa72653
             <h2 class="name"><?php echo $full_name; ?></h2>
             <h3 class="wel text-muted"><i>Here's what's happening in your community today.</i></h3>
         </div>
 
-        <div class="upcoming-events">
+        <div class="upcoming-events" style="width:100%; max-width:1100px;">
 
-                <?php if ($event_count > 0) { ?>
+            <?php if ($event_count > 0) { ?>
 
-                    <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
-                        <div class="event-card mb-5 pe-4">
+            <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
+            <div class="event-card mb-4">
+                <div class="event-row">
 
-                            <div class="date-box">
-                                <?php echo date("d M Y", strtotime($row['created_at'])); ?><br>
-                                <small><?php echo date("h:i A", strtotime($row['created_at'])); ?></small>
-                            </div>
-
-                            <div class="photo-box mt-3 mb-3">
-                                <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>">
-                            </div>
-
-                            <div class="content-box">
-                                <div class="mb-2" style="font-weight:700">
-                                    <?php echo $row['event_name']; ?>
-                                </div>
-                                <div class="mb-2">
-                                    <?php echo $row['community_name']; ?>
-                                </div>
-                                <div class="mb-2 text-muted fs-6">
-                                    <?php echo $row['district']; ?>
-                                </div>
-                                <div class="text-muted mb-2 fs-6">
-                                    <?php echo $row['about']; ?>
-                                </div>
-                            </div>
-
-                        </div>
-                    <?php } ?>
-
-                <?php } else { ?>
-
-                    <!-- EMPTY STATE -->
-                    <div class="empty-card text-center mb-4">
-                        <div><i class="bi bi-calendar-plus"></i></div>
-                        <h4>No upcoming event found</h4>
-                        <p class="text-muted">Explore more events</p>
-                        <div class="d-flex justify-content-center mt-4">
-                            <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
+                    <div class="event-date">
+                        <div class="date"><?php echo date("d M Y", strtotime($row['created_at'])); ?></div>
+                        <div class="time"><small><?php echo date("h:i A", strtotime($row['created_at'])); ?></small>
                         </div>
                     </div>
 
-                <?php } ?>
+                    <div class="event-content">
+                        <div class="photo-box">
+                            <?php if (!empty($row['image'])): ?>
+                            <img src="<?php echo htmlspecialchars($row['image']); ?>"
+                                alt="<?php echo htmlspecialchars($row['event_name']); ?>">
+                            <?php else: ?>
+                            <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image"
+                                    style="font-size:48px;color:#d1d5db"></i></div>
+                            <?php endif; ?>
+                        </div>
 
+                        <div>
+                            <div class="event-title"><?php echo htmlspecialchars($row['event_name']); ?></div>
+                            <div class="event-meta"><?php echo htmlspecialchars($row['community_name']); ?> •
+                                <?php echo htmlspecialchars($row['district']); ?></div>
+                            <div class="event-desc"><?php echo nl2br(htmlspecialchars($row['about'])); ?></div>
+                        </div>
+
+                        <!-- action buttons bottom-right -->
+                        <div class="event-actions">
+                            <a href="viewEvent.php?id=<?php echo $row['id']; ?>"
+                                class="btn btn-sm btn-outline-indigo">View Event</a>
+                            <a href="registerEvent.php?id=<?php echo $row['id']; ?>"
+                                class="btn btn-sm btn-outline-indigo">Register</a>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+            <?php } ?>
+
+            <?php } else { ?>
+
+            <!-- EMPTY STATE -->
+            <div class="empty-card text-center mb-4 w-100">
+                <div><i class="bi bi-calendar-plus" style="font-size:48px;color:#8540f5;"></i></div>
+                <h4>No upcoming event found</h4>
+                <p class="text-muted">Explore more events</p>
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
+                </div>
+            </div>
+
+            <?php } ?>
+
+        </div>
 
     </main>
 
-    <!-- BOOTSTRAP JS (required for collapse/toggler) -->
+    <!-- BOOTSTRAP JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
