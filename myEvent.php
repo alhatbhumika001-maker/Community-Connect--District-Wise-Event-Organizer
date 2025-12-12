@@ -33,6 +33,7 @@ $event_count = mysqli_num_rows($event_result);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="userStyle.css" />
 </head>
+
 <body>
 <?php
 $active = 'myEvent';
@@ -56,11 +57,11 @@ include 'userNav.php';
             $mem_count = $mem_result ? mysqli_num_rows($mem_result) : 0;
             ?>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-12">
                 <div class="card h-100 shadow-sm">
                     <div class="photo-box">
                         <?php if (!empty($row['image'])): ?>
-                            <img src="<?= htmlspecialchars($row['image']); ?>" alt="Event Image" class="img-fluid w-100" style="height:220px; object-fit:cover;">
+                            <img src="<?= htmlspecialchars($row['image']); ?>" alt="Event Image" class="img-fluid w-100" style="height:300px; object-fit:cover;">
                         <?php else: ?>
                             <div class="d-flex align-items-center justify-content-center h-100" style="height:220px; background:#f2f2f2;">
                                 <i class="bi bi-image" style="font-size:48px;color:#d1d5db"></i>

@@ -21,6 +21,8 @@ if (mysqli_num_rows($community_result) == 0) {
         </script>
     ");
 }
+$privacy = $_POST['privacy'] ?? '';
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -152,7 +154,7 @@ if (mysqli_num_rows($community_result) == 0) {
                     <!-- CATEGORY + OTHER -->
                     <div class="col-md-6">
                         <label for="category" class="form-label">Category</label>
-                        <select id="category" class="form-select" required name="category">
+                        <select id="category" class="form-select" required name="category" required>
                             <option value="">Select</option>
                             <option value="college-level">College Level</option>
                             <option value="cultural">Cultural</option>
@@ -187,26 +189,32 @@ if (mysqli_num_rows($community_result) == 0) {
 
                     <div class="col-md-6">
                         <label for="address" class="form-label">Address</label>
-                        <input id="address" type="text" name="address" class="form-control" />
+                        <input id="address" type="text" name="location" class="form-control" required />
                     </div>
 
                     <!-- SCHEDULE: readonly display -->
                     <div class="col-md-6">
                         <label for="event_date" class="form-label">Event Schedule (Date)</label>
-                        <input id="event_date" type="text" class="form-control" name="event_date_display" value="date"
-                            readonly>
+                        <input id="event_date" type="date" class="form-control" name="date" required
+                        >
                     </div>
 
                     <div class="col-md-6">
-                        <label for="event_time" class="form-label">Event Schedule (Time)</label>
-                        <input id="event_time" type="text" class="form-control" name="event_time_display"
-                            value="startTime" readonly>
+                        <label for="event_time" class="form-label">Event Schedule (Start_Time)</label>
+                        <input id="event_time" type="time" class="form-control" name="start_time" required
+                        >
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="event_time" class="form-label">Event Schedule (End_Time)</label>
+                        <input id="event_time" type="time" class="form-control" name="end_time" required
+                        >
                     </div>
 
                     <!-- EVENT BANNER -->
                     <div class="col-md-6">
                         <label for="image" class="form-label">Event Banner</label>
-                        <input id="image" type="file" class="form-control" name="image" accept="image/*" />
+                        <input id="image" type="file" class="form-control" name="image" accept="image/*" required />
                     </div>
 
                     <!-- EVENT TYPE -->
@@ -236,27 +244,41 @@ if (mysqli_num_rows($community_result) == 0) {
                         <div class="d-flex gap-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="privacy" id="privacy_public"
-                                    value="public" checked>
+                                    value="public" checked required>
                                 <label class="form-check-label" for="privacy_public">Public</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="privacy" id="privacy_private"
-                                    value="private">
+                                    value="private" required>
                                 <label class="form-check-label" for="privacy_private">Private</label>
                             </div>
                         </div>
                     </div>
 
+                    <!-- EVENT CODE (Visible only if private) -->
+                    <div class="col-12" 
+                        id="eventCodeWrapper" 
+                        style="<?= ($privacy === 'private') ? 'display:block;' : 'display:none;' ?>">
+
+                        <label for="event_code" class="form-label">Event Code (for private events)</label>
+                        <input type="text" id="event_code" name="event_code" 
+                            class="form-control"
+                            placeholder="Enter a secret event code"
+                            <?= ($privacy === 'private') ? 'required' : '' ?>>
+                    </div>
+
+
+
                     <!-- DESCRIPTION + DETAILS -->
                     <div class="col-12">
                         <label for="short_desc" class="form-label">Event Description (short)</label>
-                        <textarea id="short_desc" name="short_desc" class="form-control" rows="2"></textarea>
+                        <textarea id="short_desc" name="about" class="form-control" rows="2" required></textarea>
                     </div>
 
                     <div class="col-12">
                         <label for="details" class="form-label">Event Details (please be detailed; include meeting link
                             if webinar)</label>
-                        <textarea id="details" name="details" class="form-control" rows="4"></textarea>
+                        <textarea id="details" name="details" class="form-control" rows="4" required></textarea>
                     </div>
 
                     <!-- CONSENT CHECKBOXES (Bootstrap format) -->
@@ -291,6 +313,19 @@ if (mysqli_num_rows($community_result) == 0) {
             </div>
         </div>
     </div>
+
+    <script>
+document.getElementById("privacy_public").addEventListener("change", function() {
+    document.getElementById("eventCodeWrapper").style.display = "none";
+    document.getElementById("event_code").required = false;
+});
+
+document.getElementById("privacy_private").addEventListener("change", function() {
+    document.getElementById("eventCodeWrapper").style.display = "block";
+    document.getElementById("event_code").required = true;
+});
+</script>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

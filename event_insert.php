@@ -25,16 +25,27 @@ $district      = $_POST['district'];
 $start_time    = $_POST['start_time'];
 $end_time      = $_POST['end_time'];
 $date          = $_POST['date'];
+$privacy       =$_POST['privacy'];
+$details       =$_POST['details'];
 $event_type    = $_POST['event_type'];
 // Receive data  
 $community = $_POST['community'];  // INT value
 $about         = $_POST['about'];
 
+$privacy = $_POST['privacy'];
+$event_code = $_POST['event_code'] ?? '';
+
+if ($privacy === 'private' && empty($event_code)) {
+    die("<script>alert('Event Code is required for private events.'); history.back();</script>");
+}
+
+
+
 // Insert query
 $q = "INSERT INTO community_events 
-(event_name, category, other_category, district, image, start_time, end_time, date, event_type, community, about, created_by)
+(event_name, category, other_category, district, image, start_time, end_time, date, event_type, community, about, created_by, event_code, privacy, details)
 VALUES 
-('$event_name', '$category', '$other_category', '$district', '$folder', '$start_time', '$end_time', '$date', '$event_type', '$community', '$about', '$user_id')";
+('$event_name', '$category', '$other_category', '$district', '$folder', '$start_time', '$end_time', '$date', '$event_type', '$community', '$about', '$user_id', '$event_code', '$privacy', '$details')";
 
 $result = mysqli_query($conn, $q);
 
