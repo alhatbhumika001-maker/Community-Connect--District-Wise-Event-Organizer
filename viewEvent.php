@@ -158,9 +158,9 @@ $row = mysqli_fetch_assoc($event_result);
 
 
     <div class="back-to-explore d-flex justify-content-end mb-4" style="max-width:650px; margin:auto;">
-        <button class="btn btn-sm btn-outline-indigo px-4" type="button">
+        <a href="event.php" class="btn btn-sm btn-outline-indigo px-4" type="button">
             Back to Explore Page
-        </button>
+        </a>
     </div>
 
     <!-- Bootstrap JS -->
