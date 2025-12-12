@@ -172,24 +172,29 @@ $event_count = mysqli_num_rows($event_result);
                         $event_id = (int)$row['id'];
 
                         // fetch pending requests for this event (join with users to get names)
-                        $req_query = "
-                    SELECT r.id AS req_id, r.user_id, u.name, u.username, u.avatar
-                    FROM event_requests r
-                    LEFT JOIN users u ON r.user_id = u.id
-                    WHERE r.event_id = $event_id
-                    ORDER BY r.id DESC
-                ";
+                       $req_query = "
+    SELECT r.r_id AS req_id, r.user_id, r.full_name AS name, r.username, r.avatar
+    FROM event_requests r
+    WHERE r.event_id = $event_id
+    ORDER BY r.r_id DESC
+";
+
                         $req_result = mysqli_query($conn, $req_query);
                         $req_count = mysqli_num_rows($req_result);
 
                         // fetch registered members for this event
                         $mem_query = "
-                    SELECT er.id AS reg_id, er.user_id, u.name, u.username, u.avatar
-                    FROM event_registrations er
-                    LEFT JOIN users u ON er.user_id = u.id
-                    WHERE er.event_id = $event_id
-                    ORDER BY er.id DESC
-                ";
+    SELECT 
+        er.reg_id, 
+        er.user_id, 
+        u.full_name, 
+        u.username
+    FROM registrations er
+    LEFT JOIN users u ON er.user_id = u.user_id
+    WHERE er.event_id = $event_id
+    ORDER BY er.reg_id DESC
+";
+
                         $mem_result = mysqli_query($conn, $mem_query);
                         $mem_count = mysqli_num_rows($mem_result);
                 ?>
