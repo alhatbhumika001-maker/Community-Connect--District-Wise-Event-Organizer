@@ -147,16 +147,6 @@ $event_count = mysqli_num_rows($event_result);
         /* push to bottom */
     }
 
-    .btn-outline-indigo {
-        color: #6c4ce0;
-        border-color: rgba(108, 76, 224, 0.18);
-        background: transparent;
-    }
-
-    .btn-outline-indigo:hover {
-        background: rgba(108, 76, 224, 0.06);
-        color: #4b2fc9;
-    }
 
     @media (max-width: 900px) {
         .event-row {
