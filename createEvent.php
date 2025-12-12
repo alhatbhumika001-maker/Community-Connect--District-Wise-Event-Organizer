@@ -17,12 +17,11 @@ if (mysqli_num_rows($community_result) == 0) {
     die("
         <script>
             alert('You must create a community before creating an event.');
-            window.location='createCommunity.php';
+            window.location = 'createCommunity.php';
         </script>
     ");
 }
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -51,7 +50,7 @@ if (mysqli_num_rows($community_result) == 0) {
         display: flex;
         align-items: center;
         padding: 10px 20px;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
 
     .brand-logo {
@@ -68,28 +67,50 @@ if (mysqli_num_rows($community_result) == 0) {
 
     .main-card {
         max-width: 1100px;
-        margin: 20px auto 50px;
+        margin: 24px auto 48px;
         background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
     }
 
     .left-section {
-        padding: 40px 45px;
+        padding: 32px 36px;
     }
 
     .section-title {
         font-family: Handlee;
         color: #00897B;
         text-align: center;
-        margin-bottom: 25px;
-        font-size: 28px;
+        margin-bottom: 18px;
+        font-size: 26px;
     }
 
     .right-section {
         background-image: url('createEvent.png');
         background-size: cover;
-        min-height: 500px;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100%;
+        height: 380px;
+    }
+
+    .main-card>.row {
+        align-items: stretch;
+    }
+
+    /* readonly styling */
+    input[readonly],
+    textarea[readonly] {
+        background-color: #f7f7f7;
+        cursor: not-allowed;
+    }
+
+    /* tighten spacing on small screens */
+    @media (max-width: 767px) {
+        .left-section {
+            padding: 18px;
+        }
     }
     </style>
 </head>
@@ -101,34 +122,37 @@ if (mysqli_num_rows($community_result) == 0) {
         <span class="brand-text">Community Connect</span>
     </header>
 
-    <div class="main-card mt-5" id="main">
+    <div class="main-card">
         <div class="row g-0">
+            <!-- Left: Form -->
             <div class="col-lg-7 left-section">
                 <h3 class="section-title">Create Event</h3>
 
-                <form class="row g-3" method="post" action="event_insert.php" enctype="multipart/form-data">
+                <form class="row g-3" method="post" action="event_insert.php" enctype="multipart/form-data" novalidate>
 
-                    <!-- SELECT COMMUNITY -->
-                    <div class="col-md-12">
-                        <label><b>Select Community</b></label>
-                        <select name="community" class="form-select" required>
+                    <!-- COMMUNITY -->
+                    <div class="col-12">
+                        <label for="community" class="form-label"><strong>Select Community</strong></label>
+                        <select id="community" name="community" class="form-select" required>
                             <option value="">-- Select Community --</option>
-
                             <?php while ($c = mysqli_fetch_assoc($community_result)) { ?>
-                            <option value="<?= $c['id']; ?>"><?= $c['community_name']; ?></option>
+                            <option value="<?= $c['id']; ?>">
+                                <?= htmlspecialchars($c['community_name']); ?>
+                            </option>
                             <?php } ?>
-
                         </select>
                     </div>
 
-                    <div class="col-md-12">
-                        <label>Event Name</label>
-                        <input type="text" class="form-control" name="event_name" required />
+                    <!-- EVENT NAME -->
+                    <div class="col-12">
+                        <label for="event_name" class="form-label">Event Name</label>
+                        <input id="event_name" type="text" class="form-control" name="event_name" required />
                     </div>
 
+                    <!-- CATEGORY + OTHER -->
                     <div class="col-md-6">
-                        <label>Category</label>
-                        <select class="form-select" required name="category">
+                        <label for="category" class="form-label">Category</label>
+                        <select id="category" class="form-select" required name="category">
                             <option value="">Select</option>
                             <option value="college-level">College Level</option>
                             <option value="cultural">Cultural</option>
@@ -141,13 +165,14 @@ if (mysqli_num_rows($community_result) == 0) {
                     </div>
 
                     <div class="col-md-6">
-                        <label>If Other - What Category?</label>
-                        <input type="text" class="form-control" name="other_category" />
+                        <label for="other_category" class="form-label">If Other - What Category?</label>
+                        <input id="other_category" type="text" class="form-control" name="other_category" />
                     </div>
 
+                    <!-- DISTRICT + ADDRESS -->
                     <div class="col-md-6">
-                        <label>District</label>
-                        <select class="form-select" required name="district">
+                        <label for="district" class="form-label">District</label>
+                        <select id="district" class="form-select" required name="district">
                             <option value="">Select District</option>
                             <option value="jalgaon">Jalgaon</option>
                             <option value="pune">Pune</option>
@@ -161,82 +186,114 @@ if (mysqli_num_rows($community_result) == 0) {
                     </div>
 
                     <div class="col-md-6">
-                        <label for="address">Address</label><input type="text" name="address" id="address"
-                            class="form-control">
+                        <label for="address" class="form-label">Address</label>
+                        <input id="address" type="text" name="address" class="form-control" />
+                    </div>
+
+                    <!-- SCHEDULE: readonly display -->
+                    <div class="col-md-6">
+                        <label for="event_date" class="form-label">Event Schedule (Date)</label>
+                        <input id="event_date" type="text" class="form-control" name="event_date_display" value="date"
+                            readonly>
                     </div>
 
                     <div class="col-md-6">
-                        <label>Start Time</label>
-                        <input type="time" class="form-control" name="start_time" />
+                        <label for="event_time" class="form-label">Event Schedule (Time)</label>
+                        <input id="event_time" type="text" class="form-control" name="event_time_display"
+                            value="startTime" readonly>
                     </div>
 
+                    <!-- EVENT BANNER -->
                     <div class="col-md-6">
-                        <label>End Time</label>
-                        <input type="time" class="form-control" name="end_time" />
+                        <label for="image" class="form-label">Event Banner</label>
+                        <input id="image" type="file" class="form-control" name="image" accept="image/*" />
                     </div>
 
+                    <!-- EVENT TYPE -->
                     <div class="col-md-6">
-                        <label>Date</label>
-                        <input type="date" class="form-control" name="date" />
+                        <label for="event_type" class="form-label">Event Type</label>
+                        <select id="event_type" name="event_type" class="form-select" required>
+                            <option value="" disabled selected>Select Event Type</option>
+                            <option value="Seminar">Seminar</option>
+                            <option value="Webinar">Webinar</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Community Service">Community Service</option>
+                            <option value="Fundraising Event">Fundraising Event</option>
+                            <option value="Donation Drive">Donation Drive</option>
+                            <option value="Cleanliness Drive">Cleanliness Drive</option>
+                            <option value="Blood Donation Camp">Blood Donation Camp</option>
+                            <option value="Sports Event">Sports Event</option>
+                            <option value="Cultural Program">Cultural Program</option>
+                            <option value="Tech Event">Tech Event</option>
+                            <option value="Job Fair">Job Fair</option>
+                            <option value="Hackathon">Hackathon</option>
+                        </select>
                     </div>
 
-                    <div class="col-md-6">
-                        <label>Event Banner</label>
-                        <input type="file" class="form-control" name="image" />
+                    <!-- PRIVACY (RADIO) -->
+                    <div class="col-12">
+                        <label class="form-label">Event Privacy</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="privacy" id="privacy_public"
+                                    value="public" checked>
+                                <label class="form-check-label" for="privacy_public">Public</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="privacy" id="privacy_private"
+                                    value="private">
+                                <label class="form-check-label" for="privacy_private">Private</label>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label>Event Privacy</label>
-                        <div class="d-flex align-items-center mt-1">
-                            <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="privacy" value="private" />
-                                <label class="form-check-label" for="private">Private</label>
-                            </div>
+                    <!-- DESCRIPTION + DETAILS -->
+                    <div class="col-12">
+                        <label for="short_desc" class="form-label">Event Description (short)</label>
+                        <textarea id="short_desc" name="short_desc" class="form-control" rows="2"></textarea>
+                    </div>
 
-                            <div class="col-md-6">
-                                <label>Event Type</label>
-                                <select name="event_type" class="form-select" required>
-                                    <option value="" disabled selected>Select Event Type</option>
-                                    <option value="Seminar">Seminar</option>
-                                    <option value="Webinar">Webinar</option>
-                                    <option value="Workshop">Workshop</option>
-                                    <option value="Community Service">Community Service</option>
-                                    <option value="Fundraising Event">Fundraising Event</option>
-                                    <option value="Donation Drive">Donation Drive</option>
-                                    <option value="Cleanliness Drive">Cleanliness Drive</option>
-                                    <option value="Blood Donation Camp">Blood Donation Camp</option>
-                                    <option value="Sports Event">Sports Event</option>
-                                    <option value="Cultural Program">Cultural Program</option>
-                                    <option value="Tech Event">Tech Event</option>
-                                    <option value="Job Fair">Job Fair</option>
-                                    <option value="Hackathon">Hackathon</option>
-                                </select>
-                            </div>
+                    <div class="col-12">
+                        <label for="details" class="form-label">Event Details (please be detailed; include meeting link
+                            if webinar)</label>
+                        <textarea id="details" name="details" class="form-control" rows="4"></textarea>
+                    </div>
 
-                            <div class="col-12">
-                                <label>Event Description</label>
-                                <textarea class="form-control" rows="3" name="about"></textarea>
-                            </div>
+                    <!-- CONSENT CHECKBOXES (Bootstrap format) -->
+                    <div class="col-12">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="agreeRules" name="agreeRules" required>
+                            <label class="form-check-label" for="agreeRules">
+                                I agree to follow all event rules &amp; guidelines.
+                            </label>
+                        </div>
 
-                            <div class="col-12">
-                                <label>Event Details(Please make it deatiled. Include link of meeting if
-                                    webinar.)</label>
-                                <textarea class="form-control" rows="5" name="about"></textarea>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shareDetails" name="shareDetails"
+                                required>
+                            <label class="form-check-label" for="shareDetails">
+                                I agree to share my contact details with the event organizers.
+                            </label>
+                        </div>
+                    </div>
 
-                            <div class="col-12 text-end mt-3">
-                                <button class="btn btn-info text-white px-4">Create Event</button>
-                            </div>
+                    <!-- SUBMIT -->
+                    <div class="col-12 text-end mt-2">
+                        <button type="submit" class="btn btn-info text-white px-4">Create Event</button>
+                    </div>
 
                 </form>
             </div>
 
+            <!-- Right: Illustration -->
             <div class="col-lg-5 p-0">
-                <div class="right-section"></div>
+                <div class="right-section d-none d-lg-block"></div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
