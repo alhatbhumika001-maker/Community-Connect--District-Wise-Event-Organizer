@@ -22,7 +22,7 @@
 
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link <?php if($active == 'home') echo 'active'; ?>" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link <?php if($active == 'events') echo 'active'; ?>" href="event.php">Events</a></li>
+                    <li class="nav-item"><a class="nav-link <?php if($active == 'events') echo 'active'; ?>" href="#">Events</a></li>
                     <li class="nav-item"><a class="nav-link <?php if($active == 'about') echo 'active'; ?>" href="about.php">About</a></li>
                 </ul>
 

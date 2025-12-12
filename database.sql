@@ -125,6 +125,39 @@ CREATE TABLE communities (
 );
 
 
+INSERT INTO communities 
+(community_name, category, other_category, privacy, image, district, about, created_by)
+VALUES
+('Youth Cultural Club', 'Cultural', NULL, 'Public', 'default.png', 'Pune', 'A community for cultural activities and events', 3),
+
+('Green Earth Volunteers', 'Social Event', NULL, 'Public', 'default.png', 'Mumbai', 'A group working on environmental awareness', 2),
+
+('Fitness & Sports Hub', 'Sports', NULL, 'Public', 'default.png', 'Nagpur', 'Sports lovers and fitness activities group', 1),
+
+('College Innovators Forum', 'College Event', NULL, 'Private', 'default.png', 'Nashik', 'A community for college students and innovators', 1),
+
+('Women Empowerment Group', 'Social Event', NULL, 'Public', 'default.png', 'Thane', 'Focused on women empowerment activities', 2),
+
+('Tech Learners Community', 'Government Program', NULL, 'Public', 'default.png', 'Pune', 'Digital skills and government tech training programs', 3);
+
+
+INSERT INTO community_events 
+(event_name, category, other_category, district, start_time, end_time, date, image, event_type, about, created_by)
+VALUES
+('Ganesh Utsav Cultural Night', 'Cultural', NULL, 'Pune', '18:00:00', '22:00:00', '2025-01-20', 'default_event.jpg', 'Offline', 'Cultural performances, dance & singing', 1),
+
+('Marathon 2025', 'Sports', NULL, 'Mumbai', '06:00:00', '10:00:00', '2025-02-15', 'default_event.jpg', 'Offline', 'Annual city marathon for all age groups', 2),
+
+('College Tech Fest', 'College Event', NULL, 'Nagpur', '09:00:00', '18:00:00', '2025-03-10', 'default_event.jpg', 'Offline', 'A technical festival with competitions and workshops', 3),
+
+('Tree Plantation Drive', 'Social Event', NULL, 'Thane', '08:00:00', '12:00:00', '2025-04-05', 'default_event.jpg', 'Offline', 'Community tree planting event', 2),
+
+('Digital India Awareness Program', 'Government Program', NULL, 'Nashik', '10:00:00', '13:00:00', '2025-05-01', 'default_event.jpg', 'Offline', 'Government-run digital skills awareness session', 3),
+
+('Women Safety Workshop', 'Social Event', NULL, 'Satara', '11:00:00', '14:00:00', '2025-06-09', 'default_event.jpg', 'Offline', 'Self-defense and safety awareness workshop', 1);
+
+
+
 
 
 
