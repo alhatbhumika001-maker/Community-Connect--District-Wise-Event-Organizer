@@ -239,7 +239,7 @@ $event_count = mysqli_num_rows($event_result);
                             <a href="viewEvent.php?id=<?php echo $row['id']; ?>"
                                 class="btn btn-sm btn-outline-indigo">View Event</a>
                             <a href="registerEvent.php?id=<?php echo $row['id']; ?>"
-                                class="btn btn-sm btn-primary text-white">Register</a>
+                                class="btn btn-sm btn-outline-indigo">Register</a>
                         </div>
 
                     </div>
