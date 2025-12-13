@@ -1,0 +1,182 @@
+body {
+  font-family: Outfit, sans-serif;
+  background: #eef4ff;
+  margin: 0;
+}
+
+/* For the pages where there would be no strip for navigation */
+.no-strip .content {
+  padding-top: 80px;
+}
+
+.btn-outline-navy {
+  color: #e7dcdc;
+  border-color: #21103d;
+}
+
+.btn-outline-navy:hover {
+  background: #21103d;
+}
+
+/* TOPBAR */
+.topbar {
+  height: 56px;
+  background-image: linear-gradient(
+    135deg,
+    #1c0847 0%,
+    #7c5caf 60%,
+    #6f3be8 100%
+  );
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.brand {
+  color: #fff;
+  font-family: "Handlee";
+  font-weight: 600;
+  margin-left: 8px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-logo {
+  height: 50px;
+  width: 50px;
+  background-color: rgba(255, 255, 255);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* SIDEBAR (DESKTOP) */
+.sidebar {
+  width: 240px;
+  background-image: linear-gradient(
+    155deg,
+    #1c0847 0%,
+    #7c5caf 60%,
+    #6f3be8 100%
+  );
+  position: fixed;
+  top: 56px;
+  bottom: 0;
+  padding: 16px;
+  color: #d1d5db;
+  z-index: 100;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+  background: #4f46e5;
+  color: #fff;
+}
+
+/* SECTION STRIP */
+.section-strip {
+  background-image: linear-gradient(
+    200deg,
+    #1c0847 0%,
+    #7c5caf 60%,
+    #6f3be8 100%
+  );
+  border-bottom: 1px solid #ddd;
+  padding: 8px 12px;
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+  align-content: center;
+}
+
+.section-strip .nav {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.section-strip .nav-link {
+  color: #fff;
+}
+
+.section-strip .nav-link:hover {
+  text-shadow: 1px 2px 3px black;
+}
+
+.section-strip .nav-link:active {
+  text-shadow: 1px 2px 3px black;
+  background-color: #d1d5db73;
+  border-radius: 10px;
+}
+
+/* Offcanvas Nav Bar */
+.offcanvas-title {
+  font-family: "Handlee";
+  font-weight: 600;
+}
+
+.offcanvas-header {
+  background-image: linear-gradient(
+    135deg,
+    #1c0847 0%,
+    #7c5caf 60%,
+    #6f3be8 100%
+  );
+  color: #fff;
+}
+
+.offcanvas-body {
+  background-image: linear-gradient(
+    135deg,
+    #1c0847 0%,
+    #7c5caf 60%,
+    #6f3be8 100%
+  );
+  color: #fff;
+}
+
+.small-muted {
+  color: #6c7aa0;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.adminName {
+  font-weight: 600;
+  color: #fff;
+  margin-top: 6px;
+}
+
+/* CONTENT */
+.content {
+  margin-left: 230px;
+  padding: 120px 20px 40px;
+  min-height: 100vh;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+    padding-top: 140px;
+  }
+}
