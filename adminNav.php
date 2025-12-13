@@ -13,7 +13,7 @@
 
 <!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar d-none d-md-block">
-    <h5><i class="bi bi-gear-fill"></i> Admin Panel</h5>
+    <h5 style="font-weight: 500;"><i class="bi bi-gear-fill"></i> Admin Panel</h5>
 
     <a href="adminDashboard.php" class="<?php if ($active == 'adminDashboard') echo 'active'; ?>"><i
             class="bi bi-speedometer2 me-2"></i>Dashboard</a>
