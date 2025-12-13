@@ -136,8 +136,9 @@ $row = mysqli_fetch_assoc($event_result);
             <div class="muted">Register for the event here</div>
         </div>
 
-        <form method="post" action="#" class="g-3">
-            <div class="mb-3">
+        <form method="post" action="register_Event_Insert.php" enctype="multipart/form-data" class="g-3">
+        <input hidden id="eventid" name="event_id" type="text" value="<?php echo $row['id'];?>" class="form-control"/>
+        <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input id="name" name="name" type="text" class="form-control" required autocomplete="name" />
             </div>
@@ -157,9 +158,9 @@ $row = mysqli_fetch_assoc($event_result);
                 <input id="phone" name="image" type="file" class="form-control" required />
             </div>
 
-             <div class="mb-3">
+            <div class="mb-3">
                 <label for="id" class="form-label">Event Code (Required For Private Event)</label>
-                <input id="phone" name="code" type="text" class="form-control"/>
+                <input id="phone" name="event_code" type="text" class="form-control"/>
             </div>
 
             <div class="col-md-6">
@@ -182,12 +183,12 @@ $row = mysqli_fetch_assoc($event_result);
 
             <div class="mb-3">
                 <label for="email" class="form-label">Event Name</label>
-                <input type="text" id="eventName" name="eventName" value="<?php echo $row['event_name'] ?>" class="form-control" readonly>
+                <input type="text" id="eventName" name="event_name" value="<?php echo $row['event_name'] ?>" class="form-control" readonly>
             </div>
 
                         <div class="mb-3">
                 <label for="eventDate">Event Date</label>
-                <input type="date" id="eventDate" name="eventDate"
+                <input type="date" id="eventDate" name="date"
                     class="form-control"
                     value="<?php echo $row['date']; ?>"
                     readonly>
@@ -203,7 +204,7 @@ $row = mysqli_fetch_assoc($event_result);
 
             <div class="mb-3">
                 <label for="eventLocation">Event Location</label>
-                <input type="text" id="eventLocation" name="eventLocation"
+                <input type="text" id="eventLocation" name="location"
                     class="form-control"
                     value="<?php echo $row['location']; ?>"
                     readonly>

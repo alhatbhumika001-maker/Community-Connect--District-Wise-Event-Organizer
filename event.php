@@ -1,4 +1,13 @@
  <?php
+ include 'userHead.php';
+ 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 
 if (!$conn) {
@@ -7,12 +16,11 @@ if (!$conn) {
 
 // SQL Query: fetch all events with community name
 $event_query = "
-    SELECT community_events.*, communities.community_name
-    FROM community_events
-    JOIN communities ON community_events.category = communities.id
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
     ORDER BY community_events.id DESC
 ";
-
 
 $event_result = mysqli_query($conn, $event_query);
 
@@ -30,6 +38,8 @@ $event_count = mysqli_num_rows($event_result);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - Community Connect</title>
     <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="userStyle.css">
+
 
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -268,7 +278,8 @@ $event_count = mysqli_num_rows($event_result);
     <!-- NAVBAR -->
     <?php
         $active = 'events';
-        include 'mainNav.php';
+        include 'userNav.php';
+
     ?>
 
     <!-- MAIN CONTENT -->
@@ -358,7 +369,43 @@ $event_count = mysqli_num_rows($event_result);
           
              <!-- BUTTONS FIXED AT BOTTOM RIGHT -->
             <div class="event-btn" style="position: absolute; bottom: 10px; left: 10px; display: flex; gap: 10px;">
-                <a href="registerEvent.php?id=<?php echo $row['id'];?>" class="btn btn-outline-info">Register</a>
+                       <?php
+// current event id
+$event_id = $row['id'];
+
+$checkRegStmt = mysqli_prepare($conn, "
+    SELECT status 
+    FROM registrations 
+    WHERE user_id = ? AND event_id = ?
+    LIMIT 1
+");
+
+mysqli_stmt_bind_param($checkRegStmt, "ii", $user_id, $event_id);
+mysqli_stmt_execute($checkRegStmt);
+$regResult = mysqli_stmt_get_result($checkRegStmt);
+$registration = mysqli_fetch_assoc($regResult);
+
+// Button decision
+if ($registration) {
+
+    if ($registration['status'] === 'pending') {
+        echo '<button class="btn btn-warning" disabled>Request Pending</button>';
+
+    } elseif ($registration['status'] === 'approved') {
+        echo '<button class="btn btn-success" disabled>Request Approved</button>';
+
+    } elseif ($registration['status'] === 'rejected') {
+        echo '<button class="btn btn-danger" disabled>Request Rejected</button>';
+    }
+
+} else {
+    echo '<a href="registerEvent.php?id='.$event_id.'" class="btn btn-outline-info">Register</a>';
+}
+
+mysqli_stmt_close($checkRegStmt);
+?>
+
+
                 <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-secondary">View</a>
             </div>
 

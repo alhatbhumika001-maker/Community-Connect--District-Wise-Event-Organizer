@@ -21,7 +21,7 @@
                     <ul id="events" class="dropdown-menu">
                         <!-- List all the events here  -->
                         <li><a class="dropdown-item <?php if ($active == 'exploreEvent') echo 'active'; ?>"
-                                href="exploreEvent.php">Explore</a></li>
+                                href="event.php">Explore</a></li>
                         <!-- Show created events by user here -->
                         <li><a class="dropdown-item <?php if ($active == 'myEvent') echo 'active'; ?>"
                                 href="myEvent.php">Created events</a></li>
