@@ -73,7 +73,13 @@ $phone    = $_POST['phone'];
 $district = $_POST['district'];
 
 // Set status: private = pending, public = accepted
-$status = ($privacy === 'private') ? 'pending' : 'approved' : 'rejected';
+if ($privacy === 'private') {
+    $status = 'pending';
+} elseif ($privacy === 'public') {
+    $status = 'approved';
+} else {
+    $status = 'rejected';
+}
 
 // INSERT registration
 $stmt = mysqli_prepare($conn, "

@@ -372,38 +372,96 @@ while ($row = $result->fetch_assoc()) {
                     </div>
                 <?php endif; ?>
             </div>
+            <?php
+                // safety check
+                if (!isset($_SESSION['login_user']['user_id'])) {
+                    die("User not logged in");
+                }
 
+                $user_id = $_SESSION['login_user']['user_id'];
 
-        <div class="past-event container-fluid">
-            <h3 class="com-head">Past Events Registered</h3>
-            <!-- if any past events registered, display them here -->
-            <div class="event-card mb-5 pe-4">
-                <div class="date-box ">
-                    {{ DATE }}<br>
-                    <small>{{ TIME }}</small>
-                </div>
-                <div class="photo-box mt-3 mb-3">
-                    <!-- server: either render <img src="..."> or leave as empty placeholder -->
-                    <!-- Example: <img src="{{ IMAGE_URL }}" alt="{{ EVENT_NAME }}"> -->
-                    <!-- If you prefer no image, leave this empty and it will show neutral background -->
-                </div>
-                <div class="content-box">
-                    <div class="mb-2" style="font-weight:700">{{ EVENT_NAME }}</div>
-                    <div class="mb-2">{{ COMMUNITY_NAME }}</div>
-                    <div class="mb-2 text-muted fs-6">{{ EVENT_DISTRICT }}</div>
-                    <div class="text-muted mb-2 fs-6">{{ EVENT_DESCRIPTION }}</div>
-                </div>
+                $recent_events_query = "
+                    SELECT 
+                        r.event_name,
+                        r.event_date,
+                        r.start_time,
+                        r.district,
+                        r.status,
+                        e.about,
+                        e.image
+                    FROM registrations r
+                    LEFT JOIN community_events e ON r.event_id = e.id
+                    WHERE r.user_id = ?
+                    AND r.status = 'approved'
+                    ORDER BY r.created_at DESC
+                ";
+
+                $stmt3 = mysqli_prepare($conn, $recent_events_query);
+                if (!$stmt3) {
+                    die("Prepare failed: " . mysqli_error($conn));
+                }
+
+                mysqli_stmt_bind_param($stmt3, "i", $user_id);
+                mysqli_stmt_execute($stmt3);
+                $recent_events_result = mysqli_stmt_get_result($stmt3);
+        ?>
+`
+                    <div class="past-event container-fluid">
+                <h3 class="com-head">Past Events Registered</h3>
+
+                <?php if (mysqli_num_rows($recent_events_result) > 0): ?>
+                    <?php while ($event = mysqli_fetch_assoc($recent_events_result)): ?>
+
+                        <div class="event-card mb-5 pe-4">
+                            
+
+                            <div class="photo-box mt-3 mb-7">
+                                <?php if (!empty($event['image'])): ?>
+                                    <img src="<?= htmlspecialchars($event['image']); ?>" 
+                                        alt="<?= htmlspecialchars($event['event_name']); ?>">
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="content-box">
+                                <div class="mb-2" style="font-weight:700">
+                                    <?= htmlspecialchars($event['event_name']); ?>
+                                </div>
+
+                                <div class="mb-2" style="font-weight:700">
+                                <?= date('d M', strtotime($event['event_date'])); ?> | <?= date('h:i A', strtotime($event['start_time'])); ?>
+                                <small><?= date('h:i A', strtotime($event['start_time'])); ?></small>
+                                </div>
+
+                                <div class="mb-2">
+                                    Community Event
+                                </div>
+
+                                <div class="mb-2 text-muted fs-6">
+                                    <?= htmlspecialchars($event['district']); ?>
+                                </div>
+
+                                <div class="text-muted mb-2 fs-6">
+                                    <?= htmlspecialchars($event['about'] ?? 'No description available'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php endwhile; ?>
+                <?php else: ?>
+
+                    <!-- No events registered -->
+                    <div class="empty-card text-center mb-4">
+                        <div><i class="bi bi-calendar-plus"></i></div>
+                        <h4>No event registered</h4>
+                        <p class="text-muted">Explore more events</p>
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
+                        </div>
+                    </div>
+
+                <?php endif; ?>
             </div>
-            <!-- else the following block should be executed -->
-            <div class="empty-card text-center mb-4">
-                <div><i class="bi bi-calendar-plus"></i></div>
-                <h4>No event registered</h4>
-                <p class="text-muted">Explore more events</p>
-                <div class="d-flex justify-content-center mt-4">
-                    <a href="event.php" class="btn btn-outline-indigo filter-pill">Explore</a>
-                </div>
-            </div>
-        </div>
+
 
         <div class="contact container-fluid">
             <h3 class="com-head">Connect with me -</h3>
