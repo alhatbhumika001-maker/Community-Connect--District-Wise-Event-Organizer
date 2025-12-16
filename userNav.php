@@ -14,8 +14,7 @@
                 <li class="nav-item dropdown <?php
                                                 if (in_array($active, ['exploreEvent', 'myEvent']))
                                                     echo 'active'; ?>">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Events
                     </a>
                     <ul id="events" class="dropdown-menu">
@@ -32,10 +31,10 @@
                         <li><a class="dropdown-item" href="createEvent.php">Create</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown <?php
-                    if (in_array($active, ['exploreCommunity', 'myCommunity'])) echo 'active'; ?>">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                <li
+                    class="nav-item dropdown <?php
+                                                if (in_array($active, ['exploreCommunity', 'myCommunity'])) echo 'active'; ?>">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Community
                     </a>
                     <ul class="dropdown-menu">
