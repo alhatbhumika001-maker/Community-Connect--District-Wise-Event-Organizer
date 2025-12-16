@@ -23,6 +23,8 @@
             class="bi bi-people me-2"></i>Manage Communities</a>
     <a href="profile.php" class="<?php if ($active == 'adminProfile') echo 'active'; ?>"><i
             class="bi bi-person me-2"></i>Profile</a>
+    <a href="members.php" class="<?php if ($active == 'members') echo 'active'; ?>"><i
+            class="bi bi-person-check-fill"></i>Members</a>
 
     <div>
         <hr style="border-color: rgba(255,255,255,.06);">
@@ -48,6 +50,8 @@
                 href="communityInsights.php"><i class="bi bi-people me-2"></i>Manage Communities</a>
             <a class="nav-link text-white <?php if ($active == 'adminProfile') echo 'fw-bold'; ?>"
                 href="adminProfile.php"><i class="bi bi-person me-2"></i>Profile</a>
+            <a href="members.php" class="<?php if ($active == 'members') echo 'active'; ?>"><i
+                    class="bi bi-person-check-fill"></i>Members</a>
 
             <div>
                 <hr style="border-color: rgba(255,255,255,.06);">

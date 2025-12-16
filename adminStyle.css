@@ -10,11 +10,12 @@ body {
 }
 
 .btn-outline-navy {
-  color: #e7dcdc;
+  color: #21103d;
   border-color: #21103d;
 }
 
 .btn-outline-navy:hover {
+  color: white;
   background: #21103d;
 }
 
@@ -23,7 +24,7 @@ body {
   height: 56px;
   background-image: linear-gradient(
     135deg,
-    #1c0847 0%,
+    #4415a8 0%,
     #7c5caf 60%,
     #6f3be8 100%
   );
@@ -62,7 +63,7 @@ body {
   width: 240px;
   background-image: linear-gradient(
     155deg,
-    #1c0847 0%,
+    #4415a8 0%,
     #7c5caf 60%,
     #6f3be8 100%
   );
@@ -93,7 +94,7 @@ body {
 .section-strip {
   background-image: linear-gradient(
     200deg,
-    #1c0847 0%,
+    #4415a8 0%,
     #7c5caf 60%,
     #6f3be8 100%
   );
@@ -133,7 +134,7 @@ body {
 .offcanvas-header {
   background-image: linear-gradient(
     135deg,
-    #1c0847 0%,
+    #4415a8 0%,
     #7c5caf 60%,
     #6f3be8 100%
   );
@@ -143,7 +144,7 @@ body {
 .offcanvas-body {
   background-image: linear-gradient(
     135deg,
-    #1c0847 0%,
+    #4415a8 0%,
     #7c5caf 60%,
     #6f3be8 100%
   );
@@ -165,7 +166,7 @@ body {
 /* CONTENT */
 .content {
   margin-left: 230px;
-  padding: 120px 20px 40px;
+  padding: 30px 30px 40px;
   min-height: 100vh;
 }
 
@@ -177,6 +178,6 @@ body {
 
   .content {
     margin-left: 0;
-    padding-top: 140px;
+    padding-top: 40px;
   }
 }
