@@ -59,9 +59,9 @@
 
 #brand .brand-logo {
   width: 48px;
-  height: 20px;
+  height: 48px;
   object-fit: cover;
-  /* border-radius: 50%; */
+  border-radius: 50%;
 }
 
 #user .user-name {
