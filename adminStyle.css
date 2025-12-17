@@ -2,6 +2,7 @@ body {
   font-family: Outfit, sans-serif;
   background: #eef4ff;
   margin: 0;
+  overflow-x: hidden;
 }
 
 /* For the pages where there would be no strip for navigation */
@@ -165,8 +166,7 @@ body {
 
 /* CONTENT */
 .content {
-  margin-top: 45px;
-  margin-left: 230px;
+  margin-left: 240px;
   padding: 30px 30px 40px;
   min-height: 100vh;
 }
