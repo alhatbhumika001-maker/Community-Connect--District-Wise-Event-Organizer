@@ -1,184 +1,448 @@
--- Create Database
-CREATE DATABASE  community_connect;
-USE community_connect;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 17, 2025 at 09:37 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
--- =========================
--- USERS TABLE
--- =========================
-CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    confirm_password VARCHAR(255) NOT NULL,
-    role VARCHAR(100) NOT NULL,
-    district VARCHAR(100) NOT NULL,
-    bio VARCHAR(300) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
--- =========================
--- DISTRICTS TABLE
--- =========================
-CREATE TABLE districts (
-    district_id INT AUTO_INCREMENT PRIMARY KEY,
-    district_name VARCHAR(100) NOT NULL UNIQUE
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Insert default districts (you can add/remove)
-INSERT INTO districts (district_name) VALUES
-('Pune'),
-('Mumbai'),
-('Nashik'),
-('Nagpur'),
-('Thane'),
-('Satara'),
-('Kolhapur');
+--
+-- Database: `community_connect`
+--
 
--- =========================
--- CATEGORIES TABLE
--- =========================
-CREATE TABLE categories (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(100) NOT NULL UNIQUE
-);
+-- --------------------------------------------------------
 
--- Insert default categories
-INSERT INTO categories (category_name) VALUES
-('Cultural'),
-('Sports'),
-('College Event'),
-('Festival'),
-('Government Program'),
-('Social Event');
+--
+-- Table structure for table `categories`
+--
 
--- =========================
--- EVENTS TABLE
--- =========================
-CREATE TABLE community_events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `categories` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-    event_name VARCHAR(255) NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    other_category VARCHAR(255),
+--
+-- Dumping data for table `categories`
+--
 
-    district VARCHAR(100) NOT NULL,
+INSERT INTO `categories` (`category_id`, `category_name`) VALUES
+(3, 'College Event'),
+(1, 'Cultural'),
+(4, 'Festival'),
+(5, 'Government Program'),
+(6, 'Social Event'),
+(2, 'Sports');
 
-    start_time TIME,
-    end_time TIME,
+-- --------------------------------------------------------
 
-    date DATE,
+--
+-- Table structure for table `comments`
+--
 
-    image VARCHAR(255) DEFAULT 'default_event.jpg',
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `community_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-    event_type VARCHAR(150) NOT NULL,
+--
+-- Dumping data for table `comments`
+--
 
-    about TEXT,
+INSERT INTO `comments` (`id`, `post_id`, `user_id`, `community_id`, `content`, `created_at`) VALUES
+(1, 5, 1, 8, 'I Love india..', '2025-12-10 15:16:02'),
+(2, 5, 6, 8, 'Yesterday is but a dream, tomorrow but a vision.', '2025-12-11 06:29:00'),
+(3, 5, 4, 8, 'Satyameva Jayate..', '2025-12-11 06:30:32');
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT DEFAULT NULL
-);
+-- --------------------------------------------------------
 
--- =========================
--- EVENT REGISTRATION TABLE
--- =========================
-CREATE TABLE registrations (
-    reg_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    event_id INT,
-    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--
+-- Table structure for table `communities`
+--
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (event_id) REFERENCES community_events(id)
-);
+CREATE TABLE `communities` (
+  `id` int(11) NOT NULL,
+  `community_name` varchar(255) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `other_category` varchar(100) DEFAULT NULL,
+  `privacy` varchar(100) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `district` varchar(100) NOT NULL,
+  `about` varchar(300) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =========================
--- DEFAULT ADMIN
--- =========================
+--
+-- Dumping data for table `communities`
+--
 
+INSERT INTO `communities` (`id`, `community_name`, `category`, `other_category`, `privacy`, `image`, `district`, `about`, `created_at`, `created_by`) VALUES
+(1, 'Social media community', 'social', '', 'public', 'image/so1.webp', 'jalgaon', ' Social Media Communities are a groups of like-minded people who come together on social media platforms to share their mutual interests and experiences. With the advancement of time, social media communities have taken a forefront seat in the businesses. Everybody has indulged in a community or oth', '2025-12-05 15:26:14', 1),
+(2, 'International Fashion community', 'festive', 'Fashion Expos', 'public', 'image/community2.jpg', 'jalgaon', 'Fashion trade shows are special events where fashion designers and brand owners show off their new fashions to potential clients and retailers, and these events are held all over the world.', '2025-12-05 15:45:43', 2),
+(3, 'Heritage Hub Community', 'cultural', 'Culture Collective', 'public', 'image/community1.jpg', 'pune', 'A cultural community is a group sharing common experiences, values, traditions (like language, beliefs, arts, food) that shape their worldview and identity, passed down generations, creating shared meaning and belonging, often defined by ethnicity, location, or shared purpose, and constantly evolvin', '2025-12-05 16:03:30', 3),
+(4, 'Collage Campus Community', 'college-level', 'Everyone – students (undergrads, grads), professors, admin – part of the institution.', 'public', 'image/community3.jpg', 'mumbai', 'A college-level community is a diverse group sharing academic goals, social life, and local ties, encompassing the entire campus (students, faculty, staff) and local area', '2025-12-05 16:35:14', 4),
+(7, 'PowerPlay Community', 'sports', '', 'public', 'image/commnity4.jpg', 'pune', 'fitness meets friendship! Join us for workouts, motivation, and to crush your health goals together.\".', '2025-12-06 15:44:04', 5),
+(8, 'Govenment Community ', 'governmental', 'Governments community', 'public', 'image/community1.jpg', 'nagpur', 'The government is the system that runs a country.\r\nIt makes laws, manages public services, and ensures the safety and development of the nation.', '2025-12-07 08:39:22', 1),
+(9, 'Development Community', 'college-level', '', 'public', 'image/community5.webp', 'mumbai', 'Plan and execute overall growth, including infrastructure, new courses, and quality initiatives', '2025-12-07 15:21:33', 1),
+(10, 'Youth Cultural Club', 'Cultural', NULL, 'Public', 'image/communityj5.jpg', 'Pune', 'A community for cultural activities and events', '2025-12-16 09:58:55', 3);
 
--- =========================
--- DEFAULT USERS
--- =========================
-INSERT INTO users 
-(full_name, username, email, password, confirm_password, role, district, bio)
-VALUES
-('Bhumika Alhat', 'bhumika', 'bhumika@gmail.com', '123', '123', 'organizer', 'jalgaon', 'Default Organizer User'),
+-- --------------------------------------------------------
 
-('Akansha Sheet', 'akansha', 'akanshasheet@gmail.com', '123', '123', 'volunteer', 'pune', 'Default Volunteer User'),
+--
+-- Table structure for table `community_events`
+--
 
-('Nikita Patil', 'nikita', 'nikitapatil@gmail.com', '123', '123', 'admin', 'mumbai', 'Default Admin User');
+CREATE TABLE `community_events` (
+  `id` int(11) NOT NULL,
+  `event_name` varchar(255) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `other_category` varchar(255) DEFAULT NULL,
+  `district` varchar(100) NOT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `image` varchar(255) DEFAULT 'default_event.jpg',
+  `event_type` varchar(150) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `about` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) NOT NULL,
+  `Community` int(11) DEFAULT NULL,
+  `event_code` varchar(50) DEFAULT NULL,
+  `privacy` varchar(10) NOT NULL DEFAULT 'public',
+  `details` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE communities (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    community_name VARCHAR(255) NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    other_category VARCHAR(100),
-    privacy VARCHAR(100) NOT NULL,
-    image VARCHAR(255),
-    district VARCHAR(100) NOT NULL,
-    about VARCHAR(300),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by INT DEFAULT NULL
-);
+--
+-- Dumping data for table `community_events`
+--
 
+INSERT INTO `community_events` (`id`, `event_name`, `category`, `other_category`, `district`, `start_time`, `end_time`, `date`, `image`, `event_type`, `location`, `about`, `created_at`, `created_by`, `Community`, `event_code`, `privacy`, `details`) VALUES
+(1, 'Stock Market Insights 2025', 'social', '', 'pune', '20:00:00', '22:00:00', '2026-01-01', 'event_images/event6.jpg', 'Workshop', 'Pimpri chincvad pune', 'Join us for an interactive session on the latest trends in the stock market. Learn strategies for investing, understanding market fluctuations, and tips for building a strong portfolio. Open to beginners and experienced traders alike!', '2025-12-08 16:05:55', 1, 1, NULL, 'public', NULL),
+(2, 'PM Sabha Prime Minister’s Modi ', 'governmental', '', 'mumbai', '09:00:00', '12:00:00', '2026-01-06', 'event_images/event3.jpg', 'Community Service', '', 'Join us to watch and discuss the Prime Minister’s latest speech on national policies, development initiatives, and key government programs. Engage with fellow community members and share your thoughts on the nation’s progress.', '2025-12-08 16:14:18', 1, 8, NULL, 'public', NULL),
+(3, 'Career Fairs & Networking Event ', 'college-level', '', 'jalgaon', '08:00:00', '15:00:00', '2026-01-31', 'event_images/community3.jpg', 'Seminar', '', 'Connect with top employers, explore new career opportunities, and expand your professional network. Attend workshops, meet industry experts, and gain insights to advance your career. Open to students, job seekers, and professionals alike.', '2025-12-08 16:17:39', 1, 9, NULL, 'public', NULL),
+(7, 'Dholida Garba Night – Navratri Special', 'college-level', '', 'jalgaon', '10:00:00', '17:00:00', '2026-10-07', 'event_images/event7.jpg', 'Cultural Program', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'A vibrant and energetic Garba night to celebrate Navratri with traditional music, dhol beats, and festive colors!', '2025-12-12 16:19:25', 4, 4, 'KCE-NAVRATRI-2025-XX99', 'private', 'Instructions\r\n🎉 Open for all age groups  (In Collage)\r\n🎟 Registration required  \r\n👗 Dress Code: Traditional Navratri Attire  \r\n\r\nLet’s come together to celebrate the spirit of Navratri with joy, music, and dance. ');
 
-INSERT INTO communities 
-(community_name, category, other_category, privacy, image, district, about, created_by)
-VALUES
-('Youth Cultural Club', 'Cultural', NULL, 'Public', 'default.png', 'Pune', 'A community for cultural activities and events', 3),
+-- --------------------------------------------------------
 
-('Green Earth Volunteers', 'Social Event', NULL, 'Public', 'default.png', 'Mumbai', 'A group working on environmental awareness', 2),
-
-('Fitness & Sports Hub', 'Sports', NULL, 'Public', 'default.png', 'Nagpur', 'Sports lovers and fitness activities group', 1),
-
-('College Innovators Forum', 'College Event', NULL, 'Private', 'default.png', 'Nashik', 'A community for college students and innovators', 1),
-
-('Women Empowerment Group', 'Social Event', NULL, 'Public', 'default.png', 'Thane', 'Focused on women empowerment activities', 2),
-
-('Tech Learners Community', 'Government Program', NULL, 'Public', 'default.png', 'Pune', 'Digital skills and government tech training programs', 3);
-
-
-INSERT INTO community_events 
-(event_name, category, other_category, district, start_time, end_time, date, image, event_type, about, created_by)
-VALUES
-('Ganesh Utsav Cultural Night', 'Cultural', NULL, 'Pune', '18:00:00', '22:00:00', '2025-01-20', 'default_event.jpg', 'Offline', 'Cultural performances, dance & singing', 1),
-
-('Marathon 2025', 'Sports', NULL, 'Mumbai', '06:00:00', '10:00:00', '2025-02-15', 'default_event.jpg', 'Offline', 'Annual city marathon for all age groups', 2),
-
-('College Tech Fest', 'College Event', NULL, 'Nagpur', '09:00:00', '18:00:00', '2025-03-10', 'default_event.jpg', 'Offline', 'A technical festival with competitions and workshops', 3),
-
-('Tree Plantation Drive', 'Social Event', NULL, 'Thane', '08:00:00', '12:00:00', '2025-04-05', 'default_event.jpg', 'Offline', 'Community tree planting event', 2),
-
-('Digital India Awareness Program', 'Government Program', NULL, 'Nashik', '10:00:00', '13:00:00', '2025-05-01', 'default_event.jpg', 'Offline', 'Government-run digital skills awareness session', 3),
-
-('Women Safety Workshop', 'Social Event', NULL, 'Satara', '11:00:00', '14:00:00', '2025-06-09', 'default_event.jpg', 'Offline', 'Self-defense and safety awareness workshop', 1);
-
-
+--
+-- Table structure for table `community_members`
+--
 
 CREATE TABLE `community_members` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `community_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  `status` ENUM('pending', 'approved') DEFAULT 'pending',
-  `joined_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `community_id` (`community_id`),
-  KEY `user_id` (`user_id`)
-);
+  `id` int(11) NOT NULL,
+  `community_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `joined_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','approved') DEFAULT 'pending',
+  `created_by` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `community_members`
+--
 
+INSERT INTO `community_members` (`id`, `community_id`, `user_id`, `joined_at`, `status`, `created_by`) VALUES
+(2, 9, 4, '2025-12-11 06:37:27', 'approved', 4),
+(4, 9, 6, '2025-12-11 12:44:08', 'approved', 6),
+(5, 9, 3, '2025-12-12 05:24:19', 'pending', 0),
+(6, 10, 4, '2025-12-17 08:25:50', 'approved', 0);
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `districts`
+--
 
+CREATE TABLE `districts` (
+  `district_id` int(11) NOT NULL,
+  `district_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `districts`
+--
 
+INSERT INTO `districts` (`district_id`, `district_name`) VALUES
+(7, 'Kolhapur'),
+(2, 'Mumbai'),
+(4, 'Nagpur'),
+(3, 'Nashik'),
+(1, 'Pune'),
+(6, 'Satara'),
+(5, 'Thane');
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `notices`
+--
 
+CREATE TABLE `notices` (
+  `id` int(11) NOT NULL,
+  `community_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `notices`
+--
 
+INSERT INTO `notices` (`id`, `community_id`, `user_id`, `title`, `content`, `created_at`) VALUES
+(1, 9, 1, 'PM Interaction Program – Guidelines for Attendees.', 'The PM Interaction Program is designed to facilitate meaningful engagement between participants and the Prime Minister, enabling open dialogue on key national priorities, development initiatives, and citizen-centric issues. To ensure the session is productive, respectful, and smoothly organized, attendees are expected to follow a set of guidelines throughout the program.', '2025-12-10 22:08:44');
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `community_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `post` varchar(300) NOT NULL,
+  `content` text NOT NULL,
+  `likes` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `comments` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `community_id`, `user_id`, `post`, `content`, `likes`, `created_at`, `comments`) VALUES
+(3, 9, 1, 'posts_image/post1.jpg', '\"PM Sabha\" likely refers to the Prime Minister\'s role in the Indian Parliament (Sabha), which involves leading the majority in the Lok Sabha (House of the People)', 4, '2025-12-10 07:08:06', 0),
+(4, 8, 1, 'posts_image/post1.jpg', '\"PM Sabha\" likely refers to the Prime Minister\'s role in the Indian Parliament (Sabha), which involves leading the majority in the Lok Sabha (House of the People)', 10, '2025-12-10 07:58:00', 0),
+(5, 8, 1, 'posts_image/post2.webp', '“JAI JAWAN, JAI KISAN, JAI VIGYAN, JAI ANUSANDHAN”- SLOGANOF NEW INDIA-PM NARENDRA MODI.', 2, '2025-12-10 14:36:33', 3),
+(6, 2, 1, '', 'Creating effective international fashion community post descriptions requires a focus on authentic connection, shared global values, and engaging visual storytelling. These posts serve as digital platforms where fashion is not just displayed but discussed and democratized among global participants.', 1, '2025-12-11 06:18:10', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `registrations`
+--
+
+CREATE TABLE `registrations` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `event_name` varchar(255) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `id_card` varchar(255) NOT NULL,
+  `district` varchar(100) NOT NULL,
+  `event_code` varchar(100) DEFAULT NULL,
+  `event_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'approved',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `registrations`
+--
+
+INSERT INTO `registrations` (`id`, `user_id`, `event_id`, `event_name`, `name`, `email`, `phone`, `id_card`, `district`, `event_code`, `event_date`, `start_time`, `location`, `status`, `created_at`) VALUES
+(1, 6, 7, 'Dholida Garba Night – Navratri Special', 'Seema Jitendra Patil', 'seema1234@gmail.com', '1234567890', 'event_registration_id/1765615835_id1.jpg', 'jalgaon', 'KCE-NAVRATRI-2025-XX99', '2026-10-07', '10:00:00', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'pending', '2025-12-13 08:50:35'),
+(2, 6, 3, 'Career Fairs & Networking Event ', 'Nikita Jitendra Patil', 'seema@gmail.com', '1234567890', 'event_registration_id/1765617037_id1.jpg', 'mumbai', NULL, '2026-01-31', '08:00:00', '', 'approved', '2025-12-13 09:10:37'),
+(3, 3, 2, 'PM Sabha Prime Minister’s Modi ', 'ABCD', 'abc@gmail.com', '0987654321', 'event_registration_id/1765642993_id1.jpg', 'mumbai', NULL, '2026-01-06', '09:00:00', '', 'pending', '2025-12-13 16:23:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `confirm_password` varchar(255) NOT NULL,
+  `role` varchar(100) NOT NULL,
+  `district` varchar(100) NOT NULL,
+  `bio` varchar(300) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
+(1, 'Nikita Jitendra Patil..', 'Nikita-2007', 'nikita2007@gmail.com', '2007', '2007', 'volunteer', 'pune', 'Web Developer..', '2025-12-03 11:10:18'),
+(3, 'ABCD', 'ABC1234', 'abc@gmail.com', '1234', '1234', 'volunteer', 'thane', '.......................', '2025-12-03 12:23:54'),
+(4, 'Lalit Jitendra Patil', 'Lalit-2009', 'lalit2009@gmail.com', 'Lalit2009', '', 'volunteer', 'pune', '....................................', '2025-12-06 15:11:25'),
+(5, 'XYZ', 'XYZ-123', 'xyz123@gmail.com', '123', '', 'volunteer', 'thane', '................', '2025-12-06 15:41:15'),
+(6, 'Seema Jitendra patil', 'seema1234', 'seema1234@gmail.com', '1234', '', 'volunteer', 'pune', '....................', '2025-12-07 07:27:53');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`),
+  ADD UNIQUE KEY `category_name` (`category_name`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `communities`
+--
+ALTER TABLE `communities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `community_events`
+--
+ALTER TABLE `community_events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `community_members`
+--
+ALTER TABLE `community_members`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `districts`
+--
+ALTER TABLE `districts`
+  ADD PRIMARY KEY (`district_id`),
+  ADD UNIQUE KEY `district_name` (`district_name`);
+
+--
+-- Indexes for table `notices`
+--
+ALTER TABLE `notices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `registrations`
+--
+ALTER TABLE `registrations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `event_id` (`event_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `communities`
+--
+ALTER TABLE `communities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `community_events`
+--
+ALTER TABLE `community_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `community_members`
+--
+ALTER TABLE `community_members`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `districts`
+--
+ALTER TABLE `districts`
+  MODIFY `district_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `notices`
+--
+ALTER TABLE `notices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `registrations`
+--
+ALTER TABLE `registrations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `registrations`
+--
+ALTER TABLE `registrations`
+  ADD CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `community_events` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
