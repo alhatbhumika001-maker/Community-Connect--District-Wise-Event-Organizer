@@ -101,6 +101,13 @@
 </head>
 
 <body>
+    <?php
+    $active = 'adminDashboard';
+    $topbar = 'events';
+    $sub = 'eventInsights';
+    include 'adminNav.php';
+    ?>
+
     <div class="content">
         <h1 class="mb-3 text-muted">Overview on Events</h1>
         <div class="row g-3">

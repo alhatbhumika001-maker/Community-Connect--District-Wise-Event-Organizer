@@ -166,6 +166,7 @@ body {
 
 /* CONTENT */
 .content {
+  margin-top: 50px;
   margin-left: 240px;
   padding: 30px 30px 40px;
   min-height: 100vh;
