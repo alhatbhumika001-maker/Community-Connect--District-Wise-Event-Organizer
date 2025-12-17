@@ -102,7 +102,7 @@
 
 <body>
     <?php
-    $active = 'adminDashboard';
+    $active = 'events';
     $topbar = 'events';
     $sub = 'eventInsights';
     include 'adminNav.php';
