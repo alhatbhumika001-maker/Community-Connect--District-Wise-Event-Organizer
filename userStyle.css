@@ -61,7 +61,7 @@
   width: 48px;
   height: 20px;
   object-fit: cover;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 #user .user-name {
