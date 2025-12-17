@@ -100,6 +100,3 @@
     </ul>
 </div>
 <?php endif; ?>
-
-<!-- PAGE CONTENT START -->
-<div class="content"></div>

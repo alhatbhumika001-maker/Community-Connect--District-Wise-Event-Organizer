@@ -109,7 +109,7 @@
     include 'adminNav.php';
     ?>
 
-    <div class="container-fluid">
+    <div class="content container-fluid">
         <div class="row g-3">
 
             <!-- Card 1 -->
