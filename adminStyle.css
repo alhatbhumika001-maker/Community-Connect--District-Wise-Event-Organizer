@@ -6,7 +6,7 @@ body {
 
 /* For the pages where there would be no strip for navigation */
 .no-strip .content {
-  padding-top: 80px;
+  padding-top: 24px;
 }
 
 .btn-outline-navy {

@@ -22,7 +22,7 @@
         background: #ffffff;
         border-radius: 10px;
         padding: 16px;
-        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .metric-top {
@@ -60,6 +60,7 @@
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         overflow: hidden;
+        max-width: 900px;
         width: 100%;
         height: 100%;
     }
@@ -100,6 +101,12 @@
         font-size: 13px;
         color: #6b7280;
     }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 40px 0 16px;
+    }
     </style>
 </head>
 
@@ -109,7 +116,7 @@
     include 'adminNav.php';
     ?>
 
-    <div class="content container-fluid">
+    <div class="content container">
         <div class="row g-3">
 
             <!-- Card 1 -->
@@ -174,7 +181,7 @@
 
         </div>
 
-        <h3 class="mt-4">Recent Events</h3>
+        <h4 class="section-title">Recent Events</h4>
 
         <div class="list-card mb-3 mx-auto">
 
@@ -210,7 +217,7 @@
             </div>
         </div>
 
-        <h3 class="mt-4">Recent Community</h3>
+        <h4 class="section-title">Recent Community</h4>
 
         <div class="list-card mb-3 mx-auto">
 
