@@ -428,8 +428,9 @@ COMMIT;
 -- Defult Admin
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
 (7, 'Bhumika', 'bhumika01', 'santoshalhat1405@gmail.com', '123456', '123456', 'volenteer', 'Pune', 'Hello I am Bhumika', '2025-12-18 11:14:03'),
-(8, 'Akansha', 'akansha01', 'akansha@gmail.com', '123456', '123456', 'user', 'admin', 'Hello I am Akansha', '2025-12-18 11:14:03'),
+(8, 'Akansha', 'akansha01', 'dummy234765@gmail.com', '123456', '123456', 'user', 'admin', 'Hello I am Akansha', '2025-12-18 11:14:03'),
 (9, 'Nikita', 'nikita01', 'nikita@gmail.com', '123456', '123456', 'user', 'organizer', 'Hello I am Nikita', '2025-12-18 11:14:03');
 
 
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
+
