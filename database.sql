@@ -70,14 +70,15 @@ CREATE TABLE `communities` (
 --
 
 INSERT INTO `communities` (`id`, `community_name`, `category`, `other_category`, `privacy`, `image`, `district`, `about`, `created_at`, `created_by`) VALUES
-(1, 'Social media community', 'social', '', 'public', 'image/so1.webp', 'jalgaon', ' Social Media Communities are a groups of like-minded people who come together on social media platforms to share their mutual interests and experiences. With the advancement of time, social media communities have taken a forefront seat in the businesses. Everybody has indulged in a community or oth', '2025-12-05 15:26:14', 1),
-(2, 'International Fashion community', 'festive', 'Fashion Expos', 'public', 'image/community2.jpg', 'jalgaon', 'Fashion trade shows are special events where fashion designers and brand owners show off their new fashions to potential clients and retailers, and these events are held all over the world.', '2025-12-05 15:45:43', 2),
-(3, 'Heritage Hub Community', 'cultural', 'Culture Collective', 'public', 'image/community1.jpg', 'pune', 'A cultural community is a group sharing common experiences, values, traditions (like language, beliefs, arts, food) that shape their worldview and identity, passed down generations, creating shared meaning and belonging, often defined by ethnicity, location, or shared purpose, and constantly evolvin', '2025-12-05 16:03:30', 3),
-(4, 'Collage Campus Community', 'college-level', 'Everyone – students (undergrads, grads), professors, admin – part of the institution.', 'public', 'image/community3.jpg', 'mumbai', 'A college-level community is a diverse group sharing academic goals, social life, and local ties, encompassing the entire campus (students, faculty, staff) and local area', '2025-12-05 16:35:14', 4),
-(7, 'PowerPlay Community', 'sports', '', 'public', 'image/commnity4.jpg', 'pune', 'fitness meets friendship! Join us for workouts, motivation, and to crush your health goals together.\".', '2025-12-06 15:44:04', 5),
-(8, 'Govenment Community ', 'governmental', 'Governments community', 'public', 'image/community1.jpg', 'nagpur', 'The government is the system that runs a country.\r\nIt makes laws, manages public services, and ensures the safety and development of the nation.', '2025-12-07 08:39:22', 1),
-(9, 'Development Community', 'college-level', '', 'public', 'image/community5.webp', 'mumbai', 'Plan and execute overall growth, including infrastructure, new courses, and quality initiatives', '2025-12-07 15:21:33', 1),
-(10, 'Youth Cultural Club', 'Cultural', NULL, 'Public', 'image/communityj5.jpg', 'Pune', 'A community for cultural activities and events', '2025-12-16 09:58:55', 3);
+(11, 'Green Warriors', 'Environment', NULL, 'public', 'image/green_warriors.jpg', 'Pune', 'Community focused on cleanliness, tree plantation, and environmental awareness.', '2025-12-18 11:59:50', 1),
+(12, 'Women Rise', 'Social', 'Women Empowerment', 'public', 'image/women_rise.jpg', 'Mumbai', 'A community dedicated to empowering women through education and leadership.', '2025-12-18 11:59:50', 2),
+(13, 'Life Savers', 'Health', NULL, 'public', 'image/life_savers.jpg', 'Nagpur', 'Community organizing blood donation and health awareness camps.', '2025-12-18 11:59:50', 3),
+(14, 'Skill India', 'Education', 'Technology', 'public', 'image/skill_india.jpg', 'Online', 'Community for youth skill development, coding, and career guidance.', '2025-12-18 11:59:50', 1),
+(15, 'Fit India Club', 'Sports', NULL, 'public', 'image/fit_india.jpg', 'Aurangabad', 'Community promoting fitness, sports activities, and healthy lifestyle.', '2025-12-18 11:59:50', 3),
+(16, 'Youth Connect', 'Social', NULL, 'public', 'image/youth_connect.jpg', 'Nashik', 'Community for youth engagement, volunteering, and leadership activities.', '2025-12-18 11:59:50', 2),
+(17, 'Tech Learners Hub', 'Education', 'Programming', 'private', 'image/tech_learners.jpg', 'Pune', 'Private community for students learning programming and new technologies.', '2025-12-18 11:59:50', 1),
+(18, 'Helping Hands', 'Social Work', NULL, 'public', 'image/helping_hands.jpg', 'Mumbai', 'Community involved in social service and helping underprivileged people.', '2025-12-18 11:59:50', 2);
+
 
 -- --------------------------------------------------------
 
@@ -435,5 +436,6 @@ INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `c
 
 
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
+
 
 
