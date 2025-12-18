@@ -1,31 +1,9 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Dec 17, 2025 at 09:37 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `community_connect`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
 
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
@@ -448,5 +426,10 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 -- Defult Admin
+INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
+(7, 'Bhumika', 'bhumika01', 'santoshalhat1405@gmail.com', '123456', '123456', 'volenteer', 'Pune', 'Hello I am Bhumika', '2025-12-18 11:14:03'),
+(8, 'Akansha', 'akansha01', 'akansha@gmail.com', '123456', '123456', 'user', 'admin', 'Hello I am Akansha', '2025-12-18 11:14:03'),
+(9, 'Nikita', 'nikita01', 'nikita@gmail.com', '123456', '123456', 'user', 'organizer', 'Hello I am Nikita', '2025-12-18 11:14:03');
+
 
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
