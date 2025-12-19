@@ -61,7 +61,7 @@
     <?php
     $active = 'events';
     $topbar = 'events';
-    $sub = 'events_list';
+    $sub = 'event_action';
     include 'adminNav.php';
     ?>
     <div class="content">
@@ -166,12 +166,13 @@
                             <p class="small">
                                 Event: <strong>Event_Name</strong>
                             </p>
+                            <input type="text" name="reason_title" class="form-control mb-2"
+                                placeholder="Reason title (e.g. Inappropriate content)" required>
                             <p class="small text-muted">
-                                Please provide a reason. This will be shared with the organizer.
+                                Please provide a detailed explaination about the cancellation.
                             </p>
-
-                            <textarea name="reason" class="form-control" rows="4" required
-                                placeholder="Reason for cancellation"></textarea>
+                            <textarea name="reason_detail" class="form-control" rows="3"
+                                placeholder="Explain the reason in detail" required></textarea>
                         </div>
 
                         <div class="modal-footer justify-content-between">
