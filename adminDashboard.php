@@ -216,6 +216,7 @@ $row = mysqli_fetch_assoc($result);
 
     <?php if ($events_co > 0): ?>
         <?php while ($row = mysqli_fetch_assoc($events_re)): ?>
+            <?php $event_id = $row['id']; ?>
             <div class="list-card mx-auto">
                 <div class="row g-0 align-items-stretch">
                     <div class="col-md-4 list-card-img-wrap">
@@ -229,7 +230,7 @@ $row = mysqli_fetch_assoc($result);
                                 Community: <?php echo $row['community_name']; ?><br>
                                 Date: <?php echo date("d M Y", strtotime($row['date'])); ?>
                             </p>
-                            <a href="#" class="btn btn-sm btn-outline-navy">View Details</a>
+                            <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-navy">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -244,6 +245,7 @@ $row = mysqli_fetch_assoc($result);
 
     <?php if ($communities_co > 0): ?>
         <?php while ($row = mysqli_fetch_assoc($communities_re)): ?>
+            <?php $cid = $row['id']; ?>
             <div class="list-card mx-auto">
                 <div class="row g-0 align-items-stretch">
                     <div class="col-md-4 list-card-img-wrap">
@@ -256,7 +258,7 @@ $row = mysqli_fetch_assoc($result);
                             <p class="list-card-meta">
                                 Date: <?php echo date("d M Y", strtotime($row['created_at'])); ?>
                             </p>
-                            <a href="#" class="btn btn-sm btn-outline-navy">View Details</a>
+                            <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-sm btn-outline-navy">View Details</a>
                         </div>
                     </div>
                 </div>
