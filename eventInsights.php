@@ -1,3 +1,13 @@
+<?php
+ $conn = new mysqli("localhost", "root", "", "community_connect");
+
+    $user_id = $_SESSION['user_id'] ?? 0;
+
+// Fetch events Count
+    $events_query = "SELECT * FROM community_events";
+    $events_result = mysqli_query($conn, $events_query);
+    $events_count = mysqli_num_rows($events_result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,6 +118,26 @@
     include 'adminNav.php';
     ?>
 
+    <?php
+        // Active Events Count (logic same)
+        $result = mysqli_query($conn, "
+            SELECT COUNT(*) AS active_events 
+            FROM community_events 
+            WHERE date > CURDATE()
+        ");
+        $row = mysqli_fetch_assoc($result);
+    ?>
+
+    <?php
+        // Past Events Count (logic same)
+        $result = mysqli_query($conn, "
+            SELECT COUNT(*) AS past_events 
+            FROM community_events 
+            WHERE date < CURDATE()
+        ");
+        $rows = mysqli_fetch_assoc($result);
+    ?>
+
     <div class="content">
         <h1 class="mb-3 text-muted">Overview on Events</h1>
         <div class="row g-3">
@@ -119,10 +149,10 @@
                             <i class="bi bi-calendar-event"></i>
                         </div>
                         <div class="metric-title text-muted">
-                            Total Events<br>Active
+                            <span style="color: #312E81; font-weight:600;">Total Active Events</span><br><span style="font-size:20px; color:gray; font-weight:600;">In Community Connect</span>
                         </div>
                     </div>
-                    <div class="metric-value">Total Events active</div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Active Events: </span> <?php echo $events_count; ?></div>
                 </div>
             </div>
 
@@ -134,10 +164,10 @@
                             <i class="bi bi-clipboard2-check"></i>
                         </div>
                         <div class="metric-title text-muted">
-                            Past<br>Events
+                             <span style="color: #312E81; font-weight:600;">Past Events</span><br><span style="font-size:20px; color:gray; font-weight:600;">In Community Connect</span>
                         </div>
                     </div>
-                    <div class="metric-value">Past Events</div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Past Events: </span><?php echo $rows['past_events']; ?> </div>
                 </div>
             </div>
             <!-- Card 3 -->
@@ -148,10 +178,10 @@
                             <i class="bi bi-x-square"></i>
                         </div>
                         <div class="metric-title text-muted">
-                            Removed<br>Events
+                              <span style="color: #312E81; font-weight:600;"> Removed Events</span><br><span style="font-size:20px; color:gray; font-weight:600;">In Community Connect</span>
                         </div>
                     </div>
-                    <div class="metric-value">Events Removed by Admin</div>
+                    <div class="metric-value">Events Removed by Admin : 0</div>
                 </div>
             </div>
             <!-- Card 4 -->
@@ -162,10 +192,11 @@
                             <i class="bi bi-calendar2-plus"></i>
                         </div>
                         <div class="metric-title text-muted">
-                            Upcoming<br>Events
+                             <span style="color: #312E81; font-weight:600;"> Upcoming Events</span><br><span style="font-size:20px; color:gray; font-weight:600;">In Community Connect</span>
+
                         </div>
                     </div>
-                    <div class="metric-value">Upcoming Events. Just count - for upcoming days</div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Upcoming Events: </span><?php echo $row['active_events']; ?></div>
                 </div>
             </div>
         </div>

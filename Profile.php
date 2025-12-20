@@ -356,11 +356,13 @@ while ($row = $result->fetch_assoc()) {
                 <h3 class="com-head">Communities Joined</h3>
 
                 <?php if(count($joinedCommunities) > 0): ?>
+                    <?php foreach($joinedCommunities as $community): ?>
                     <div class="com-list me-3 mb-3">
-                        <?php foreach($joinedCommunities as $community): ?>
+                        
                             <p class="com-name"><?= htmlspecialchars($community['community_name']) ?></p> <br>
-                        <?php endforeach; ?>
+                        
                     </div>
+                    <?php endforeach; ?>
                 <?php else: ?>
                     <div class="no-com text-center mb-4">
                         <div><i class="bi bi-emoji-neutral"></i></div>

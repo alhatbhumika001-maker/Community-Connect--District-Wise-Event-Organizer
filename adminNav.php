@@ -1,3 +1,12 @@
+    <?php
+         $conn = mysqli_connect("localhost", "root", "", "community_connect");
+        session_start();
+        if (isset($_SESSION['login_user'])) 
+        {
+
+            $username = $_SESSION['login_user']['username'];
+        }
+    ?>
 <!-- TOPBAR -->
 <div class="topbar">
     <!-- Mobile hamburger -->
@@ -27,9 +36,9 @@
             class="bi bi-person-check-fill"></i>Members</a>
 
     <div>
-        <hr style="border-color: rgba(255,255,255,.06);">
-        <div class="small-muted">Logged in as</div>
-        <div class="adminName">username</div>
+        <hr style="border-color: rgba(192, 178, 178, 0.06);">
+        <div class="small-muted" style="color:rgba(215, 201, 201, 0.88); font-size:20px;">Logged in as</div>
+        <div class="adminName"><?php echo $username; ?></div>
     </div>
 </div>
 
