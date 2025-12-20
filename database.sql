@@ -1,31 +1,9 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Dec 17, 2025 at 09:37 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `community_connect`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
 
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
@@ -92,14 +70,15 @@ CREATE TABLE `communities` (
 --
 
 INSERT INTO `communities` (`id`, `community_name`, `category`, `other_category`, `privacy`, `image`, `district`, `about`, `created_at`, `created_by`) VALUES
-(1, 'Social media community', 'social', '', 'public', 'image/so1.webp', 'jalgaon', ' Social Media Communities are a groups of like-minded people who come together on social media platforms to share their mutual interests and experiences. With the advancement of time, social media communities have taken a forefront seat in the businesses. Everybody has indulged in a community or oth', '2025-12-05 15:26:14', 1),
-(2, 'International Fashion community', 'festive', 'Fashion Expos', 'public', 'image/community2.jpg', 'jalgaon', 'Fashion trade shows are special events where fashion designers and brand owners show off their new fashions to potential clients and retailers, and these events are held all over the world.', '2025-12-05 15:45:43', 2),
-(3, 'Heritage Hub Community', 'cultural', 'Culture Collective', 'public', 'image/community1.jpg', 'pune', 'A cultural community is a group sharing common experiences, values, traditions (like language, beliefs, arts, food) that shape their worldview and identity, passed down generations, creating shared meaning and belonging, often defined by ethnicity, location, or shared purpose, and constantly evolvin', '2025-12-05 16:03:30', 3),
-(4, 'Collage Campus Community', 'college-level', 'Everyone – students (undergrads, grads), professors, admin – part of the institution.', 'public', 'image/community3.jpg', 'mumbai', 'A college-level community is a diverse group sharing academic goals, social life, and local ties, encompassing the entire campus (students, faculty, staff) and local area', '2025-12-05 16:35:14', 4),
-(7, 'PowerPlay Community', 'sports', '', 'public', 'image/commnity4.jpg', 'pune', 'fitness meets friendship! Join us for workouts, motivation, and to crush your health goals together.\".', '2025-12-06 15:44:04', 5),
-(8, 'Govenment Community ', 'governmental', 'Governments community', 'public', 'image/community1.jpg', 'nagpur', 'The government is the system that runs a country.\r\nIt makes laws, manages public services, and ensures the safety and development of the nation.', '2025-12-07 08:39:22', 1),
-(9, 'Development Community', 'college-level', '', 'public', 'image/community5.webp', 'mumbai', 'Plan and execute overall growth, including infrastructure, new courses, and quality initiatives', '2025-12-07 15:21:33', 1),
-(10, 'Youth Cultural Club', 'Cultural', NULL, 'Public', 'image/communityj5.jpg', 'Pune', 'A community for cultural activities and events', '2025-12-16 09:58:55', 3);
+(11, 'Green Warriors', 'Environment', NULL, 'public', 'image/green_warriors.jpg', 'Pune', 'Community focused on cleanliness, tree plantation, and environmental awareness.', '2025-12-18 11:59:50', 1),
+(12, 'Women Rise', 'Social', 'Women Empowerment', 'public', 'image/women_rise.jpg', 'Mumbai', 'A community dedicated to empowering women through education and leadership.', '2025-12-18 11:59:50', 2),
+(13, 'Life Savers', 'Health', NULL, 'public', 'image/life_savers.jpg', 'Nagpur', 'Community organizing blood donation and health awareness camps.', '2025-12-18 11:59:50', 3),
+(14, 'Skill India', 'Education', 'Technology', 'public', 'image/skill_india.jpg', 'Online', 'Community for youth skill development, coding, and career guidance.', '2025-12-18 11:59:50', 1),
+(15, 'Fit India Club', 'Sports', NULL, 'public', 'image/fit_india.jpg', 'Aurangabad', 'Community promoting fitness, sports activities, and healthy lifestyle.', '2025-12-18 11:59:50', 3),
+(16, 'Youth Connect', 'Social', NULL, 'public', 'image/youth_connect.jpg', 'Nashik', 'Community for youth engagement, volunteering, and leadership activities.', '2025-12-18 11:59:50', 2),
+(17, 'Tech Learners Hub', 'Education', 'Programming', 'private', 'image/tech_learners.jpg', 'Pune', 'Private community for students learning programming and new technologies.', '2025-12-18 11:59:50', 1),
+(18, 'Helping Hands', 'Social Work', NULL, 'public', 'image/helping_hands.jpg', 'Mumbai', 'Community involved in social service and helping underprivileged people.', '2025-12-18 11:59:50', 2);
+
 
 -- --------------------------------------------------------
 
@@ -133,10 +112,12 @@ CREATE TABLE `community_events` (
 --
 
 INSERT INTO `community_events` (`id`, `event_name`, `category`, `other_category`, `district`, `start_time`, `end_time`, `date`, `image`, `event_type`, `location`, `about`, `created_at`, `created_by`, `Community`, `event_code`, `privacy`, `details`) VALUES
-(1, 'Stock Market Insights 2025', 'social', '', 'pune', '20:00:00', '22:00:00', '2026-01-01', 'event_images/event6.jpg', 'Workshop', 'Pimpri chincvad pune', 'Join us for an interactive session on the latest trends in the stock market. Learn strategies for investing, understanding market fluctuations, and tips for building a strong portfolio. Open to beginners and experienced traders alike!', '2025-12-08 16:05:55', 1, 1, NULL, 'public', NULL),
-(2, 'PM Sabha Prime Minister’s Modi ', 'governmental', '', 'mumbai', '09:00:00', '12:00:00', '2026-01-06', 'event_images/event3.jpg', 'Community Service', '', 'Join us to watch and discuss the Prime Minister’s latest speech on national policies, development initiatives, and key government programs. Engage with fellow community members and share your thoughts on the nation’s progress.', '2025-12-08 16:14:18', 1, 8, NULL, 'public', NULL),
-(3, 'Career Fairs & Networking Event ', 'college-level', '', 'jalgaon', '08:00:00', '15:00:00', '2026-01-31', 'event_images/community3.jpg', 'Seminar', '', 'Connect with top employers, explore new career opportunities, and expand your professional network. Attend workshops, meet industry experts, and gain insights to advance your career. Open to students, job seekers, and professionals alike.', '2025-12-08 16:17:39', 1, 9, NULL, 'public', NULL),
-(7, 'Dholida Garba Night – Navratri Special', 'college-level', '', 'jalgaon', '10:00:00', '17:00:00', '2026-10-07', 'event_images/event7.jpg', 'Cultural Program', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'A vibrant and energetic Garba night to celebrate Navratri with traditional music, dhol beats, and festive colors!', '2025-12-12 16:19:25', 4, 4, 'KCE-NAVRATRI-2025-XX99', 'private', 'Instructions\r\n🎉 Open for all age groups  (In Collage)\r\n🎟 Registration required  \r\n👗 Dress Code: Traditional Navratri Attire  \r\n\r\nLet’s come together to celebrate the spirit of Navratri with joy, music, and dance. ');
+(14, 'Clean India Drive', 'Social Work', NULL, 'Pune', '07:00:00', '10:00:00', '2025-01-05', 'image/clean_india.jpg', 'Offline', 'JM Road, Pune', 'A cleanliness drive to promote hygiene and public awareness.', '2025-12-18 11:37:12', 1, 1, 'EVT001', 'public', 'Cleaning kits will be provided to volunteers.'),
+(15, 'Tree Plantation Program', 'Environment', NULL, 'Nashik', '08:00:00', '11:00:00', '2025-01-08', 'image/tree_plantation.jpg', 'Offline', 'College Road, Nashik', 'Tree plantation event to support green environment.', '2025-12-18 11:37:12', 2, 2, 'EVT002', 'public', 'Participants should carry water bottles.'),
+(16, 'Blood Donation Camp', 'Health', NULL, 'Nagpur', '09:00:00', '16:00:00', '2025-01-12', 'image/blood_donation.jpg', 'Offline', 'Civil Hospital, Nagpur', 'Blood donation camp with certified medical staff.', '2025-12-18 11:37:12', 3, 3, 'EVT003', 'public', 'Free health check-up available.'),
+(17, 'Women Empowerment Workshop', 'Seminar', NULL, 'Mumbai', '10:00:00', '14:00:00', '2025-01-15', 'image/women_empowerment.jpg', 'Offline', 'Andheri East, Mumbai', 'Workshop focusing on women safety and leadership.', '2025-12-18 11:37:12', 2, 2, 'EVT004', 'public', 'Certificates will be given to participants.'),
+(18, 'Youth Skill Development Webinar', 'Education', 'Technology', 'Online', '18:00:00', '20:00:00', '2025-01-18', 'image/skill_webinar.jpg', 'Online', 'Google Meet', 'Online webinar for youth skill development.', '2025-12-18 11:37:12', 1, 1, 'EVT005', 'private', 'Meeting link will be shared after registration.'),
+(19, 'Community Sports Meet', 'Sports', NULL, 'Aurangabad', '06:30:00', '12:00:00', '2025-01-22', 'image/sports_meet.jpg', 'Offline', 'City Sports Ground, Aurangabad', 'Sports activities to promote fitness and teamwork.', '2025-12-18 11:37:12', 3, 3, 'EVT006', 'public', 'Sports kits will be provided.');
 
 -- --------------------------------------------------------
 
@@ -292,12 +273,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
-(1, 'Nikita Jitendra Patil..', 'Nikita-2007', 'nikita2007@gmail.com', '2007', '2007', 'volunteer', 'pune', 'Web Developer..', '2025-12-03 11:10:18'),
-(3, 'ABCD', 'ABC1234', 'abc@gmail.com', '1234', '1234', 'volunteer', 'thane', '.......................', '2025-12-03 12:23:54'),
-(4, 'Lalit Jitendra Patil', 'Lalit-2009', 'lalit2009@gmail.com', 'Lalit2009', '', 'volunteer', 'pune', '....................................', '2025-12-06 15:11:25'),
-(5, 'XYZ', 'XYZ-123', 'xyz123@gmail.com', '123', '', 'volunteer', 'thane', '................', '2025-12-06 15:41:15'),
-(6, 'Seema Jitendra patil', 'seema1234', 'seema1234@gmail.com', '1234', '', 'volunteer', 'pune', '....................', '2025-12-07 07:27:53');
+
 
 --
 -- Indexes for dumped tables
@@ -448,5 +424,15 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 -- Defult Admin
+INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
+(7, 'Bhumika', 'bhumika01', 'santoshalhat1405@gmail.com', '123456', '123456', 'volenteer', 'Pune', 'Hello I am Bhumika', '2025-12-18 11:14:03'),
+
+(9, 'Nikita', 'nikita01', 'nikita@gmail.com', '123456', '123456', 'user', 'organizer', 'Hello I am Nikita', '2025-12-18 11:14:03');
+
 
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
+
+
+
+
+
