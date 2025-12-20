@@ -4,10 +4,15 @@
     // LIST OF COMMUNITIES
     $user_id = $_SESSION['user_id'] ?? 0;
 
-    // Fetch communities created by logged-in user
+    // Fetch communities
     $community_query = "SELECT * FROM communities ORDER BY id DESC";
     $community_result = mysqli_query($conn, $community_query);
     $community_count = mysqli_num_rows($community_result);
+
+     // Fetch communities created by logged-in user
+    $community_members = "SELECT * FROM community_members WHERE user_id = $user_id";
+    $community_res = mysqli_query($conn, $community_members);
+    $community_members_count = mysqli_num_rows($community_res);
 ?>
 <?php
 // FETCH MEMBERSHIP STATUS FOR CURRENT USER
@@ -291,6 +296,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
                 </div>
             </div>
 
+            <?php
+
+                if (isset($_GET['district'])) {
+                    $_SESSION['district'] = $_GET['district'];
+                }
+
+                $selectedDistrict = $_SESSION['district'] ?? '';
+            ?>
+            <?php
+                $totalCommunities = 0;
+
+                if (!empty($selectedDistrict)) {
+
+                    $stmt = $conn->prepare(
+                        "SELECT COUNT(*) AS total 
+                        FROM communities 
+                        WHERE district = ?"
+                    );
+
+                    $stmt->bind_param("s", $selectedDistrict);
+                    $stmt->execute();
+
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+
+                    $totalCommunities = $row['total'];
+                }
+            ?>
+
+
+
             <!-- COMMUNITIES IN DISTRICT -->
             <div class="col-12 col-md-4">
                 <div class="metric-card">
@@ -303,7 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
                     </div>
 
                     <div class="metric-count">
-                        {{Total_communities_in_district}}
+                         District Communities: <?php echo  $totalCommunities; ?>
                     </div>
                 </div>
             </div>
@@ -320,7 +356,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
                     </div>
 
                     <div class="metric-count">
-                        {{Joined_communities_by_user}}
+                        Joined Communities: <?php echo  $community_members_count; ?>
+                       
                     </div>
                 </div>
             </div>
