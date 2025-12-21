@@ -57,6 +57,7 @@
         border-radius: 10px;
         padding: 16px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
     }
 
     .metric-top {
@@ -141,20 +142,20 @@
         font-weight: 600;
         margin: 40px 0 16px;
     }
-    .list-card {
-    margin-bottom: 20px;
-}
 
+    .list-card {
+        margin-bottom: 20px;
+    }
     </style>
 </head>
 
 <body class="no-strip">
-<?php
+    <?php
 $active = 'adminDashboard';
 include 'adminNav.php';
 ?>
 
-<?php
+    <?php
 // Active Events Count (logic same)
 $result = mysqli_query($conn, "
     SELECT COUNT(*) AS active_events 
@@ -164,111 +165,124 @@ $result = mysqli_query($conn, "
 $row = mysqli_fetch_assoc($result);
 ?>
 
-<div class="content container">
+    <div class="content container">
 
-    <!-- ===== METRIC CARDS ===== -->
-    <div class="row g-3">
+        <!-- ===== METRIC CARDS ===== -->
+        <div class="row g-3">
 
-        <div class="col-md-6">
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon"><i class="bi bi-people"></i></div>
-                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Communities<span><br><span style="font-size:20px; color:gray;">Joined Comunities to Community Connect</span></div>
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon"><i class="bi bi-people"></i></div>
+                        <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total
+                                Communities<span><br><span style="font-size:20px; color:gray;">Joined Comunities to
+                                        Community Connect</span></div>
+                    </div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Total Communities:
+                        </span><?php echo $community_count; ?></div>
                 </div>
-                <div class="metric-value"><span style="color: black; font-size:26px;">Total Communities: </span><?php echo $community_count; ?></div>
             </div>
+
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon"><i class="bi bi-calendar-event"></i></div>
+                        <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total
+                                Events<span><br><span style="font-size:20px; color:gray;">Joined Events to Community
+                                        Connect</span></div>
+                    </div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Total Events: </span>
+                        <?php echo $events_count; ?></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon"><i class="bi bi-person-check"></i></div>
+                        <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total
+                                Users<span><br><span style="font-size:20px; color:gray;">Joined Users to Community
+                                        Connect</span></div>
+                    </div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Total Users:
+                        </span><?php echo $users_count; ?></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <div class="metric-top">
+                        <div class="metric-icon"><i class="bi bi-lightning-charge"></i></div>
+                        <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Active
+                                Events<span><br><span style="font-size:20px; color:gray;">Active Events to Community
+                                        Connect</span></div>
+                    </div>
+                    <div class="metric-value"><span style="color: black; font-size:26px;">Active Events:
+                        </span><?php echo $row['active_events']; ?></div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="col-md-6">
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon"><i class="bi bi-calendar-event"></i></div>
-                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Events<span><br><span style="font-size:20px; color:gray;">Joined Events to Community Connect</span></div>
-                </div>
-                <div class="metric-value"><span style="color: black; font-size:26px;">Total Events: </span> <?php echo $events_count; ?></div>
-            </div>
-        </div>
+        <!-- ===== RECENT EVENTS ===== -->
+        <h4 class="section-title">Recent Events</h4>
 
-        <div class="col-md-6">
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon"><i class="bi bi-person-check"></i></div>
-                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Users<span><br><span style="font-size:20px; color:gray;">Joined Users to Community Connect</span></div>
+        <?php if ($events_co > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($events_re)): ?>
+        <?php $event_id = $row['id']; ?>
+        <div class="list-card mx-auto">
+            <div class="row g-0 align-items-stretch">
+                <div class="col-md-4 list-card-img-wrap">
+                    <img src="<?php echo $row['image']; ?>" class="list-card-img">
                 </div>
-                <div class="metric-value"><span style="color: black; font-size:26px;">Total Users: </span><?php echo $users_count; ?></div>
+                <div class="col-md-8">
+                    <div class="list-card-body">
+                        <h5 class="list-card-title"><?php echo $row['event_name']; ?></h5>
+                        <p class="list-card-text"><?php echo $row['about']; ?></p>
+                        <p class="list-card-meta">
+                            Community: <?php echo $row['community_name']; ?><br>
+                            Date: <?php echo date("d M Y", strtotime($row['date'])); ?>
+                        </p>
+                        <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-navy">View
+                            Details</a>
+                    </div>
+                </div>
             </div>
         </div>
+        <?php endwhile; ?>
+        <?php else: ?>
+        <p class="text-center">No recent events found.</p>
+        <?php endif; ?>
 
-        <div class="col-md-6">
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon"><i class="bi bi-lightning-charge"></i></div>
-                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Active Events<span><br><span style="font-size:20px; color:gray;">Active Events to Community Connect</span></div>
+        <!-- ===== RECENT COMMUNITIES ===== -->
+        <h4 class="section-title">Recent Community</h4>
+
+        <?php if ($communities_co > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($communities_re)): ?>
+        <?php $cid = $row['id']; ?>
+        <div class="list-card mx-auto">
+            <div class="row g-0 align-items-stretch">
+                <div class="col-md-4 list-card-img-wrap">
+                    <img src="<?php echo $row['image']; ?>" class="list-card-img">
                 </div>
-                <div class="metric-value"><span style="color: black; font-size:26px;">Active Events: </span><?php echo $row['active_events']; ?></div>
+                <div class="col-md-8">
+                    <div class="list-card-body">
+                        <h5 class="list-card-title"><?php echo $row['community_name']; ?></h5>
+                        <p class="list-card-text"><?php echo $row['about']; ?></p>
+                        <p class="list-card-meta">
+                            Date: <?php echo date("d M Y", strtotime($row['created_at'])); ?>
+                        </p>
+                        <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-sm btn-outline-navy">View Details</a>
+                    </div>
+                </div>
             </div>
         </div>
+        <?php endwhile; ?>
+        <?php else: ?>
+        <p class="text-center">No communities found.</p>
+        <?php endif; ?>
 
     </div>
 
-    <!-- ===== RECENT EVENTS ===== -->
-    <h4 class="section-title">Recent Events</h4>
-
-    <?php if ($events_co > 0): ?>
-        <?php while ($row = mysqli_fetch_assoc($events_re)): ?>
-            <?php $event_id = $row['id']; ?>
-            <div class="list-card mx-auto">
-                <div class="row g-0 align-items-stretch">
-                    <div class="col-md-4 list-card-img-wrap">
-                        <img src="<?php echo $row['image']; ?>" class="list-card-img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="list-card-body">
-                            <h5 class="list-card-title"><?php echo $row['event_name']; ?></h5>
-                            <p class="list-card-text"><?php echo $row['about']; ?></p>
-                            <p class="list-card-meta">
-                                Community: <?php echo $row['community_name']; ?><br>
-                                Date: <?php echo date("d M Y", strtotime($row['date'])); ?>
-                            </p>
-                            <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-navy">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p class="text-center">No recent events found.</p>
-    <?php endif; ?>
-
-    <!-- ===== RECENT COMMUNITIES ===== -->
-    <h4 class="section-title">Recent Community</h4>
-
-    <?php if ($communities_co > 0): ?>
-        <?php while ($row = mysqli_fetch_assoc($communities_re)): ?>
-            <?php $cid = $row['id']; ?>
-            <div class="list-card mx-auto">
-                <div class="row g-0 align-items-stretch">
-                    <div class="col-md-4 list-card-img-wrap">
-                        <img src="<?php echo $row['image']; ?>" class="list-card-img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="list-card-body">
-                            <h5 class="list-card-title"><?php echo $row['community_name']; ?></h5>
-                            <p class="list-card-text"><?php echo $row['about']; ?></p>
-                            <p class="list-card-meta">
-                                Date: <?php echo date("d M Y", strtotime($row['created_at'])); ?>
-                            </p>
-                            <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-sm btn-outline-navy">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p class="text-center">No communities found.</p>
-    <?php endif; ?>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
