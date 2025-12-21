@@ -541,7 +541,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
                 <!-- Slide 1 -->
                 <div class="carousel-item active position-relative">
-                    <img src="sl1.png" class="hero-img">
+                    <img src="image/sl1.png" class="hero-img">
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
                         <h1 style="color:black; margin-top:0px; ">Welcome To Community Connect</h1>
@@ -555,7 +555,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
                 <!-- Slide 2 -->
                 <div class="carousel-item position-relative">
-                    <img src="sl2.png" class="hero-img">
+                    <img src="image/sl2.png" class="hero-img">
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
                         <h1 style="color:black; margin-top:0px;">Join Local Social Service Events</h1>
@@ -568,7 +568,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
                 <!-- Slide 3 -->
                 <div class="carousel-item position-relative">
-                    <img src="slider.png" class="hero-img">
+                    <img src="image/slider.png" class="hero-img">
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
 
