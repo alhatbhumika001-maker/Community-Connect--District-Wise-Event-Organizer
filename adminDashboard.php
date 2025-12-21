@@ -57,7 +57,7 @@
         border-radius: 10px;
         padding: 16px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        max-width: 600px;
+        max-width: 550px;
     }
 
     .metric-top {
