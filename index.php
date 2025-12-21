@@ -26,12 +26,14 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     $user_id = 1;
     $community_id = 1;
 
-    mysqli_query($conn,
+    mysqli_query(
+        $conn,
         "INSERT INTO comments (post_id, user_id, community_id, content)
          VALUES ($post_id, $user_id, $community_id, '$comment')"
     );
 
-    mysqli_query($conn,
+    mysqli_query(
+        $conn,
         "UPDATE posts SET comments = comments + 1 WHERE id = $post_id"
     );
 
@@ -74,17 +76,9 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         font-family: "Outfit", sans-serif;
     }
 
-    /* FORCE FULL SCREEN HERO */
-    /* header,
-        #heroCarousel,
-        .carousel-inner,
-        .carousel-item {
-           
-        } */
-
     .hero-img {
         width: 100%;
-        height: 100;
+        height: 80vh;
         object-fit: cover;
     }
 
@@ -179,7 +173,13 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     .social-img {
         width: 100%;
         height: 230px;
+        background: #f1f3f5;
         object-fit: cover;
+    }
+
+    .social-img span {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
     }
 
     /* BODY */
@@ -374,6 +374,154 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
             transform: none;
         }
     }
+
+    /* Glass Card Design */
+    .glass-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        backdrop-filter: blur(8px) saturate(180%);
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-15px) scale(1.05);
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-img-wrapper {
+        position: relative;
+    }
+
+    .card-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .glass-card:hover .card-img {
+        transform: scale(1.15) rotate(1deg);
+    }
+
+
+
+    .card-body {
+        position: relative;
+        top: -60px;
+        z-index: 2;
+    }
+
+    .card-title {
+        font-size: 1.45rem;
+        text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #f1f1f1;
+    }
+
+    .btn-outline-light {
+        border-width: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-light:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        color: #fff;
+    }
+
+    @media(max-width:768px) {
+        .card-img {
+            height: 200px;
+        }
+
+        .card-body {
+            top: -50px;
+        }
+    }
+
+    .card {
+        transition: 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+    }
+
+    /* LIGHT FEEDBACK SECTION */
+    .feedback-light {
+        background: #f8f9fc;
+    }
+
+    /* CARD */
+    .feedback-soft {
+        position: relative;
+        height: 100%;
+        padding: 25px;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.35s ease;
+    }
+
+    .feedback-soft:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Highlight middle card */
+    .feedback-soft.highlight {
+        border: 2px solid #e9f0ff;
+    }
+
+    /* QUOTE */
+    .quote-soft {
+        position: absolute;
+        top: -20px;
+        right: 20px;
+        font-size: 5rem;
+        color: #e9ecef;
+        font-family: serif;
+    }
+
+    /* USER */
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 15px;
+    }
+
+    .user-info img {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: #eee;
+    }
+
+    .user-info h6 {
+        margin: 0;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* TEXT */
+    .feedback-soft p {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.7;
+    }
+
+    /* STARS */
+    .stars-soft {
+        margin-top: 15px;
+        font-size: 1.1rem;
+        color: #f4c430;
+        letter-spacing: 2px;
+    }
     </style>
 </head>
 
@@ -406,7 +554,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
 
                 <!-- Slide 2 -->
-                <div class="carousel-item active position-relative">
+                <div class="carousel-item position-relative">
                     <img src="sl2.png" class="hero-img">
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
@@ -446,12 +594,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <!-- HOW IT WORKS SECTION -->
-    <!-- MAIN CONTENT -->
-    <!-- MAIN CONTENT -->
-    <!-- MAIN CONTENT -->
-    <!-- MAIN CONTENT -->
     <main class="py-5">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
@@ -513,161 +656,8 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
                 </div>
             </div>
         </div>
-
-        <style>
-        /* Glass Card Design */
-        .glass-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            backdrop-filter: blur(8px) saturate(180%);
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-img-wrapper {
-            position: relative;
-        }
-
-        .card-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .glass-card:hover .card-img {
-            transform: scale(1.15) rotate(1deg);
-        }
-
-
-
-        .card-body {
-            position: relative;
-            top: -60px;
-            z-index: 2;
-        }
-
-        .card-title {
-            font-size: 1.45rem;
-            text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-text {
-            font-size: 1rem;
-            color: #f1f1f1;
-        }
-
-        .btn-outline-light {
-            border-width: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline-light:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            color: #fff;
-        }
-
-        @media(max-width:768px) {
-            .card-img {
-                height: 200px;
-            }
-
-            .card-body {
-                top: -50px;
-            }
-        }
-
-        .card {
-            transition: 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-        }
-
-        /* LIGHT FEEDBACK SECTION */
-        .feedback-light {
-            background: #f8f9fc;
-        }
-
-        /* CARD */
-        .feedback-soft {
-            position: relative;
-            height: 100%;
-            padding: 25px;
-            border-radius: 20px;
-            background: #ffffff;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.35s ease;
-        }
-
-        .feedback-soft:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
-        }
-
-        /* Highlight middle card */
-        .feedback-soft.highlight {
-            border: 2px solid #e9f0ff;
-        }
-
-        /* QUOTE */
-        .quote-soft {
-            position: absolute;
-            top: -20px;
-            right: 20px;
-            font-size: 5rem;
-            color: #e9ecef;
-            font-family: serif;
-        }
-
-        /* USER */
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 15px;
-        }
-
-        .user-info img {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #eee;
-        }
-
-        .user-info h6 {
-            margin: 0;
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* TEXT */
-        .feedback-soft p {
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.7;
-        }
-
-        /* STARS */
-        .stars-soft {
-            margin-top: 15px;
-            font-size: 1.1rem;
-            color: #f4c430;
-            letter-spacing: 2px;
-        }
-        </style>
     </main>
 
-
-    <!-- COMMUNITY POSTS SECTION -->
-    <!-- COMMUNITY POSTS SECTION -->
     <!-- COMMUNITY POSTS -->
     <section class="py-5 bg-light">
         <div class="container">
@@ -677,12 +667,13 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
 
                 <?php
-$posts = mysqli_query($conn,
-    "SELECT * FROM posts ORDER BY created_at DESC LIMIT 3"
-);
+                $posts = mysqli_query(
+                    $conn,
+                    "SELECT * FROM posts ORDER BY created_at DESC LIMIT 3"
+                );
 
-while ($post = mysqli_fetch_assoc($posts)) {
-?>
+                while ($post = mysqli_fetch_assoc($posts)) {
+                ?>
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="social-card">
 
@@ -698,7 +689,12 @@ while ($post = mysqli_fetch_assoc($posts)) {
                         <!-- IMAGE -->
                         <?php if (!empty($post['post'])) { ?>
                         <img src="<?php echo $post['post']; ?>" class="social-img">
+                        <?php } else { ?>
+                        <div class="social-img d-flex align-items-center justify-content-center">
+                            <span class="text-muted fw-semibold">Community Connect</span>
+                        </div>
                         <?php } ?>
+
 
                         <!-- BODY -->
                         <div class="social-body">
@@ -721,11 +717,12 @@ while ($post = mysqli_fetch_assoc($posts)) {
                         <!-- COMMENTS -->
                         <div id="comments-<?php echo $post['id']; ?>" class="social-comments" style="display:none">
                             <?php
-            $comments = mysqli_query($conn,
-                "SELECT * FROM comments WHERE post_id = {$post['id']} ORDER BY created_at DESC"
-            );
-            while ($c = mysqli_fetch_assoc($comments)) {
-            ?>
+                                $comments = mysqli_query(
+                                    $conn,
+                                    "SELECT * FROM comments WHERE post_id = {$post['id']} ORDER BY created_at DESC"
+                                );
+                                while ($c = mysqli_fetch_assoc($comments)) {
+                                ?>
                             <div class="comment">
                                 <strong>User:</strong> <?php echo htmlspecialchars($c['content']); ?>
                             </div>
