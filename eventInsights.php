@@ -24,6 +24,7 @@
         border-radius: 10px;
         padding: 16px;
         box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
     }
 
     .metric-top {
