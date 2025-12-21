@@ -195,6 +195,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         justify-content: space-between;
         padding: 10px 15px;
         border-top: 1px solid #eee;
+        height: 20px;
     }
 
     .social-actions button {
