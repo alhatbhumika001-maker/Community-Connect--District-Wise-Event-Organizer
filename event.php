@@ -29,6 +29,52 @@ if (!$event_result) {
 }
 
 $event_count = mysqli_num_rows($event_result);
+        
+//==== District Filters =====
+$selectedDistrict = isset($_GET['district']) ? $_GET['district'] : 'all';
+
+$event_query = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+";
+
+if ($selectedDistrict !== 'all') {
+    $event_query .= " WHERE community_events.district = '".mysqli_real_escape_string($conn, $selectedDistrict)."'";
+}
+
+$event_query .= " ORDER BY community_events.id DESC";
+
+$event_result = mysqli_query($conn, $event_query);
+$event_count  = mysqli_num_rows($event_result);
+
+//==== Category Filters =====
+$selectedCategory = $_GET['category'] ?? '';
+$todayFilter      = $_GET['date'] ?? '';
+$event_query = "
+    SELECT community_events.*, communities.community_name
+    FROM community_events
+    JOIN communities ON community_events.community = communities.id
+    WHERE 1
+";
+
+/* CATEGORY FILTER */
+if (!empty($selectedCategory)) {
+    $event_query .= " AND community_events.category = '".mysqli_real_escape_string($conn, $selectedCategory)."'";
+}
+
+/* TODAY FILTER */
+if ($todayFilter === 'today') {
+    $event_query .= " AND community_events.date = CURDATE()";
+}
+
+$event_query .= " ORDER BY community_events.id DESC";
+
+$event_result = mysqli_query($conn, $event_query);
+$event_count  = mysqli_num_rows($event_result);
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -292,19 +338,29 @@ $event_count = mysqli_num_rows($event_result);
                 <p class="text-muted">Discover upcoming events near you</p>
             </div>
 
+
+
             <!-- DISTRICT DROPDOWN -->
             <form method="GET" action="event.php">
                 <label class="small text-muted">District</label><br>
                 <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
-                    <option>Pune</option>
-                    <option selected>Mumbai</option>
-                    <option>Nagpur</option>
-                    <option>Thane</option>
-                    <option>Nashik</option>
-                    <option>Satara</option>
-                    <option>Kolhapur</option>
+
+                    <option value="all" <?= ($selectedDistrict=='all')?'selected':''; ?>>
+                        All Districts
+                    </option>
+
+                    <option value="Pune" <?= ($selectedDistrict=='Pune')?'selected':''; ?>>Pune</option>
+                    <option value="Mumbai" <?= ($selectedDistrict=='Mumbai')?'selected':''; ?>>Mumbai</option>
+                    <option value="Nagpur" <?= ($selectedDistrict=='Nagpur')?'selected':''; ?>>Nagpur</option>
+                    <option value="Thane" <?= ($selectedDistrict=='Thane')?'selected':''; ?>>Thane</option>
+                    <option value="Nashik" <?= ($selectedDistrict=='Nashik')?'selected':''; ?>>Nashik</option>
+                    <option value="Satara" <?= ($selectedDistrict=='Satara')?'selected':''; ?>>Satara</option>
+                    <option value="Kolhapur" <?= ($selectedDistrict=='Kolhapur')?'selected':''; ?>>Kolhapur</option>
+
                 </select>
+   
             </form>
+
         </div>
 
         <!-- SEARCH BAR -->
@@ -320,16 +376,23 @@ $event_count = mysqli_num_rows($event_result);
         </form>
 
         <!-- FILTERS -->
-        <div class="d-flex gap-2 mb-4 flex-wrap">
-            <button type="submit" name="date" value="today" class="btn btn-outline-info filter-pill">Today</button>
-
-            <button type="submit" name="category" value="education"
-                class="btn btn-outline-info filter-pill">Education</button>
-
-            <button type="submit" name="free" value="1" class="btn btn-outline-info filter-pill">Free</button>
-
-            <button type="submit" name="nearby" value="1" class="btn btn-outline-info filter-pill">Nearby</button>
-        </div>
+            <form method="GET" action="event.php">
+                <div class="d-flex gap-2 flex-wrap">
+                    <button name="free" value="1" class="btn btn-outline-info">All Events</button>
+                    <button name="date" value="today" class="btn btn-outline-info">Today</button>
+                     <button name="free" value="1" class="btn btn-outline-info">Free</button>
+                    <button name="category" value="college-level" class="btn btn-outline-info">College Level</button>
+                    <button name="category" value="free-public" class="btn btn-outline-info">Free for Public</button>
+                    <button name="category" value="cultural" class="btn btn-outline-info">Cultural</button>
+                    <button name="category" value="festive" class="btn btn-outline-info">Festive</button>
+                    <button name="category" value="sports" class="btn btn-outline-info">Sports</button>
+                    <button name="category" value="social" class="btn btn-outline-info">Social</button>
+                    <button name="category" value="governmental" class="btn btn-outline-info">Governmental</button>
+                    <button name="free" value="1" class="btn btn-outline-info">Other</button>
+                   
+                    
+                </div>
+            </form>
 
         <!-- EVENT CARD -->
         
@@ -418,14 +481,15 @@ mysqli_stmt_close($checkRegStmt);
 
 
         <!-- === EMPTY STATE: agar koi event nahi mila to yeh execute hoga WHEN events.length == 0 === -->
-        <div class="empty-card text-center mb-4">
-            <div style="font-size:48px;margin-bottom:12px;">📅</div>
-            <h4>No events found in <strong><!-- insert selected district here --></strong></h4>
-            <p class="text-muted">Try clearing filters or explore nearby districts.</p>
-            <div class="d-flex justify-content-center mt-4">
-                <a href="event.php" class="btn btn-outline-info filter-pill">Clear filters</a>
+        <?php if ($event_count == 0) { ?>
+            <div class="empty-card text-center mb-4">
+                <div style="font-size:48px;margin-bottom:12px;">📅</div>
+                <h4>No events found in <strong><?php echo ucfirst($selectedDistrict); ?></strong></h4>
+                <p class="text-muted">Try clearing filters or explore nearby districts.</p>
+                <a href="event.php" class="btn btn-outline-info">Clear filters</a>
             </div>
-        </div>
+        <?php } ?>
+
 
         <!-- LOAD MORE BUTTON -->
         <div class="text-center mt-4">

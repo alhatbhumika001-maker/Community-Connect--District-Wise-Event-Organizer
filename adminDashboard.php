@@ -1,3 +1,37 @@
+<?php
+     $conn = new mysqli("localhost", "root", "", "community_connect");
+    // LIST OF COMMUNITIES
+    $user_id = $_SESSION['user_id'] ?? 0;
+ // Fetch communities Count
+    $community_query = "SELECT * FROM communities";
+    $community_result = mysqli_query($conn, $community_query);
+    $community_count = mysqli_num_rows($community_result);
+
+    // Fetch Users Count
+    $users_query = "SELECT * FROM users";
+    $users_result = mysqli_query($conn, $users_query);
+    $users_count = mysqli_num_rows($users_result);
+
+    // Fetch events Count
+    $events_query = "SELECT * FROM community_events";
+    $events_result = mysqli_query($conn, $events_query);
+    $events_count = mysqli_num_rows($events_result);
+
+    // Fetch events latest...
+    $events_qu = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+    ORDER BY community_events.id DESC LIMIT 5";
+   $events_re = mysqli_query($conn, $events_qu);
+    $events_co = mysqli_num_rows($events_re);
+
+     // Fetch events latest...
+    $communities_qu = "
+    SELECT * FROM communities ORDER BY id DESC LIMIT 5";
+   $communities_re = mysqli_query($conn, $communities_qu);
+    $communities_co = mysqli_num_rows($communities_re);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,156 +141,134 @@
         font-weight: 600;
         margin: 40px 0 16px;
     }
+    .list-card {
+    margin-bottom: 20px;
+}
+
     </style>
 </head>
 
 <body class="no-strip">
-    <?php
-    $active = 'adminDashboard';
-    include 'adminNav.php';
-    ?>
+<?php
+$active = 'adminDashboard';
+include 'adminNav.php';
+?>
 
-    <div class="content container">
-        <div class="row g-3">
+<?php
+// Active Events Count (logic same)
+$result = mysqli_query($conn, "
+    SELECT COUNT(*) AS active_events 
+    FROM community_events 
+    WHERE date > CURDATE()
+");
+$row = mysqli_fetch_assoc($result);
+?>
 
-            <!-- Card 1 -->
-            <div class="col-md-6">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="metric-title text-muted">
-                            Total<br>Communities
-                        </div>
-                    </div>
-                    <div class="metric-value">Total Communtiies present</div>
+<div class="content container">
+
+    <!-- ===== METRIC CARDS ===== -->
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon"><i class="bi bi-people"></i></div>
+                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Communities<span><br><span style="font-size:20px; color:gray;">Joined Comunities to Community Connect</span></div>
                 </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="col-md-6">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon">
-                            <i class="bi bi-calendar-event"></i>
-                        </div>
-                        <div class="metric-title text-muted">
-                            Total<br>Events
-                        </div>
-                    </div>
-                    <div class="metric-value">Total events. add Past events too</div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-md-6">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon">
-                            <i class="bi bi-person-check"></i>
-                        </div>
-                        <div class="metric-title text-muted">
-                            Total<br>Users
-                        </div>
-                    </div>
-                    <div class="metric-value">Total Users</div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="col-md-6">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon">
-                            <i class="bi bi-lightning-charge"></i>
-                        </div>
-                        <div class="metric-title text-muted">
-                            Active<br>Events
-                        </div>
-                    </div>
-                    <div class="metric-value">Events which have not happened yet.</div>
-                </div>
-            </div>
-
-        </div>
-
-        <h4 class="section-title">Recent Events</h4>
-
-        <div class="list-card mb-3 mx-auto">
-
-            <!-- Loop this area for listing 5 recent events.  -->
-
-            <div class="row g-0 align-items-stretch mb-3">
-
-                <!-- Image -->
-                <div class="col-md-4 list-card-img-wrap">
-                    <img src="" class="img-fluid" alt="Event image">
-                </div>
-
-                <!-- Content -->
-                <div class="col-md-8">
-                    <div class="list-card-body">
-                        <h5 class="list-card-title">Blood Donation Camp</h5>
-
-                        <p class="list-card-text">
-                            Organized by Helping Hands Community. A social service event to encourage blood
-                            donation.
-                        </p>
-
-                        <p class="list-card-meta">
-                            Community: Helping Hands<br>
-                            Date: 12 Oct 2025
-                        </p>
-
-                        <a href="#" class="btn btn-sm btn-outline-navy mt-2">
-                            View Details
-                        </a>
-                    </div>
-                </div>
+                <div class="metric-value"><span style="color: black; font-size:26px;">Total Communities: </span><?php echo $community_count; ?></div>
             </div>
         </div>
 
-        <h4 class="section-title">Recent Community</h4>
-
-        <div class="list-card mb-3 mx-auto">
-
-            <!-- Loop this area for listing 5 recent community.  -->
-
-            <div class="row g-0 align-items-stretch mt-2">
-
-                <!-- Image -->
-                <div class="col-md-4 list-card-img-wrap">
-                    <img src="#" class="img-fluid" alt="Community image">
+        <div class="col-md-6">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon"><i class="bi bi-calendar-event"></i></div>
+                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Events<span><br><span style="font-size:20px; color:gray;">Joined Events to Community Connect</span></div>
                 </div>
+                <div class="metric-value"><span style="color: black; font-size:26px;">Total Events: </span> <?php echo $events_count; ?></div>
+            </div>
+        </div>
 
-                <!-- Content -->
-                <div class="col-md-8">
-                    <div class="list-card-body">
-                        <h5 class="list-card-title">Community Name</h5>
-
-                        <p class="list-card-text">
-                            Community Description
-                        </p>
-
-                        <p class="list-card-meta">
-                            Created By:<br>
-                            Name of creator
-                        </p>
-
-                        <a href="#" class="btn btn-sm btn-outline-navy mt-2">
-                            View Details
-                        </a>
-                    </div>
+        <div class="col-md-6">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon"><i class="bi bi-person-check"></i></div>
+                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Total Users<span><br><span style="font-size:20px; color:gray;">Joined Users to Community Connect</span></div>
                 </div>
+                <div class="metric-value"><span style="color: black; font-size:26px;">Total Users: </span><?php echo $users_count; ?></div>
+            </div>
+        </div>
 
+        <div class="col-md-6">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon"><i class="bi bi-lightning-charge"></i></div>
+                    <div class="metric-title text-muted"><span style="color: #312E81; font-weight:600;">Active Events<span><br><span style="font-size:20px; color:gray;">Active Events to Community Connect</span></div>
+                </div>
+                <div class="metric-value"><span style="color: black; font-size:26px;">Active Events: </span><?php echo $row['active_events']; ?></div>
             </div>
         </div>
 
     </div>
 
-    <!-- Bootstrap JS  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- ===== RECENT EVENTS ===== -->
+    <h4 class="section-title">Recent Events</h4>
 
-</html>
+    <?php if ($events_co > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($events_re)): ?>
+            <?php $event_id = $row['id']; ?>
+            <div class="list-card mx-auto">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-md-4 list-card-img-wrap">
+                        <img src="<?php echo $row['image']; ?>" class="list-card-img">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="list-card-body">
+                            <h5 class="list-card-title"><?php echo $row['event_name']; ?></h5>
+                            <p class="list-card-text"><?php echo $row['about']; ?></p>
+                            <p class="list-card-meta">
+                                Community: <?php echo $row['community_name']; ?><br>
+                                Date: <?php echo date("d M Y", strtotime($row['date'])); ?>
+                            </p>
+                            <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-navy">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p class="text-center">No recent events found.</p>
+    <?php endif; ?>
+
+    <!-- ===== RECENT COMMUNITIES ===== -->
+    <h4 class="section-title">Recent Community</h4>
+
+    <?php if ($communities_co > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($communities_re)): ?>
+            <?php $cid = $row['id']; ?>
+            <div class="list-card mx-auto">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-md-4 list-card-img-wrap">
+                        <img src="<?php echo $row['image']; ?>" class="list-card-img">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="list-card-body">
+                            <h5 class="list-card-title"><?php echo $row['community_name']; ?></h5>
+                            <p class="list-card-text"><?php echo $row['about']; ?></p>
+                            <p class="list-card-meta">
+                                Date: <?php echo date("d M Y", strtotime($row['created_at'])); ?>
+                            </p>
+                            <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-sm btn-outline-navy">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p class="text-center">No communities found.</p>
+    <?php endif; ?>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>

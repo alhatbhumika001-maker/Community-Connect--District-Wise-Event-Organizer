@@ -273,12 +273,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
-(1, 'Nikita Jitendra Patil..', 'Nikita-2007', 'nikita2007@gmail.com', '2007', '2007', 'volunteer', 'pune', 'Web Developer..', '2025-12-03 11:10:18'),
-(3, 'ABCD', 'ABC1234', 'abc@gmail.com', '1234', '1234', 'volunteer', 'thane', '.......................', '2025-12-03 12:23:54'),
-(4, 'Lalit Jitendra Patil', 'Lalit-2009', 'lalit2009@gmail.com', 'Lalit2009', '', 'volunteer', 'pune', '....................................', '2025-12-06 15:11:25'),
-(5, 'XYZ', 'XYZ-123', 'xyz123@gmail.com', '123', '', 'volunteer', 'thane', '................', '2025-12-06 15:41:15'),
-(6, 'Seema Jitendra patil', 'seema1234', 'seema1234@gmail.com', '1234', '', 'volunteer', 'pune', '....................', '2025-12-07 07:27:53');
+
 
 --
 -- Indexes for dumped tables
@@ -431,11 +426,13 @@ COMMIT;
 -- Defult Admin
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
 (7, 'Bhumika', 'bhumika01', 'santoshalhat1405@gmail.com', '123456', '123456', 'volenteer', 'Pune', 'Hello I am Bhumika', '2025-12-18 11:14:03'),
-(8, 'Akansha', 'akansha01', 'dummy234765@gmail.com', '123456', '123456', 'user', 'admin', 'Hello I am Akansha', '2025-12-18 11:14:03'),
+
 (9, 'Nikita', 'nikita01', 'nikita@gmail.com', '123456', '123456', 'user', 'organizer', 'Hello I am Nikita', '2025-12-18 11:14:03');
 
 
 INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
+
+
 
 
 

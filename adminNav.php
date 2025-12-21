@@ -1,3 +1,12 @@
+    <?php
+         $conn = mysqli_connect("localhost", "root", "", "community_connect");
+        session_start();
+        if (isset($_SESSION['login_user'])) 
+        {
+
+            $username = $_SESSION['login_user']['username'];
+        }
+    ?>
 <!-- TOPBAR -->
 <div class="topbar">
     <!-- Mobile hamburger -->
@@ -28,9 +37,9 @@
     <a href="profile.php" class="<?php if ($active == 'adminProfile') echo 'active'; ?>"><i
             class="bi bi-person me-2"></i>Profile</a>
     <div>
-        <hr style="border-color: rgba(255,255,255,.06);">
-        <div class="small-muted">Logged in as</div>
-        <div class="adminName">username</div>
+        <hr style="border-color: rgba(192, 178, 178, 0.06);">
+        <div class="small-muted" style="color:rgba(215, 201, 201, 0.88); font-size:20px;">Logged in as</div>
+        <div class="adminName"><?php echo $username; ?></div>
     </div>
 </div>
 
@@ -77,7 +86,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if ($sub == 'event_actions') echo 'active'; ?>"
-                href="event_actions.php">Actions</a>
+                href="event_action.php">Actions</a>
         </li>
     </ul>
 </div>
