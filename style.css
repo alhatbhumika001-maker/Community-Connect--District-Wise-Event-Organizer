@@ -23,3 +23,10 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+footer {
+  background-color: #cacdcf7c;
+}
+.footer-social i {
+  font-size: 18px;
+}
