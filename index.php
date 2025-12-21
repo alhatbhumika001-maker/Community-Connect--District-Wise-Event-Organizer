@@ -77,7 +77,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     }
 
     .hero {
-        margin-top: 80px;
+        margin-top: 100px;
     }
 
     .hero-img {
