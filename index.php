@@ -779,12 +779,10 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         </div>
     </section>
 
-    <!-- FEEDBACK / TESTIMONIAL SECTION -->
-    <!-- PREMIUM FEEDBACK SECTION -->
-    <!-- LIGHT FEEDBACK SECTION -->
+    <!-- TESTIMONIAL SECTION -->
     <section class="py-5 feedback-light">
         <div class="container">
-            <h2 class="section-title">What Our Community Member's Says</h2>
+            <h2 class="section-title">What Our Community Members Says</h2>
             <p class="text-center text-muted mb-5">
                 Real experiences from people who make a difference.
             </p>
