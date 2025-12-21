@@ -76,6 +76,10 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         font-family: "Outfit", sans-serif;
     }
 
+    .hero {
+        margin-top: 60px;
+    }
+
     .hero-img {
         width: 100%;
         height: 80vh;
@@ -535,7 +539,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
     <!-- HERO CAROUSEL -->
     <header>
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div id="heroCarousel" class="carousel slide carousel-fade hero" data-bs-ride="carousel">
 
             <div class="carousel-inner">
 
