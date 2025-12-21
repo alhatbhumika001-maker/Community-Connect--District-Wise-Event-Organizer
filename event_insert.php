@@ -29,6 +29,9 @@ $privacy       =$_POST['privacy'];
 $details       =$_POST['details'];
 $location      =$_POST['location'];
 $event_type    = $_POST['event_type'];
+$event_ty    = $_POST['event_ty'];
+$registration_deadline    = $_POST['registration_deadline'];
+
 // Receive data  
 $community = $_POST['community'];  // INT value
 $about         = $_POST['about'];
@@ -44,9 +47,9 @@ if ($privacy === 'private' && empty($event_code)) {
 
 // Insert query
 $q = "INSERT INTO community_events 
-(event_name, category, other_category, district, image, start_time, end_time, date, event_type, community, about, created_by, event_code, privacy, details,location)
+(event_name, category, other_category, district, image, start_time, end_time, date, event_type, community, about, created_by, event_code, privacy, details,location,event_ty,registration_deadline)
 VALUES 
-('$event_name', '$category', '$other_category', '$district', '$folder', '$start_time', '$end_time', '$date', '$event_type', '$community', '$about', '$user_id', '$event_code', '$privacy', '$details', '$location')";
+('$event_name', '$category', '$other_category', '$district', '$folder', '$start_time', '$end_time', '$date', '$event_type', '$community', '$about', '$user_id', '$event_code', '$privacy', '$details', '$location','$event_ty','$registration_deadline')";
 
 $result = mysqli_query($conn, $q);
 

@@ -84,7 +84,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if ($sub == 'event_actions') echo 'active'; ?>"
-                href="event_actions.php">Actions</a>
+                href="event_action.php">Actions</a>
         </li>
     </ul>
 </div>

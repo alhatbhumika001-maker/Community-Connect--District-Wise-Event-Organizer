@@ -157,6 +157,7 @@ $privacy = $_POST['privacy'] ?? '';
                         <select id="category" class="form-select" required name="category" required>
                             <option value="">Select</option>
                             <option value="college-level">College Level</option>
+                            <option value="college-level">Free for Public</option>
                             <option value="cultural">Cultural</option>
                             <option value="festive">Festive</option>
                             <option value="sports">Sports</option>
@@ -238,6 +239,30 @@ $privacy = $_POST['privacy'] ?? '';
                         </select>
                     </div>
 
+                    <div class="col-md-6">
+                        <label class="form-label">Event Mode</label>
+                        <select class="form-select" name="event_mode" required>
+                            <option value="">Select</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="reg_deadline" class="form-label">Event Deadline</label>
+                        <input type="date" id="reg_deadline" name="registration_deadline" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="reg_deadline" class="form-label">Event Type (paid/Free)</label>
+                        <select class="form-select" name="event_ty" required>
+                            <option value="">Select</option>
+                            <option value="online">Paid</option>
+                            <option value="offline">Free</option>
+                        </select>
+                    </div>
+
+
                     <!-- PRIVACY (RADIO) -->
                     <div class="col-12">
                         <label class="form-label">Event Privacy</label>
@@ -255,6 +280,8 @@ $privacy = $_POST['privacy'] ?? '';
                         </div>
                     </div>
 
+                    
+
                     <!-- EVENT CODE (Visible only if private) -->
                     <div class="col-12" 
                         id="eventCodeWrapper" 
@@ -266,6 +293,8 @@ $privacy = $_POST['privacy'] ?? '';
                             placeholder="Enter a secret event code"
                             <?= ($privacy === 'private') ? 'required' : '' ?>>
                     </div>
+
+                    
 
 
 

@@ -1,3 +1,67 @@
+<?php
+$conn = mysqli_connect("localhost", "root", "", "community_connect");
+$today = date('Y-m-d');
+
+$status   = $_GET['status']   ?? 'All';
+$district = $_GET['district'] ?? '';
+$search   = $_GET['q']        ?? '';
+
+$where = " WHERE 1 ";
+
+if (!empty($district)) {
+    $where .= " AND district = '$district'";
+}
+
+if (!empty($search)) {
+    $where .= " AND event_name LIKE '%$search%'";
+}
+
+/* STATUS LOGIC */
+if ($status == 'Upcoming') {
+    $where .= " AND date > '$today'";
+}
+elseif ($status == 'Ongoing') {
+    $where .= " AND date <= '$today' AND registration_deadline >= '$today'";
+}
+elseif ($status == 'Completed') {
+    $where .= " AND registration_deadline < '$today'";
+}
+elseif ($status == 'All') {
+ $where = "WHERE registration_deadline >= '$today'";
+}
+
+
+
+$sql = "
+SELECT 
+    community_events.*,
+    communities.community_name,
+    CASE 
+        WHEN status = 'Cancelled' THEN 'Cancelled'
+        WHEN date > '$today' THEN 'Upcoming'
+        WHEN date <= '$today' AND registration_deadline >= '$today' THEN 'Ongoing'
+        ELSE 'Completed'
+    END AS status
+FROM community_events
+JOIN communities ON community_events.community = communities.id
+$where
+ORDER BY date ASC
+";
+
+
+$result = mysqli_query($conn, $sql);
+
+$modal_event = null;
+
+if (isset($_GET['cancel_event_id'])) {
+    $event_id = intval($_GET['cancel_event_id']);
+    $res = mysqli_query($conn, "SELECT * FROM community_events WHERE id=$event_id LIMIT 1");
+    $modal_event = mysqli_fetch_assoc($res);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,8 +152,9 @@
             <form method="GET" action="">
                 <label class="small text-muted">District</label>
                 <select name="district" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+                    <opction>Select District</opction>
                     <option>Jalgaon</option>
-                    <option selected>Pune</option>
+                    <option>Pune</option>
                     <option>Mumbai</option>
                     <option>Nagpur</option>
                     <option>Thane</option>
@@ -100,96 +165,122 @@
             </form>
 
 
-            <!-- Status filter -->
-            <form method="GET" action="">
+                        <?php
+            $status = $_GET['status'] ?? 'All';
+            ?>
+            <form method="GET">
                 <label class="small text-muted">Status</label>
                 <select name="status" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
-                    <option>All</option>
-                    <option selected>Upcoming</option>
-                    <option>Ongoing</option>
-                    <option>Completed</option>
+                    <option value="All" <?= ($status=='All')?'selected':'' ?>>All</option>
+                    <option value="Upcoming" <?= ($status=='Upcoming')?'selected':'' ?>>Upcoming</option>
+                    <option value="Ongoing" <?= ($status=='Ongoing')?'selected':'' ?>>Ongoing</option>
+                    <option value="Completed" <?= ($status=='Completed')?'selected':'' ?>>Completed</option>
                 </select>
             </form>
+
         </div>
 
-        <h2 class="text-muted mb-3">Showing the events of district_name</h2>
-        <!-- Loop from here for showing events-->
-        <div class="events-list mb-3 container">
-            <img src="event_image.png" alt="Event Image" class="eve-img mb-2">
-            <h4 class="mb-2">Event Name</h4>
-            <h5 class="mb-2">Community name</h5>
-            <h5 class="mb-2">Organizer name</h5>
-            <div class="mb-2">
+        <h2 class="text-muted mb-3">Showing the events of <?php echo $district ?></h2>
+       <?php
+if ($result && mysqli_num_rows($result) > 0) {
 
-                <?php if ($event['status'] === 'Upcoming'): ?>
-                <span class="badge bg-warning text-dark">Upcoming</span>
-                <?php elseif ($event['status'] === 'Ongoing'): ?>
-                <span class="badge bg-primary">Ongoing</span>
-                <?php elseif ($event['status'] === 'Completed'): ?>
-                <span class="badge bg-success">Completed</span>
-                <?php endif; ?>
+    while ($event = mysqli_fetch_assoc($result)) {
+?>
+        <div class="events-list mb-3 container">
+            <img src="<?= $event['image'] ?? 'event_image.png' ?>" class="eve-img mb-2">
+
+            <h4><?= $event['event_name'] ?></h4>
+            <h5><?= $event['community_name'] ?></h5>
+            <h5 style="font-size:20px; color:gray; font-weight:700;"><?= $event['about'] ?></h5>
+
+            <div class="mb-2">
+                <?php if ($event['status'] == 'Upcoming') { ?>
+                    <span class="badge bg-warning text-dark">Upcoming</span>
+                <?php } elseif ($event['status'] == 'Ongoing') { ?>
+                    <span class="badge bg-primary">Ongoing</span>
+                <?php } else { ?>
+                    <span class="badge bg-success">Completed</span>
+                <?php } ?>
+
                 <span class="small text-muted ms-2">
-                    <?php echo $event['date']; ?>
+                    <?= date('d M Y', strtotime($event['date'])) ?>
                 </span>
             </div>
-            <h6 class="text-muted mb-2">Description</h6>
+
             <div class="buttons">
-                <button class="btn btn-outline-navy btn-sm">View</button>
-                <!-- Show ONLY if event is upcoming -->
-                <?php if ($event['status'] === 'Upcoming'): ?>
-                <button class="btn btn-outline-navy btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#cancelEventModal">Cancel
-                    Event</button>
-                <?php endif; ?>
+                <a href="viewEvent.php?id=<?php echo $event['id']; ?>" class="btn btn-outline-navy btn-sm">View</a>
+
+                <?php if ($event['status'] == 'Upcoming') { ?>
+                    <a href="?cancel_event_id=<?= $event['id'] ?>" 
+                    class="btn btn-outline-danger btn-sm">
+                    Cancel Event
+                    </a>
+                <?php } ?>
+
+
+
+
             </div>
         </div>
-        <!-- If no event then display this -->
-        <div class="no-event mb-3">
-            <i class="bi bi-calendar"></i>
-            <h4>No events in this district</h4>
-            <h5 class="text-muted">Try clearing the filters</h5>
-        </div>
+<?php
+    }
+
+} else {
+?>
+    <div class="no-event mb-3">
+        <i class="bi bi-calendar"></i>
+        <h4>No events found</h4>
+        <h5 class="text-muted">Try clearing the filters</h5>
+    </div>
+<?php
+}
+?>
+
 
         <!-- Modal for cancelling the event -->
-        <div class="modal fade" id="cancelEventModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+        <?php if ($modal_event): ?>
+<div class="modal fade show" id="cancelEventModal" tabindex="-1" style="display:block;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="POST" action="cancel_event.php">
+                <input type="hidden" name="event_id" value="<?= $modal_event['id'] ?>">
 
-                    <form method="POST" action="">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title">Cancel Event</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <p class="small">
-                                Event: <strong>Event_Name</strong>
-                            </p>
-                            <input type="text" name="reason_title" class="form-control mb-2"
-                                placeholder="Reason title (e.g. Inappropriate content)" required>
-                            <p class="small text-muted">
-                                Please provide a detailed explaination about the cancellation.
-                            </p>
-                            <textarea name="reason_detail" class="form-control" rows="3"
-                                placeholder="Explain the reason in detail" required></textarea>
-                        </div>
-
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" class="btn btn-outline-danger"
-                                onclick="return confirm('Are you sure you want to cancel this event?')">
-                                Cancel Event
-                            </button>
-
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Cancel Event</h5>
+                    <a href="events_list.php" class="btn-close"></a>
                 </div>
-            </div>
+
+                <div class="modal-body">
+                    <p class="small">
+                        Event: <strong><?= htmlspecialchars($modal_event['event_name']) ?></strong>
+                    </p>
+                    <input type="text" name="reason_title" class="form-control mb-2"
+                        placeholder="Reason title (e.g. Inappropriate content)" required>
+                    <p class="small text-muted">
+                        Please provide a detailed explanation about the cancellation.
+                    </p>
+                    <textarea name="reason_detail" class="form-control" rows="3"
+                        placeholder="Explain the reason in detail" required></textarea>
+                </div>
+
+                <div class="modal-footer justify-content-between">
+                    <button type="submit" class="btn btn-outline-danger"
+                        onclick="return confirm('Are you sure you want to cancel this event?')">
+                        Cancel Event
+                    </button>
+                    <a href="events_list.php" class="btn btn-secondary">Close</a>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+<!-- Backdrop -->
+<div class="modal-backdrop fade show"></div>
+<?php endif; ?>
+
+   
+
 
     <!-- Bootstrap JS  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
