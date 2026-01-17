@@ -1,6 +1,9 @@
- <?php
+<?php
  include 'userHead.php';
- 
+  include 'userNav.php';
+?>
+ <?php
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -322,11 +325,6 @@ $event_count  = mysqli_num_rows($event_result);
 <body>
 
     <!-- NAVBAR -->
-    <?php
-        $active = 'events';
-        include 'userNav.php';
-
-    ?>
 
     <!-- MAIN CONTENT -->
     <div class="event-page">
@@ -432,45 +430,32 @@ $event_count  = mysqli_num_rows($event_result);
           
              <!-- BUTTONS FIXED AT BOTTOM RIGHT -->
             <div class="event-btn" style="position: absolute; bottom: 10px; left: 10px; display: flex; gap: 10px;">
-                       <?php
-// current event id
-$event_id = $row['id'];
 
-$checkRegStmt = mysqli_prepare($conn, "
-    SELECT status 
-    FROM registrations 
-    WHERE user_id = ? AND event_id = ?
-    LIMIT 1
-");
+<?php
+$today     = date('Y-m-d');
+$eventDate = $row['date'];
 
-mysqli_stmt_bind_param($checkRegStmt, "ii", $user_id, $event_id);
-mysqli_stmt_execute($checkRegStmt);
-$regResult = mysqli_stmt_get_result($checkRegStmt);
-$registration = mysqli_fetch_assoc($regResult);
+if ($eventDate < $today) {
 
-// Button decision
-if ($registration) {
+    // Past Event
+    echo '<button class="btn btn-warning" disabled><b>Ongoing</b></button>';
 
-    if ($registration['status'] === 'pending') {
-        echo '<button class="btn btn-warning" disabled>Request Pending</button>';
+} elseif ($eventDate == $today) {
 
-    } elseif ($registration['status'] === 'approved') {
-        echo '<button class="btn btn-success" disabled>Request Approved</button>';
-
-    } elseif ($registration['status'] === 'rejected') {
-        echo '<button class="btn btn-danger" disabled>Request Rejected</button>';
-    }
+    // Ongoing Event → NO REGISTER
+    echo '<button class="btn btn-primary" disabled>Ongoing</button>';
 
 } else {
-    echo '<a href="registerEvent.php?id='.$event_id.'" class="btn btn-outline-info">Register</a>';
-}
 
-mysqli_stmt_close($checkRegStmt);
+    // Upcoming Event → Register allowed
+    echo '<a href="registerEvent.php?id='.$row['id'].'" class="btn btn-outline-info">Register</a>';
+}
 ?>
 
+<a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-secondary">View</a>
 
-                <a href="viewEvent.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-secondary">View</a>
-            </div>
+</div>
+
 
            
 

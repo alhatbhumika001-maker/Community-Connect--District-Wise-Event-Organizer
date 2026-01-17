@@ -41,6 +41,16 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     exit;
 }
 
+// SQL Query: fetch all events with community name
+$event_query = "
+    SELECT community_events.*, communities.community_name 
+    FROM community_events 
+    JOIN communities ON community_events.community = communities.id
+    ORDER BY community_events.id DESC limit 3
+";
+
+$event_result = mysqli_query($conn, $event_query);
+
 ?>
 
 
@@ -77,7 +87,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     }
 
     .hero {
-        margin-top: 100px;
+        margin-top: 1px;
     }
 
     .hero-img {
@@ -123,7 +133,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
     /* SECTION TITLE */
     .section-title {
-        font-size: 1.7rem;
+        font-size: 30px;
         font-weight: 700;
         text-align: center;
         margin: 3rem 0 2rem;
@@ -189,8 +199,9 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     /* BODY */
     .social-body {
         padding: 15px;
-        font-size: 0.95rem;
+        font-size: 20px;
         color: #333;
+        
     }
 
     /* ACTIONS */
@@ -526,6 +537,57 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         color: #f4c430;
         letter-spacing: 2px;
     }
+
+    .about-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* kitni lines dikhani hain */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* UPCOMING EVENTS FIX */
+.event-card {
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.event-img {
+    height: 210px;
+    object-fit: cover;
+}
+
+.event-card .card-body {
+    position: static !important;   /* glass-card bug fix */
+    top: 0 !important;
+    background: #fff;
+}
+
+.event-about {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* same height text */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight:500;
+}
+#e_name
+{
+    font-size:20px;
+}
+
+.impact-icon {
+    font-size: 2.6rem;
+    display: inline-block;
+}
+
+.post-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* yahan 2 ya 3 set kar sakte ho */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+
     </style>
 </head>
 
@@ -702,7 +764,7 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
 
                         <!-- BODY -->
                         <div class="social-body">
-                            <p><?php echo $post['content']; ?></p>
+                            <p class="post-text"><?php echo $post['content']; ?></p>
                         </div>
 
                         <!-- ACTIONS -->
@@ -754,36 +816,46 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <!-- COMMUNITY STATS SECTION -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="section-title">Our Community Impact</h2>
+   <section class="py-5 bg-light">
+    <div class="container" style="margin-bottom:-60px;">
+        <h2 class="section-title" style="margin-bottom:20px;">Our Community Impact</h2>
 
-            <div class="row text-center mt-4">
-                <div class="col-md-3 col-6 mb-4">
-                    <h1 class="fw-bold text-primary">120+</h1>
-                    <p class="text-muted">Events Organized</p>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <h1 class="fw-bold text-success">500+</h1>
-                    <p class="text-muted">Volunteers</p>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <h1 class="fw-bold text-warning">50+</h1>
-                    <p class="text-muted">Communities</p>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <h1 class="fw-bold text-danger">10K+</h1>
-                    <p class="text-muted">Lives Impacted</p>
-                </div>
+        <div class="row text-center mt-4">
+
+            <div class="col-md-3 col-6 mb-4">
+                <i class="bi bi-calendar-event-fill impact-icon text-primary"></i>
+                <h1 class="fw-bold text-primary mt-2">120+</h1>
+                <p class="text-muted">Events Organized</p>
             </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <i class="bi bi-people-fill impact-icon text-success"></i>
+                <h1 class="fw-bold text-success mt-2">500+</h1>
+                <p class="text-muted">Volunteers</p>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <i class="bi bi-buildings-fill impact-icon text-warning"></i>
+                <h1 class="fw-bold text-warning mt-2">50+</h1>
+                <p class="text-muted">Communities</p>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <i class="bi bi-heart-fill impact-icon text-danger"></i>
+                <h1 class="fw-bold text-danger mt-2">10K+</h1>
+                <p class="text-muted">Lives Impacted</p>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- TESTIMONIAL SECTION -->
     <section class="py-5 feedback-light">
         <div class="container">
             <h2 class="section-title">What Our Community Members Says</h2>
-            <p class="text-center text-muted mb-5">
+            <p class="text-center text-muted mb-5" style="font-size:17px; margin-top:-17px;">
                 Real experiences from people who make a difference.
             </p>
 
@@ -865,53 +937,42 @@ if (isset($_POST['comment_text'], $_POST['post_id'])) {
         <div class="container">
             <h2 class="section-title">Upcoming Events</h2>
 
-            <div class="row g-4 mt-4">
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="image/p1.jfif" class="card-img-top" alt="Event" height="250px">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Cleanliness Drive</h5>
-                            <p class="card-text text-muted" style="margin-top:30px">
-                                Join hands to keep our locality clean and green.
-                            </p>
-                            <a href="event.php" class="btn btn-outline-primary btn-sm">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
+<div class="row g-4 mt-4">
+<?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
+    
+    <div class="col-md-4">
+        <div class="card event-card h-100 shadow-sm border-0">
 
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="image/blood_donation.jpg" class="card-img-top" alt="Event" height="250px">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Blood Donation Camp</h5>
-                            <p class="card-text text-muted" style="margin-top:30px">
-                                A small step from you can save many lives.
-                            </p>
-                            <a href="event.php" class="btn btn-outline-primary btn-sm">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <img 
+                src="<?php echo !empty($row['image']) ? $row['image'] : 'https://via.placeholder.com/300x210?text=No+Image'; ?>" 
+                class="card-img-top event-img"
+                alt="<?php echo $row['event_name']; ?>"
+            >
 
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="image/tree_plantation.jpg" class="card-img-top" alt="Event">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Tree Plantation</h5>
-                            <p class="card-text text-muted" style="margin-top:30px">
-                                Let’s plant today for a greener tomorrow.
-                            </p>
-                            <a href="event.php" class="btn btn-outline-primary btn-sm">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="fw-bold mb-2" id="e_name">
+                    <?php echo $row['event_name']; ?>
+                </h6>
+
+                <p class="text-muted small event-about">
+                    <?php echo $row['about']; ?>
+                </p>
+
+                <a 
+                    href="event.php?id=<?php echo $row['id']; ?>" 
+                    class="btn btn-outline-primary btn-sm mt-auto align-self-start"
+                >
+                    View Details
+                </a>
             </div>
+
         </div>
+    </div>
+
+<?php } ?>
+</div>
+
+
     </section>
 
     <!-- FINAL CTA SECTION -->

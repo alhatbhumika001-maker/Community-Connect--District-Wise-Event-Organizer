@@ -148,10 +148,27 @@ $row = mysqli_fetch_assoc($event_result);
             <p class="eve-description"><?= nl2br(htmlspecialchars($row['about'])) ?></p>
             <p class="eve-address">District: <?= htmlspecialchars($row['district']) ?></p>
             <div class="event-button d-flex justify-content-end">
-                <a href="registerEvent.php?id=<?php echo $row['id'];?>" class="btn btn-sm btn-outline-indigo px-4" type="button">
-                    Register
-                </a>
-            </div>
+
+<?php
+$today     = date('Y-m-d');
+$eventDate = $row['date'];
+
+if ($eventDate < $today) {
+    // Past Event
+    echo '<button class="btn btn-sm btn-warning px-4" disabled><b>Event Ended</b></button>';
+
+} elseif ($eventDate == $today) {
+    // Ongoing Event → Register disabled
+    echo '<button class="btn btn-sm btn-primary px-4" disabled>Ongoing</button>';
+
+} else {
+    // Upcoming Event → Register allowed
+    echo '<a href="registerEvent.php?id='.$row['id'].'" class="btn btn-sm btn-outline-indigo px-4">Register</a>';
+}
+?>
+
+</div>
+
         </div>
  
 
