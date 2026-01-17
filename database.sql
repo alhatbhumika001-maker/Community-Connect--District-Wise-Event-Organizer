@@ -1,9 +1,31 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jan 17, 2026 at 07:41 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `community_connect`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
 
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
@@ -44,7 +66,11 @@ CREATE TABLE `comments` (
 INSERT INTO `comments` (`id`, `post_id`, `user_id`, `community_id`, `content`, `created_at`) VALUES
 (1, 5, 1, 8, 'I Love india..', '2025-12-10 15:16:02'),
 (2, 5, 6, 8, 'Yesterday is but a dream, tomorrow but a vision.', '2025-12-11 06:29:00'),
-(3, 5, 4, 8, 'Satyameva Jayate..', '2025-12-11 06:30:32');
+(3, 5, 4, 8, 'Satyameva Jayate..', '2025-12-11 06:30:32'),
+(4, 7, 4, 4, 'Jay Mata di...', '2025-12-19 16:55:43'),
+(5, 8, 4, 11, 'The best event for indian culture...', '2025-12-21 16:55:27'),
+(6, 8, 1, 1, 'hello', '2025-12-22 05:47:19'),
+(7, 11, 1, 16, 'hii', '2026-01-17 04:23:02');
 
 -- --------------------------------------------------------
 
@@ -70,15 +96,12 @@ CREATE TABLE `communities` (
 --
 
 INSERT INTO `communities` (`id`, `community_name`, `category`, `other_category`, `privacy`, `image`, `district`, `about`, `created_at`, `created_by`) VALUES
-(11, 'Green Warriors', 'Environment', NULL, 'public', 'image/green_warriors.jpg', 'Pune', 'Community focused on cleanliness, tree plantation, and environmental awareness.', '2025-12-18 11:59:50', 1),
-(12, 'Women Rise', 'Social', 'Women Empowerment', 'public', 'image/women_rise.jpg', 'Mumbai', 'A community dedicated to empowering women through education and leadership.', '2025-12-18 11:59:50', 2),
-(13, 'Life Savers', 'Health', NULL, 'public', 'image/life_savers.jpg', 'Nagpur', 'Community organizing blood donation and health awareness camps.', '2025-12-18 11:59:50', 3),
-(14, 'Skill India', 'Education', 'Technology', 'public', 'image/skill_india.jpg', 'Online', 'Community for youth skill development, coding, and career guidance.', '2025-12-18 11:59:50', 1),
-(15, 'Fit India Club', 'Sports', NULL, 'public', 'image/fit_india.jpg', 'Aurangabad', 'Community promoting fitness, sports activities, and healthy lifestyle.', '2025-12-18 11:59:50', 3),
-(16, 'Youth Connect', 'Social', NULL, 'public', 'image/youth_connect.jpg', 'Nashik', 'Community for youth engagement, volunteering, and leadership activities.', '2025-12-18 11:59:50', 2),
-(17, 'Tech Learners Hub', 'Education', 'Programming', 'private', 'image/tech_learners.jpg', 'Pune', 'Private community for students learning programming and new technologies.', '2025-12-18 11:59:50', 1),
-(18, 'Helping Hands', 'Social Work', NULL, 'public', 'image/helping_hands.jpg', 'Mumbai', 'Community involved in social service and helping underprivileged people.', '2025-12-18 11:59:50', 2);
-
+(11, 'Bharat Utsav Community ', 'festive', '', 'public', 'image/Screenshot (607).png', 'pune', 'Bharat Utsav is a vibrant community created to celebrate the rich culture, traditions, and festivals of India. The purpose of this community is to bring together festivals from all religions, regions, and traditions and celebrate them with pride and unity.\r\n✨ “One Nation, Many Festivals” ', '2025-12-21 15:13:13', 1),
+(12, 'Academic & Cultural Forum Community.', 'college-level', '', 'public', 'image/c1.jpg', 'jalgaon', 'Academic & Cultural Forum is a college-level community dedicated to promoting academic excellence and cultural engagement among students. It provides a platform where students can learn, share knowledge, and participate in cultural activities alongside their academic journey.', '2025-12-21 15:23:20', 1),
+(13, 'PlayHard Community', 'sports', '', 'public', 'image/commnity4.jpg', 'pune', 'PlayHard Community is a vibrant sports community built for athletes, fans, and fitness lovers who believe in giving their best—on and off the field. We bring together people who love competition, teamwork, and an active lifestyle.', '2025-12-21 15:30:12', 4),
+(14, 'Public Service Connect Community', 'governmental', '', 'public', 'image/c3.png', 'jalgaon', 'Public Service Connect brings citizens together to support government programs, share accurate information, and promote social responsibility. Our mission is to strengthen trust, communication, and collaboration within the community.', '2025-12-21 15:33:06', 4),
+(15, 'Social Vibes Community', 'social', '', 'public', 'image/c4.webp', 'nashik', 'Social Vibes is all about positivity, interaction, and connection. We provide a space where people can share stories, support each other, and enjoy the power of community.', '2025-12-21 15:36:17', 6),
+(16, 'Governance Circle Community', 'governmental', '', 'public', 'image/community5.webp', 'nashik', 'Governance Circle is a community that encourages informed citizen participation, policy awareness, and public accountability. We aim to strengthen trust between people and government.', '2025-12-21 15:39:26', 6);
 
 -- --------------------------------------------------------
 
@@ -95,8 +118,10 @@ CREATE TABLE `community_events` (
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `registration_deadline` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT 'default_event.jpg',
   `event_type` varchar(150) NOT NULL,
+  `event_ty` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `about` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -104,20 +129,25 @@ CREATE TABLE `community_events` (
   `Community` int(11) DEFAULT NULL,
   `event_code` varchar(50) DEFAULT NULL,
   `privacy` varchar(10) NOT NULL DEFAULT 'public',
-  `details` text DEFAULT NULL
+  `details` text DEFAULT NULL,
+  `status` enum('Upcoming','Ongoing','Completed','Cancelled') DEFAULT 'Upcoming'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `community_events`
 --
 
-INSERT INTO `community_events` (`id`, `event_name`, `category`, `other_category`, `district`, `start_time`, `end_time`, `date`, `image`, `event_type`, `location`, `about`, `created_at`, `created_by`, `Community`, `event_code`, `privacy`, `details`) VALUES
-(14, 'Clean India Drive', 'Social Work', NULL, 'Pune', '07:00:00', '10:00:00', '2025-01-05', 'image/clean_india.jpg', 'Offline', 'JM Road, Pune', 'A cleanliness drive to promote hygiene and public awareness.', '2025-12-18 11:37:12', 1, 1, 'EVT001', 'public', 'Cleaning kits will be provided to volunteers.'),
-(15, 'Tree Plantation Program', 'Environment', NULL, 'Nashik', '08:00:00', '11:00:00', '2025-01-08', 'image/tree_plantation.jpg', 'Offline', 'College Road, Nashik', 'Tree plantation event to support green environment.', '2025-12-18 11:37:12', 2, 2, 'EVT002', 'public', 'Participants should carry water bottles.'),
-(16, 'Blood Donation Camp', 'Health', NULL, 'Nagpur', '09:00:00', '16:00:00', '2025-01-12', 'image/blood_donation.jpg', 'Offline', 'Civil Hospital, Nagpur', 'Blood donation camp with certified medical staff.', '2025-12-18 11:37:12', 3, 3, 'EVT003', 'public', 'Free health check-up available.'),
-(17, 'Women Empowerment Workshop', 'Seminar', NULL, 'Mumbai', '10:00:00', '14:00:00', '2025-01-15', 'image/women_empowerment.jpg', 'Offline', 'Andheri East, Mumbai', 'Workshop focusing on women safety and leadership.', '2025-12-18 11:37:12', 2, 2, 'EVT004', 'public', 'Certificates will be given to participants.'),
-(18, 'Youth Skill Development Webinar', 'Education', 'Technology', 'Online', '18:00:00', '20:00:00', '2025-01-18', 'image/skill_webinar.jpg', 'Online', 'Google Meet', 'Online webinar for youth skill development.', '2025-12-18 11:37:12', 1, 1, 'EVT005', 'private', 'Meeting link will be shared after registration.'),
-(19, 'Community Sports Meet', 'Sports', NULL, 'Aurangabad', '06:30:00', '12:00:00', '2025-01-22', 'image/sports_meet.jpg', 'Offline', 'City Sports Ground, Aurangabad', 'Sports activities to promote fitness and teamwork.', '2025-12-18 11:37:12', 3, 3, 'EVT006', 'public', 'Sports kits will be provided.');
+INSERT INTO `community_events` (`id`, `event_name`, `category`, `other_category`, `district`, `start_time`, `end_time`, `date`, `registration_deadline`, `image`, `event_type`, `event_ty`, `location`, `about`, `created_at`, `created_by`, `Community`, `event_code`, `privacy`, `details`, `status`) VALUES
+(7, 'Dholida Garba Night – Navratri Special', 'college-level', '', 'jalgaon', '10:00:00', '17:00:00', '2026-10-07', '2026-10-07', 'event_images/event7.jpg', 'Cultural Program', '', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'A vibrant and energetic Garba night to celebrate Navratri with traditional music, dhol beats, and festive colors!', '2025-12-12 16:19:25', 4, 4, 'KCE-NAVRATRI-2025-XX99', 'private', 'Instructions\r\n🎉 Open for all age groups  (In Collage)\r\n🎟 Registration required  \r\n👗 Dress Code: Traditional Navratri Attire  \r\n\r\nLet’s come together to celebrate the spirit of Navratri with joy, music, and dance. ', 'Cancelled'),
+(9, ' International Kite Festival.', 'festive', '', 'pune', '12:00:00', '17:00:00', '2026-01-01', '2026-01-14', 'event_images/e1.jpg', '', 'offline', 'Ahmedabad (Gujarat)', 'makar sankranti is a significant hindu festival known as light event bacause it makes the end of the winter solstice.', '2025-12-21 15:57:06', 1, 11, '', 'public', '!Nothing Event is Offline Mode...', 'Upcoming'),
+(11, 'Career & Internship Fair. ', 'college-level', '', 'jalgaon', '10:00:00', '17:00:00', '2026-01-01', '2026-01-31', 'event_images/images.jpg', '', 'offline', 'KCE Collage (Jalgaon) ', 'This straightforward name indicates the host and the primary purpose connecting students with employers for both full time jobs and internship', '2025-12-21 16:09:29', 1, 12, '1234', 'public', '!Nothing Event is Offline Mode...', 'Cancelled'),
+(12, 'Celebrate Bharat Event.', 'festive', '', 'nashik', '12:00:00', '17:00:00', '2026-02-01', '2026-02-18', 'event_images/1766334324_3-2.jpg', 'Workshop', 'offline', 'Bharat Mandapam, Pragati Maidan, New Delhi', 'Celebrate Bharat is a theme used for major ongoing cultural events, such as Bharat Kalachar\\\'s 37th Margazhi Mahotsav in Chennai, which features various music and dance performances. ', '2025-12-21 16:25:24', 1, 11, '', 'public', 'Nothing...', 'Upcoming'),
+(13, 'Code Fiesta Event.', 'college-level', '', 'jalgaon', '12:00:00', '17:00:00', '2025-12-01', '2025-12-21', 'event_images/1766334625_images (1).jpg', 'Workshop', 'offline', 'KCE Collage (Jalgaon) ', 'Code Fiesta is an exciting celebration for programmers, tech enthusiasts, and innovators! Join us for a day full of coding challenges, hackathons, workshops, and networking opportunities.', '2025-12-21 16:30:25', 1, 12, 'KCE009172', 'private', 'Nothing...', 'Upcoming'),
+(14, 'Game On! – Community Sports Festival', 'sports', '', 'nagpur', '10:00:00', '14:00:00', '2027-04-01', '2026-04-07', 'event_images/1766335039_s1.png', 'Sports Event', 'offline', '123 Greenfield Avenue, Riverside Park, Nagpur, 12345', 'Game On! – Community Sports Festival is an action-packed day bringing together sports enthusiasts of all ages. Participate in friendly competitions, team games, and fun challenges designed to promote fitness, teamwork, and community spirit.', '2025-12-21 16:37:19', 4, 13, '', 'public', 'Nothing....', 'Upcoming'),
+(15, 'Bright Futures – Community Care Day', 'sports', '', 'nagpur', '10:00:00', '14:00:00', '2027-04-09', '2026-04-30', 'event_images/1766335280_images (2).jpg', 'Sports Event', 'offline', '123 Greenfield Avenue, Riverside Park, Pune, 44411', 'Bright Futures is a heartwarming community event dedicated to supporting underprivileged children. The day will include educational activities, fun games, storytelling, and distribution of essential supplies like books, clothes, and school kits.', '2025-12-21 16:41:20', 4, 14, '', 'public', 'Nothing....', 'Upcoming'),
+(16, 'Growing Tree – Nurturing Young Minds', 'cultural', '', 'jalgaon', '10:00:00', '14:00:00', '2027-04-09', '2026-04-30', 'event_images/1766335448_e.jpg', 'Community Service', 'offline', '123 Greenfield Avenue, Riverside Park, Pune, 44411', 'Growing Tree is a community initiative focused on empowering children and fostering holistic development. Through educational activities, creative workshops, and mentorship programs, we aim to plant the seeds of knowledge, confidence, and hope.', '2025-12-21 16:44:08', 4, 14, '', 'public', 'Nothing....', 'Upcoming'),
+(17, 'Together We Thrive', 'social', '', 'mumbai', '17:00:00', '20:00:00', '2025-12-11', '2025-12-21', 'event_images/1766335700_s12.jpg', 'Seminar', 'offline', 'Bharat Mandapam, Pragati Maidan, New Mumbai', 'Together We Thrive is a community-focused social event designed to bring people closer, foster connections, and celebrate unity. Join us for engaging activities, interactive workshops, and fun networking opportunities that encourage collaboration, friendship, and shared growth. Whether it’s learning, volunteering, or simply connecting, this event', '2025-12-21 16:48:20', 6, 15, '', 'public', 'Nothing...', 'Upcoming'),
+(18, 'Tech Workshop - Dolida', '', NULL, 'Pune', '10:00:00', NULL, '2026-02-20', '', 'event_images/e0.jpg', 'Workshop', '', 'Dolida College Auditorium', 'Exclusive tech workshop for registered students only.', '2026-01-16 16:10:18', 1, 15, 'KCEDolida2026k', 'private', NULL, 'Upcoming');
 
 -- --------------------------------------------------------
 
@@ -142,7 +172,10 @@ INSERT INTO `community_members` (`id`, `community_id`, `user_id`, `joined_at`, `
 (2, 9, 4, '2025-12-11 06:37:27', 'approved', 4),
 (4, 9, 6, '2025-12-11 12:44:08', 'approved', 6),
 (5, 9, 3, '2025-12-12 05:24:19', 'pending', 0),
-(6, 10, 4, '2025-12-17 08:25:50', 'approved', 0);
+(6, 10, 4, '2025-12-17 08:25:50', 'approved', 0),
+(7, 15, 4, '2025-12-21 16:56:00', 'approved', 0),
+(8, 16, 3, '2025-12-21 16:56:37', 'pending', 0),
+(9, 11, 6, '2025-12-21 16:57:05', 'pending', 0);
 
 -- --------------------------------------------------------
 
@@ -167,6 +200,28 @@ INSERT INTO `districts` (`district_id`, `district_name`) VALUES
 (1, 'Pune'),
 (6, 'Satara'),
 (5, 'Thane');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_cancellations`
+--
+
+CREATE TABLE `event_cancellations` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `reason_title` varchar(255) NOT NULL,
+  `reason_detail` text DEFAULT NULL,
+  `cancelled_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event_cancellations`
+--
+
+INSERT INTO `event_cancellations` (`id`, `event_id`, `reason_title`, `reason_detail`, `cancelled_at`) VALUES
+(1, 7, 'Outdated event', 'Not enter any public only for KCE collage jalgaon staff and students with id proof ', '2025-12-21 10:27:58'),
+(2, 11, 'Outdated event', 'The events are outdated and make it conflicting for many user.', '2025-12-22 05:56:45');
 
 -- --------------------------------------------------------
 
@@ -215,7 +270,12 @@ INSERT INTO `posts` (`id`, `community_id`, `user_id`, `post`, `content`, `likes`
 (3, 9, 1, 'posts_image/post1.jpg', '\"PM Sabha\" likely refers to the Prime Minister\'s role in the Indian Parliament (Sabha), which involves leading the majority in the Lok Sabha (House of the People)', 4, '2025-12-10 07:08:06', 0),
 (4, 8, 1, 'posts_image/post1.jpg', '\"PM Sabha\" likely refers to the Prime Minister\'s role in the Indian Parliament (Sabha), which involves leading the majority in the Lok Sabha (House of the People)', 10, '2025-12-10 07:58:00', 0),
 (5, 8, 1, 'posts_image/post2.webp', '“JAI JAWAN, JAI KISAN, JAI VIGYAN, JAI ANUSANDHAN”- SLOGANOF NEW INDIA-PM NARENDRA MODI.', 2, '2025-12-10 14:36:33', 3),
-(6, 2, 1, '', 'Creating effective international fashion community post descriptions requires a focus on authentic connection, shared global values, and engaging visual storytelling. These posts serve as digital platforms where fashion is not just displayed but discussed and democratized among global participants.', 1, '2025-12-11 06:18:10', 0);
+(6, 2, 1, '', 'Creating effective international fashion community post descriptions requires a focus on authentic connection, shared global values, and engaging visual storytelling. These posts serve as digital platforms where fashion is not just displayed but discussed and democratized among global participants.', 1, '2025-12-11 06:18:10', 0),
+(7, 4, 4, 'posts_image/p2.webp', 'a vibrant, traditional folk dance from Gujarat, India, performed during Navratri, featuring energetic circular movements where dancers use decorated wooden sticks (dandiyas) to clap rhythms, symbolizing Goddess Durga\'s battle with the demon king Mahishasura', 1, '2025-12-19 16:54:55', 1),
+(8, 11, 1, 'posts_image/2-5.jpg', 'This nine-day cultural festival was held from July 5-13, 2025, at Manezhnaya Square, showcasing Indian culture, dance, music, and yoga to a Russian audience. The event was organized by the Embassy of India in collaboration with the Moscow City Government.', 1, '2025-12-21 16:52:11', 2),
+(9, 14, 4, 'posts_image/event1.jpg', 'provide essential oxygen, clean the air by absorbing pollutants, combat climate change by sequestering carbon, prevent soil erosion, provide food and medicine, cool urban areas, and offer vital habitats and resources for wildlife, making them crucial for a healthy planet and human well survival', 0, '2025-12-21 16:54:36', 0),
+(10, 15, 6, 'posts_image/images (3).jpg', '\"Get ready to party! Join us for an unforgettable night\"Feeling the joy and spreading the celebration vibes. Today calls for a big smile and a bigger celebration.', 0, '2025-12-21 16:59:47', 0),
+(11, 16, 1, 'posts_image/co2.jpg', '“JAI JAWAN, JAI KISAN, JAI VIGYAN, JAI ANUSANDHAN”- SLOGANOF NEW INDIA-PM NARENDRA MODI.', 1, '2026-01-17 04:22:44', 1);
 
 -- --------------------------------------------------------
 
@@ -246,9 +306,7 @@ CREATE TABLE `registrations` (
 --
 
 INSERT INTO `registrations` (`id`, `user_id`, `event_id`, `event_name`, `name`, `email`, `phone`, `id_card`, `district`, `event_code`, `event_date`, `start_time`, `location`, `status`, `created_at`) VALUES
-(1, 6, 7, 'Dholida Garba Night – Navratri Special', 'Seema Jitendra Patil', 'seema1234@gmail.com', '1234567890', 'event_registration_id/1765615835_id1.jpg', 'jalgaon', 'KCE-NAVRATRI-2025-XX99', '2026-10-07', '10:00:00', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'pending', '2025-12-13 08:50:35'),
-(2, 6, 3, 'Career Fairs & Networking Event ', 'Nikita Jitendra Patil', 'seema@gmail.com', '1234567890', 'event_registration_id/1765617037_id1.jpg', 'mumbai', NULL, '2026-01-31', '08:00:00', '', 'approved', '2025-12-13 09:10:37'),
-(3, 3, 2, 'PM Sabha Prime Minister’s Modi ', 'ABCD', 'abc@gmail.com', '0987654321', 'event_registration_id/1765642993_id1.jpg', 'mumbai', NULL, '2026-01-06', '09:00:00', '', 'pending', '2025-12-13 16:23:13');
+(1, 6, 7, 'Dholida Garba Night – Navratri Special', 'Seema Jitendra Patil', 'seema1234@gmail.com', '1234567890', 'event_registration_id/1765615835_id1.jpg', 'jalgaon', 'KCE-NAVRATRI-2025-XX99', '2026-10-07', '10:00:00', 'Collage Auditorium, KCE Collage Jalgaon 425001', 'pending', '2025-12-13 08:50:35');
 
 -- --------------------------------------------------------
 
@@ -273,7 +331,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-
+INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
+(1, 'Nikita Jitendra Patil..', 'Nikita-2007', 'nikita2007@gmail.com', '2007', '2007', 'volunteer', 'pune', 'Web Developer..', '2025-12-03 11:10:18'),
+(3, 'ABCD', 'ABC1234', 'abc@gmail.com', '1234', '1234', 'volunteer', 'thane', '.......................', '2025-12-03 12:23:54'),
+(4, 'Lalit Jitendra Patil', 'Lalit-2009', 'lalit2009@gmail.com', 'Lalit2009', '', 'volunteer', 'pune', '....................................', '2025-12-06 15:11:25'),
+(5, 'XYZ', 'XYZ-123', 'xyz123@gmail.com', '123', '', 'volunteer', 'thane', '................', '2025-12-06 15:41:15'),
+(6, 'Seema Jitendra patil', 'seema1234', 'seema1234@gmail.com', '1234', '', 'volunteer', 'pune', '....................', '2025-12-07 07:27:53');
 
 --
 -- Indexes for dumped tables
@@ -318,6 +381,13 @@ ALTER TABLE `districts`
   ADD UNIQUE KEY `district_name` (`district_name`);
 
 --
+-- Indexes for table `event_cancellations`
+--
+ALTER TABLE `event_cancellations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `event_id` (`event_id`);
+
+--
 -- Indexes for table `notices`
 --
 ALTER TABLE `notices`
@@ -358,31 +428,37 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `communities`
 --
 ALTER TABLE `communities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `community_events`
 --
 ALTER TABLE `community_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `community_members`
 --
 ALTER TABLE `community_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `districts`
 --
 ALTER TABLE `districts`
   MODIFY `district_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `event_cancellations`
+--
+ALTER TABLE `event_cancellations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notices`
@@ -394,7 +470,7 @@ ALTER TABLE `notices`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `registrations`
@@ -413,6 +489,12 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `event_cancellations`
+--
+ALTER TABLE `event_cancellations`
+  ADD CONSTRAINT `event_cancellations_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `community_events` (`id`);
+
+--
 -- Constraints for table `registrations`
 --
 ALTER TABLE `registrations`
@@ -422,17 +504,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- Defult Admin
-INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES
-(7, 'Bhumika', 'bhumika01', 'santoshalhat1405@gmail.com', '123456', '123456', 'volenteer', 'Pune', 'Hello I am Bhumika', '2025-12-18 11:14:03'),
-
-(9, 'Nikita', 'nikita01', 'nikita@gmail.com', '123456', '123456', 'user', 'organizer', 'Hello I am Nikita', '2025-12-18 11:14:03');
-
-
-INSERT INTO `users` (`user_id`, `full_name`, `username`, `email`, `password`, `confirm_password`, `role`, `district`, `bio`, `created_at`) VALUES (NULL, 'Akanksha Sheet', 'akanksha', 'dummy234765@gmail.com', '123', '123', 'admin', 'pune', 'I am the default admin ', current_timestamp());
-
-
-
-
-
