@@ -23,7 +23,7 @@ $event_code = $_POST['event_code'] ?? '';
 $image_name = "";
 if (!empty($_FILES['image']['name'])) {
     $image_name = time() . "_" . $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], $image_name);
+    move_uploaded_file($_FILES['image']['tmp_name'], "event_registration_id/" .$image_name);
 }
 
 /* Insert Query */
