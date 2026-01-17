@@ -1,121 +1,47 @@
 <?php
 session_start();
 
-// DB connection
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
+    die("Database connection failed");
 }
 
-// Check user login
-if (!isset($_SESSION['user_id'])) {
-    echo "<script>alert('User not logged in'); window.location='login.php';</script>";
-    exit;
+/* CAPTCHA Validation */
+if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha']) {
+    die("Invalid Captcha");
 }
 
-$user_id  = $_SESSION['user_id'];
+/* Get Form Data */
+$event_id   = $_POST['event_id'];
+$name       = $_POST['name'];
+$email      = $_POST['email'];
+$phone      = $_POST['phone'];
+$district   = $_POST['district'];
+$event_code = $_POST['event_code'] ?? '';
 
-if (!isset($_POST['event_id'])) {
-    die("Event ID missing");
-}
-
-$event_id = intval($_POST['event_id']); // sanitize
-
-// Fetch event info
-$eventQuery = mysqli_prepare($conn, "SELECT privacy, event_code, event_name, date, start_time, location FROM community_events WHERE id = ?");
-if (!$eventQuery) {
-    die("Prepare failed: " . mysqli_error($conn));
-}
-mysqli_stmt_bind_param($eventQuery, "i", $event_id);
-mysqli_stmt_execute($eventQuery);
-$result = mysqli_stmt_get_result($eventQuery);
-$eventData = mysqli_fetch_assoc($result);
-
-if (!$eventData) {
-    die("Invalid Event");
-}
-
-// Assign variables
-$privacy = $eventData['privacy'];
-$db_event_code = $eventData['event_code'];
-$event_name = $eventData['event_name'];
-$date       = $eventData['date'];
-$startTime  = $eventData['start_time'];
-$location   = $eventData['location'];
-
-// Private event validation
-$event_code = null;
-if ($privacy === 'private') {
-    if (empty($_POST['event_code']) || $_POST['event_code'] !== $db_event_code) {
-        echo "<script>alert('Invalid Event Code'); history.back();</script>";
-        exit;
-    }
-    if (empty($_FILES['image']['name'])) {
-        echo "<script>alert('ID Card required for private event'); history.back();</script>";
-        exit;
-    }
-    $event_code = $_POST['event_code'];
-}
-
-// Optional ID card upload
-$id_card_path = null;
+/* Image Upload */
+$image_name = "";
 if (!empty($_FILES['image']['name'])) {
-    $filename = time() . "_" . basename($_FILES['image']['name']);
-    $tmpname  = $_FILES['image']['tmp_name'];
-    $id_card_path = "event_registration_id/" . $filename;
-    move_uploaded_file($tmpname, $id_card_path);
+    $image_name = time() . "_" . $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], $image_name);
 }
 
-// Form data
-$name     = $_POST['name'];
-$email    = $_POST['email'];
-$phone    = $_POST['phone'];
-$district = $_POST['district'];
+/* Insert Query */
+$sql = "INSERT INTO registrations
+(event_id, name, email, phone, district, id_card, event_code, status)
+VALUES
+('$event_id','$name','$email','$phone','$district','$image_name','$event_code','Pending')";
 
-// Set status: private = pending, public = accepted
-if ($privacy === 'private') {
-    $status = 'pending';
-} elseif ($privacy === 'public') {
-    $status = 'approved';
+/* Execute Query */
+if (mysqli_query($conn, $sql)) {
+
+    // Store user name in session AFTER successful insert
+    $_SESSION['user_name'] = $name;
+
+    header("Location: registration_success.php");
+    exit();
+
 } else {
-    $status = 'rejected';
+    echo "Database Error: " . mysqli_error($conn);
 }
-
-// INSERT registration
-$stmt = mysqli_prepare($conn, "
-    INSERT INTO registrations
-    (user_id, event_id, event_name, name, email, phone, id_card, district, event_date, location, event_code, start_time, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-");
-
-if (!$stmt) {
-    die("Prepare failed: " . mysqli_error($conn));
-}
-
-mysqli_stmt_bind_param(
-    $stmt,
-    "iisssssssssss",
-    $user_id,
-    $event_id,
-    $event_name,
-    $name,
-    $email,
-    $phone,
-    $id_card_path,
-    $district,
-    $date,
-    $location,
-    $event_code,
-    $startTime,
-    $status
-);
-
-if (mysqli_stmt_execute($stmt)) {
-    echo "<script>alert('Event Registered Successfully'); window.location='exploreEvent.php';</script>";
-} else {
-    echo "<script>alert('Registration Failed: " . mysqli_stmt_error($stmt) . "'); history.back();</script>";
-}
-
-mysqli_stmt_close($stmt);
-mysqli_close($conn);
 ?>

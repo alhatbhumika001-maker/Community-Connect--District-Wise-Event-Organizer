@@ -1,4 +1,9 @@
 <?php
+/* Simple Captcha */
+session_start();
+$captcha_code = rand(10000, 99999);
+$_SESSION['captcha'] = $captcha_code;
+
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -22,7 +27,7 @@ $isPrivate = ($row['privacy'] === 'private');
 
 /* Simple Captcha */
 $captcha_code = rand(1000, 9999);
-session_start();
+
 $_SESSION['captcha'] = $captcha_code;
 ?>
 <!doctype html>
@@ -120,12 +125,28 @@ Get Event Code
 </div>
 
 <!-- CAPTCHA -->
-<div class="mb-3">
-<label>Captcha</label>
-<div class="d-flex align-items-center mb-2">
-<span class="badge bg-dark p-2 me-2"><?php echo $captcha_code; ?></span>
-<input type="text" name="captcha" class="form-control" placeholder="Enter captcha" required>
-</div>
+<!-- CAPTCHA -->
+<div class="mb-4">
+  <label class="form-label fw-bold">Security Check</label>
+
+  <div class="d-flex align-items-center gap-3">
+    <div class="px-4 py-2 rounded text-white fw-bold fs-4 text-center"
+         style="letter-spacing:4px;
+                background:linear-gradient(135deg,#fd7e14,#c62828,#ff5722);">
+      <?php echo $captcha_code; ?>
+    </div>
+
+    <button type="button" class="btn btn-outline-secondary btn-sm"
+            onclick="location.reload();">
+      🔄 Refresh
+    </button>
+  </div>
+
+  <input type="text"
+         name="captcha"
+         class="form-control mt-2"
+         placeholder="Enter captcha code"
+         required>
 </div>
 
 <div class="form-check mb-3">
