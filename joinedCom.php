@@ -20,7 +20,7 @@
     body {
         font-family: Outfit, sans-serif;
         background: #eef4ff;
-        margin-top: 70px;
+        margin-top: 120px;
     }
 
     .list-card {
