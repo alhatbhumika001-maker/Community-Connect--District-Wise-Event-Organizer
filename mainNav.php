@@ -21,7 +21,7 @@ session_start(); // Start the session at the top
                 <li class="nav-item"><a class="nav-link" href="Community.php">Communities</a></li>
                 <li class="nav-item"><a class="nav-link" href="event.php">Events</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">FAQs</a></li>
+                <li class="nav-item"><a class="nav-link" href="faqs.php">FAQs</a></li>
             </ul>
 
             <!-- Right section -->
