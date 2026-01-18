@@ -73,7 +73,7 @@
     include 'mainNav.php';
     ?>
     <!-- PAGE TITLE -->
-    <h2 class="ms-lg-4 mt-3">Your Joined Communities</h2>
+    <h2 class="ms-lg-4 mt-5">Your Joined Communities</h2>
 
     <div class="container-fluid mt-4">
         <div class="row">
