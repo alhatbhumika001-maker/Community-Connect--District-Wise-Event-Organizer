@@ -60,7 +60,7 @@ $event_count  = mysqli_num_rows($event_result);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom CSS  -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="userStyle.css">
 
     <style>
     body {
