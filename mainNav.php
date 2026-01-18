@@ -39,14 +39,14 @@ session_start(); // Start the session at the top
                 <!-- Right section -->
                 <div class="d-flex align-items-center gap-2">
 
-                    <!-- Profile image -->
-                    <img src="user.png" class="profile-img" data-bs-toggle="offcanvas" data-bs-target="#sideNav"
-                        alt="Profile">
-
                     <!-- Login button only for guest -->
                     <?php if (!isset($_SESSION['username'])): ?>
                     <a href="login.php" class="btn btn-outline-info btn-sm">Login</a>
                     <?php endif; ?>
+
+                    <!-- Profile image -->
+                    <img src="user.png" class="profile-img" data-bs-toggle="offcanvas" data-bs-target="#sideNav"
+                        alt="Profile">
 
                 </div>
 
