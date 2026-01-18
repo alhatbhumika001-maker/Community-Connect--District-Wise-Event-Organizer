@@ -69,7 +69,9 @@
 </head>
 
 <body>
-
+    <?php
+    include 'mainNav.php';
+    ?>
     <!-- PAGE TITLE -->
     <h2 class="ms-lg-4 mt-3">Your Joined Communities</h2>
 
