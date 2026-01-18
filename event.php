@@ -44,152 +44,154 @@ $event_count  = mysqli_num_rows($event_result);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Events | Community Connect</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Events | Community Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body{
-    background:#f4f7fb;
-    font-family:'Outfit',sans-serif;
-}
+    <style>
+    body {
+        background: #f4f7fb;
+        font-family: 'Outfit', sans-serif;
+    }
 
-/* GRID */
-.event-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    gap:24px;
-    margin-top:30px;
-}
+    /* GRID */
+    .event-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 30px;
+    }
 
-/* CARD */
-.event-card{
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 8px 24px rgba(0,0,0,0.08);
-    transition:.3s;
-    display:flex;
-    flex-direction:column;
-}
+    /* CARD */
+    .event-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transition: .3s;
+        display: flex;
+        flex-direction: column;
+    }
 
-.event-card:hover{
-    transform:translateY(-5px);
-}
+    .event-card:hover {
+        transform: translateY(-5px);
+    }
 
-/* IMAGE */
-.event-card img{
-    width:100%;
-    height:190px;
-    object-fit:cover;
-}
+    /* IMAGE */
+    .event-card img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+    }
 
-/* CONTENT */
-.event-body{
-    padding:15px;
-    flex:1;
-}
+    /* CONTENT */
+    .event-body {
+        padding: 15px;
+        flex: 1;
+    }
 
-.event-title{
-    font-size:18px;
-    font-weight:600;
-    color:#111827;
-}
+    .event-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+    }
 
-/* TITLE + BADGE FLEX */
-.event-title-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-}
+    /* TITLE + BADGE FLEX */
+    .event-title-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
 
-.event-meta{
-    font-size:13px;
-    color:#6b7280;
-    margin-bottom:4px;
-}
+    .event-meta {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 4px;
+    }
 
-.event-meta span{
-    color:#374151;
-    font-weight:500;
-}
+    .event-meta span {
+        color: #374151;
+        font-weight: 500;
+    }
 
-/* BADGES */
-.badge-custom{
-    font-size:11px;
-    padding:4px 10px;
-    border-radius:20px;
-    font-weight:600;
-}
+    /* BADGES */
+    .badge-custom {
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
 
-.badge-public{
-    background:#dcfce7;
-    color:#166534;
-}
+    .badge-public {
+        background: #dcfce7;
+        color: #166534;
+    }
 
-.badge-private{
-    background:#fee2e2;
-    color:#991b1b;
-}
+    .badge-private {
+        background: #fee2e2;
+        color: #991b1b;
+    }
 
-/* FOOTER BUTTONS */
-.event-footer{
-    padding:12px 15px;
-    border-top:1px solid #e5e7eb;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-</style>
+    /* FOOTER BUTTONS */
+    .event-footer {
+        padding: 12px 15px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <h2 class="fw-bold mb-2">Events</h2>
-    <p class="text-muted">Discover events happening near you</p>
+        <h2 class="fw-bold mb-2">Events</h2>
+        <p class="text-muted">Discover events happening near you</p>
 
-    <div class="event-grid">
+        <div class="event-grid">
 
-<?php while($row=mysqli_fetch_assoc($event_result)){ ?>
+            <?php while($row=mysqli_fetch_assoc($event_result)){ ?>
 
-<div class="event-card">
+            <div class="event-card">
 
-    <img src="<?= !empty($row['image']) ? $row['image'] : 'https://via.placeholder.com/400x200?text=Event' ?>">
+                <img
+                    src="<?= !empty($row['image']) ? $row['image'] : 'https://via.placeholder.com/400x200?text=Event' ?>">
 
-    <div class="event-body">
+                <div class="event-body">
 
-        <!-- TITLE + PRIVACY BADGE -->
-        <div class="event-title-wrap">
-            <div class="event-title"><?= $row['event_name']; ?></div>
-            <?php if($row['privacy']=='private'){ ?>
-                <span class="badge-custom badge-private">Private Event</span>
-            <?php } else { ?>
-                <span class="badge-custom badge-public">Public Event</span>
-            <?php } ?>
-        </div>
+                    <!-- TITLE + PRIVACY BADGE -->
+                    <div class="event-title-wrap">
+                        <div class="event-title"><?= $row['event_name']; ?></div>
+                        <?php if($row['privacy']=='private'){ ?>
+                        <span class="badge-custom badge-private">Private Event</span>
+                        <?php } else { ?>
+                        <span class="badge-custom badge-public">Public Event</span>
+                        <?php } ?>
+                    </div>
 
-        <div class="event-meta">
-            <span>Community:</span> <?= $row['community_name']; ?>
-        </div>
+                    <div class="event-meta">
+                        <span>Community:</span> <?= $row['community_name']; ?>
+                    </div>
 
-        <div class="event-meta">
-            <span>Date:</span> <?= date("d M Y",strtotime($row['date'])); ?>
-        </div>
+                    <div class="event-meta">
+                        <span>Date:</span> <?= date("d M Y",strtotime($row['date'])); ?>
+                    </div>
 
-        <div class="event-meta">
-            <span>Time:</span> <?= date("h:i A",strtotime($row['start_time'])); ?>
-            | <?= $row['district']; ?>
-        </div>
+                    <div class="event-meta">
+                        <span>Time:</span> <?= date("h:i A",strtotime($row['start_time'])); ?>
+                        | <?= $row['district']; ?>
+                    </div>
 
-    </div>
+                </div>
 
-    <!-- FOOTER -->
-    <div class="event-footer">
-        <?php
+                <!-- FOOTER -->
+                <div class="event-footer">
+                    <?php
         $today=date('Y-m-d');
         if($row['date']<$today){
             echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
@@ -199,24 +201,25 @@ body{
             echo '<a href="registerEvent.php?id='.$row['id'].'" class="btn btn-outline-info btn-sm">Register</a>';
         }
         ?>
-        <a href="viewEvent.php?id=<?= $row['id']; ?>" class="btn btn-outline-secondary btn-sm">View</a>
+                    <a href="viewEvent.php?id=<?= $row['id']; ?>" class="btn btn-outline-secondary btn-sm">View</a>
+                </div>
+
+            </div>
+
+            <?php } ?>
+
+        </div>
+
+        <?php if($event_count==0){ ?>
+        <div class="text-center mt-5">
+            <h4>No events found</h4>
+            <a href="event.php" class="btn btn-outline-info mt-2">Clear Filters</a>
+        </div>
+        <?php } ?>
+
     </div>
 
-</div>
-
-<?php } ?>
-
-</div>
-
-<?php if($event_count==0){ ?>
-<div class="text-center mt-5">
-    <h4>No events found</h4>
-    <a href="event.php" class="btn btn-outline-info mt-2">Clear Filters</a>
-</div>
-<?php } ?>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
