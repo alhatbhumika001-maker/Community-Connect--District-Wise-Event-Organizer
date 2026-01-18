@@ -25,11 +25,11 @@ WHERE 1
 ";
 
 if ($selectedDistrict !== 'all') {
-    $event_query .= " AND community_events.district = '".mysqli_real_escape_string($conn,$selectedDistrict)."'";
+    $event_query .= " AND community_events.district = '" . mysqli_real_escape_string($conn, $selectedDistrict) . "'";
 }
 
 if (!empty($selectedCategory)) {
-    $event_query .= " AND community_events.category = '".mysqli_real_escape_string($conn,$selectedCategory)."'";
+    $event_query .= " AND community_events.category = '" . mysqli_real_escape_string($conn, $selectedCategory) . "'";
 }
 
 if ($todayFilter === 'today') {
@@ -38,7 +38,7 @@ if ($todayFilter === 'today') {
 
 $event_query .= " ORDER BY community_events.date ASC";
 
-$event_result = mysqli_query($conn,$event_query);
+$event_result = mysqli_query($conn, $event_query);
 $event_count  = mysqli_num_rows($event_result);
 ?>
 
@@ -49,6 +49,18 @@ $event_count  = mysqli_num_rows($event_result);
     <meta charset="UTF-8">
     <title>Events | Community Connect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Huninn&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS  -->
+    <link rel="stylesheet" href="style.css">
 
     <style>
     body {
@@ -155,7 +167,7 @@ $event_count  = mysqli_num_rows($event_result);
 
         <div class="event-grid">
 
-            <?php while($row=mysqli_fetch_assoc($event_result)){ ?>
+            <?php while ($row = mysqli_fetch_assoc($event_result)) { ?>
 
             <div class="event-card">
 
@@ -167,7 +179,7 @@ $event_count  = mysqli_num_rows($event_result);
                     <!-- TITLE + PRIVACY BADGE -->
                     <div class="event-title-wrap">
                         <div class="event-title"><?= $row['event_name']; ?></div>
-                        <?php if($row['privacy']=='private'){ ?>
+                        <?php if ($row['privacy'] == 'private') { ?>
                         <span class="badge-custom badge-private">Private Event</span>
                         <?php } else { ?>
                         <span class="badge-custom badge-public">Public Event</span>
@@ -179,11 +191,11 @@ $event_count  = mysqli_num_rows($event_result);
                     </div>
 
                     <div class="event-meta">
-                        <span>Date:</span> <?= date("d M Y",strtotime($row['date'])); ?>
+                        <span>Date:</span> <?= date("d M Y", strtotime($row['date'])); ?>
                     </div>
 
                     <div class="event-meta">
-                        <span>Time:</span> <?= date("h:i A",strtotime($row['start_time'])); ?>
+                        <span>Time:</span> <?= date("h:i A", strtotime($row['start_time'])); ?>
                         | <?= $row['district']; ?>
                     </div>
 
@@ -192,15 +204,15 @@ $event_count  = mysqli_num_rows($event_result);
                 <!-- FOOTER -->
                 <div class="event-footer">
                     <?php
-        $today=date('Y-m-d');
-        if($row['date']<$today){
-            echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
-        }elseif($row['date']==$today){
-            echo '<button class="btn btn-primary btn-sm" disabled>Ongoing</button>';
-        }else{
-            echo '<a href="registerEvent.php?id='.$row['id'].'" class="btn btn-outline-info btn-sm">Register</a>';
-        }
-        ?>
+                        $today = date('Y-m-d');
+                        if ($row['date'] < $today) {
+                            echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
+                        } elseif ($row['date'] == $today) {
+                            echo '<button class="btn btn-primary btn-sm" disabled>Ongoing</button>';
+                        } else {
+                            echo '<a href="registerEvent.php?id=' . $row['id'] . '" class="btn btn-outline-info btn-sm">Register</a>';
+                        }
+                        ?>
                     <a href="viewEvent.php?id=<?= $row['id']; ?>" class="btn btn-outline-secondary btn-sm">View</a>
                 </div>
 
@@ -210,7 +222,7 @@ $event_count  = mysqli_num_rows($event_result);
 
         </div>
 
-        <?php if($event_count==0){ ?>
+        <?php if ($event_count == 0) { ?>
         <div class="text-center mt-5">
             <h4>No events found</h4>
             <a href="event.php" class="btn btn-outline-info mt-2">Clear Filters</a>
