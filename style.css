@@ -24,6 +24,57 @@
   border-radius: 50%;
 }
 
+/* Offcanvas nav by profile photo */
+.profile-img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Sidebar width */
+.offcanvas {
+  width: 280px !important;
+}
+
+.prof-nav {
+  background-color: transparent !important;
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255),
+      rgba(210, 206, 206),
+      rgb(199, 193, 193)
+    )
+    #ffffff;
+}
+
+/* Profile image inside sidebar */
+.sidebar-profile-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Nav links */
+.sidebar-nav .nav-link {
+  padding: 12px 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.sidebar-nav .nav-link:hover {
+  background: #f5f6f8;
+  border-radius: 10px;
+}
+
+.sidebar-nav .nav-link.active {
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
 footer {
   background-color: #f1f5f9; /* light grey-blue */
   color: #555;
