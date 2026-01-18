@@ -44,7 +44,7 @@
                 <div class="col-md-4 mb-3">
                     <p class="fw-semibold mb-2">Community</p>
                     <a href="feedback.php" class="text-muted d-block mb-1">
-                        Community Feedback
+                        Give Feedback and Ratings
                     </a>
                     <a href="#top" class="text-decoration-none text-muted">
                         Back to top
