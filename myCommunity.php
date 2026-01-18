@@ -1,18 +1,18 @@
-<?php 
-    include 'userHead.php';
-    $conn = new mysqli("localhost", "root", "", "community_connect");
-    // LIST OF COMMUNITIES
-    $user_id = $_SESSION['user_id'] ?? 0;
+<?php
+include 'userHead.php';
+$conn = new mysqli("localhost", "root", "", "community_connect");
+// LIST OF COMMUNITIES
+$user_id = $_SESSION['user_id'] ?? 0;
 
-    // Fetch communities created by logged-in user
-    $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
-    $community_result = mysqli_query($conn, $community_query);
-    $community_count = mysqli_num_rows($community_result);
+// Fetch communities created by logged-in user
+$community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
+$community_result = mysqli_query($conn, $community_query);
+$community_count = mysqli_num_rows($community_result);
 
-    // Fetch Members Joined 
-    $community_members = "SELECT * FROM community_members ";
-    $result = mysqli_query($conn, $community_members );
-    $res_count = mysqli_num_rows($result);
+// Fetch Members Joined 
+$community_members = "SELECT * FROM community_members ";
+$result = mysqli_query($conn, $community_members);
+$res_count = mysqli_num_rows($result);
 ?>
 <?php
 // Reject a pending request
@@ -150,12 +150,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
 
     /* ---------- Community card ---------- */
     .community {
-    border-radius: 12px;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    margin-bottom: 20px;
-}
+        border-radius: 12px;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        margin-bottom: 20px;
+    }
 
     /* Banner container to keep consistent cropping */
     .com-banner {
@@ -298,16 +298,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
             justify-content: flex-end;
         }
 
-         .request-actions .btn {
+        .request-actions .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
 
         .request-actions .btn {
-                min-width: 70px;
-                text-align: center;
-            }
+            min-width: 70px;
+            text-align: center;
+        }
 
 
 
@@ -321,14 +321,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
             width: 100%;
             max-width: 200px;
         }
-     
+
     }
     </style>
 </head>
 
 <body>
 
-    
+
     <?php
     $active = 'exploreCommunity';
     include 'userNav.php';
@@ -351,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                         Total Communities: <?= $community_count ?>
+                        Total Communities: <?= $community_count ?>
                     </div>
                 </div>
             </div>
@@ -367,7 +367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                       Total Members: <?= $res_count ?>
+                        Total Members: <?= $res_count ?>
                     </div>
                 </div>
             </div>
@@ -383,18 +383,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                     </div>
 
                     <div class="metric-count">
-                          New Members Join : <?= $res_count ?>
+                        New Members Join : <?= $res_count ?>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- If more than one has been created, loop should be created. -->
-            <?php if ($community_count > 0): ?>
+        <?php if ($community_count > 0): ?>
 
-    <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
+        <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
 
-        <div class="col-12 col-md-6 col-lg-12"> <!-- responsive card width -->
+        <div class="col-12 col-md-6 col-lg-12">
+            <!-- responsive card width -->
 
             <div class="community">
 
@@ -407,32 +408,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
 
                 <div>
                     <?php
-                    // Fetch pending requests for THIS community
-                    $community_id = $row['id'];
+                            // Fetch pending requests for THIS community
+                            $community_id = $row['id'];
 
-                 $stmt = $conn->prepare(
-                    "SELECT cm.id, cm.user_id, cm.community_id, cm.joined_at, u.full_name, u.username
+                            $stmt = $conn->prepare(
+                                "SELECT cm.id, cm.user_id, cm.community_id, cm.joined_at, u.full_name, u.username
                     FROM community_members cm
                     JOIN users u ON u.user_id = cm.user_id
                     WHERE cm.community_id = ? AND cm.status='pending'"
-                );
+                            );
 
 
-                    if (!$stmt) {
-                        die("Prepare failed: " . $conn->error);
-                    }
+                            if (!$stmt) {
+                                die("Prepare failed: " . $conn->error);
+                            }
 
-                    $stmt->bind_param("i", $community_id);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $requests = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
+                            $stmt->bind_param("i", $community_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $requests = $result->fetch_all(MYSQLI_ASSOC);
+                            ?>
 
                     <h5>Manage</h5>
                     <h6>New requests:</h6>
 
-                    <?php if(count($requests) > 0): ?>
-                <?php foreach($requests as $req): ?>
+                    <?php if (count($requests) > 0): ?>
+                    <?php foreach ($requests as $req): ?>
                     <div class="request-box">
                         <img src="l.png" alt="Requester's avatar">
                         <div class="meta">
@@ -441,43 +442,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
                                 @<?= htmlspecialchars($req['username']) ?> • <?= htmlspecialchars($req['joined_at']) ?>
                             </p>
                         </div>
-                        
 
-                    <div class="request-actions">
 
-                        <!-- VIEW BUTTON -->
-                        <a href="com-Events.php?id=<?= $community_id ?>" 
-                        class="btn btn-sm btn-outline-primary">
-                            View
-                        </a>
+                        <div class="request-actions">
 
-                        <!-- ACCEPT BUTTON -->
-                        <form action="myCommunity.php" method="post">
-                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
-                            <input type="hidden" name="approve_request" value="1">
-                            <button type="submit" class="btn btn-sm btn-outline-success">Accept</button>
-                        </form>
+                            <!-- VIEW BUTTON -->
+                            <a href="com-Events.php?id=<?= $community_id ?>" class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
 
-                        <!-- REJECT BUTTON -->
-                        <form action="myCommunity.php" method="post">
-                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
-                            <input type="hidden" name="reject_request" value="1">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
-                        </form>
+                            <!-- ACCEPT BUTTON -->
+                            <form action="myCommunity.php" method="post">
+                                <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                                <input type="hidden" name="approve_request" value="1">
+                                <button type="submit" class="btn btn-sm btn-outline-success">Accept</button>
+                            </form>
+
+                            <!-- REJECT BUTTON -->
+                            <form action="myCommunity.php" method="post">
+                                <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                                <input type="hidden" name="reject_request" value="1">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                            </form>
+
+                        </div>
+
 
                     </div>
-
-
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
 
                     <?php else: ?>
-                        <p>No pending requests.</p>
+                    <p>No pending requests.</p>
                     <?php endif; ?>
 
-                  <?php
-// Assuming $community_id is correctly set inside communities loop
-$sql_members = "
+                    <?php
+                            // Assuming $community_id is correctly set inside communities loop
+                            $sql_members = "
 SELECT u.full_name, u.username, cm.joined_at
 FROM community_members cm
 JOIN users u ON cm.user_id = u.user_id
@@ -485,32 +485,33 @@ WHERE cm.community_id = $community_id
 AND cm.status = 'approved'   -- Use exact enum value here
 ";
 
-$result_members = $conn->query($sql_members);
-if (!$result_members) {
-    die("SQL Error: " . $conn->error);
-}
-?>
+                            $result_members = $conn->query($sql_members);
+                            if (!$result_members) {
+                                die("SQL Error: " . $conn->error);
+                            }
+                            ?>
 
-<h5>Members:</h5>
-<?php if($result_members->num_rows > 0): ?>
-    <?php while($member = $result_members->fetch_assoc()): ?>
-        <div class="member">
-            <div class="d-flex align-items-center">
-                <img class="user-logo" src="lo.webp" alt="member avatar">
-                <div class="ms-3">
-                    <div class="username"><?= htmlspecialchars($member['full_name']) ?>  (@<?= htmlspecialchars($member['username']) ?>)</div>
-                    <div style="color:#6b7280;font-size:13px;margin-top:4px; font-weight:600;">
-                        Joined at · <?= $member['joined_at'] ?>
+                    <h5>Members:</h5>
+                    <?php if ($result_members->num_rows > 0): ?>
+                    <?php while ($member = $result_members->fetch_assoc()): ?>
+                    <div class="member">
+                        <div class="d-flex align-items-center">
+                            <img class="user-logo" src="lo.webp" alt="member avatar">
+                            <div class="ms-3">
+                                <div class="username"><?= htmlspecialchars($member['full_name']) ?>
+                                    (@<?= htmlspecialchars($member['username']) ?>)</div>
+                                <div style="color:#6b7280;font-size:13px;margin-top:4px; font-weight:600;">
+                                    Joined at · <?= $member['joined_at'] ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    <?php endwhile; ?>
-<?php else: ?>
-    <p>No members joined yet.</p>
-<?php endif; ?>
+                    <?php endwhile; ?>
+                    <?php else: ?>
+                    <p>No members joined yet.</p>
+                    <?php endif; ?>
 
-                    
+
                 </div> <!-- end requests & members section -->
 
                 <div class="buttons mt-3 text-center">
@@ -523,21 +524,94 @@ if (!$result_members) {
 
         </div> <!-- end col -->
 
-    <?php endwhile; ?>
+        <?php endwhile; ?>
 
-<?php else: ?>
+        <?php else: ?>
 
-    <p>No communities created yet.</p>
-    <div class="empty-card text-center mb-4">
-        <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
-        <h4>No Communities found</h4>
-        <p class="text-muted">You have not created any communities yet.</p>
-        <div class="d-flex justify-content-center mt-4">
-            <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
+        <p>No communities created yet.</p>
+        <div class="empty-card text-center mb-4">
+            <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
+            <h4>No Communities found</h4>
+            <p class="text-muted">You have not created any communities yet.</p>
+            <div class="d-flex justify-content-center mt-4">
+                <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
+            </div>
+        </div>
+
+        <?php endif; ?>
+
+        <div class="feedback-card text-center p-4 mt-5 mb-4 bg-white rounded-3 shadow-sm">
+            <h5>Have Suggestions or any complaints?</h5>
+            <p>
+                Give us your feedback.
+            </p>
+            <button class="btn btn-outline-indigo btn-sm" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                Feedback
+            </button>
+        </div>
+
+        <div class="modal fade" id="feedbackModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- MODAL HEADER -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Community Feedback</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- FORM START -->
+                    <form method="post" action="#">
+
+                        <div class="modal-body">
+
+                            <!-- COMMUNITY NAME -->
+                            <div class="mb-3">
+                                <label class="form-label">Community Name</label>
+                                <input type="text" class="form-control" name="community_name"
+                                    placeholder="Enter community name" required>
+                            </div>
+
+                            <!-- RADIO BUTTONS -->
+                            <div class="mb-3">
+                                <label class="form-label d-block">Feedback Type</label>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="feedback_type" value="suggestion"
+                                        required>
+                                    <label class="form-check-label">Suggestion</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="feedback_type" value="report">
+                                    <label class="form-check-label">Report</label>
+                                </div>
+                            </div>
+
+                            <!-- FEEDBACK TEXT -->
+                            <div class="mb-3">
+                                <label class="form-label">Your Feedback</label>
+                                <textarea class="form-control" name="feedback" rows="4"
+                                    placeholder="Write your feedback here..." required></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- MODAL FOOTER -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                    <!-- FORM END -->
+
+                </div>
+            </div>
         </div>
     </div>
-
-<?php endif; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

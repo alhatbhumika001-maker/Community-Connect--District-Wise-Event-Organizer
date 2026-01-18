@@ -1,4 +1,4 @@
-<div class="global-footer">
+<div class="global-footer mt-3">
 
 
     <footer class="py-4 border-top ">
