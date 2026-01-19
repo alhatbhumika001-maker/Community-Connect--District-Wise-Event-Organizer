@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 <?php
     include 'mainNav.php';
 ?>
-=======
->>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,11 +56,7 @@
 
             <!-- Page Heading -->
             <div class="text-center mb-4">
-<<<<<<< HEAD
                 <h2 class="fw-semibold" style="margin-top:60px;">Frequently Asked Questions</h2>
-=======
-                <h2 class="fw-semibold">Frequently Asked Questions</h2>
->>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
                 <p class="text-muted">
                     Everything you need to know about Community Connect
                 </p>
@@ -240,7 +233,9 @@
 
         </div>
     </div>
-
+    <?php
+    include 'footer.php';
+?>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

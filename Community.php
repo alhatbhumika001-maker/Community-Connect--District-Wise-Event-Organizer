@@ -144,7 +144,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
         outline-offset: 2px;
         box-shadow: none;
     }
-<<<<<<< HEAD
 
     .btn-outline-indigo{
     border:1px solid #371b69;
@@ -157,9 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
 }
 
 </style>
-=======
-    </style>
->>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
 </head>
 
 <body>
@@ -207,7 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
                     <button class="btn btn-outline-indigo btn-sm" data-bs-toggle="modal"
                         data-bs-target="#joinModal<?= $cid ?>">Join</button>
 
-<<<<<<< HEAD
                         <?php if (isset($_SESSION['user_id'])): ?>
     <!-- Join Modal -->
     <div class="modal fade" id="joinModal<?= $cid ?>" tabindex="-1" aria-hidden="true">
@@ -242,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
             </div>
             <div class="modal-body">
                 <p>You must be logged in to join this community.</p>
-            </div>
+             </div>
             <div class="modal-footer">
                 <a href="login.php" class="btn btn-warning text-dark">Login</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -253,31 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
 
 <?php endif; ?>
 
-=======
-                    <!-- Join Modal -->
-                    <div class="modal fade" id="joinModal<?= $cid ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <form action="" method="post">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Join Community</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Do you want to join this community?</p>
-                                        <input type="hidden" name="id" value="<?= $cid ?>">
-                                        <input type="hidden" name="join_request" value="1">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">No</button>
-                                        <button type="submit" class="btn btn-success">Yes, Join</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
->>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
                     <?php endif; ?>
                 </div>
             </div>

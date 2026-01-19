@@ -1,13 +1,5 @@
 <?php
 include 'mainNav.php';
-<<<<<<< HEAD
-=======
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
->>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
 
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
