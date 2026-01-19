@@ -18,90 +18,90 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-        html {
-            scroll-behavior: smooth;
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Outfit", sans-serif;
+        color: #333;
+        padding-top: 90px;
+    }
+
+    /* Content styling */
+    .feature-content {
+        font-size: 1.1rem;
+        line-height: 1.65;
+        color: #444;
+        max-width: 70ch;
+    }
+
+    .feature-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: .7rem;
+    }
+
+    .feature-img {
+        width: 100%;
+        max-height: 330px;
+        object-fit: contain;
+    }
+
+    /* Team Section */
+    .section-title {
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+
+    .card {
+        border: 1px solid grey;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+        transition: .2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-img-top {
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .card-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .card-role {
+        color: #00897B;
+        font-weight: 600;
+    }
+
+    .card-subline {
+        color: #555;
+        margin-top: .5rem;
+        font-size: .95rem;
+    }
+
+    @media (max-width: 576px) {
+        .card-img-top {
+            height: 180px;
         }
 
-        body {
-            font-family: "Outfit", sans-serif;
-            color: #333;
-            padding-top: 90px;
-        }
-
-        /* Content styling */
         .feature-content {
-            font-size: 1.1rem;
-            line-height: 1.65;
-            color: #444;
-            max-width: 70ch;
+            font-size: 1rem;
         }
 
         .feature-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: .7rem;
+            font-size: 1.2rem;
         }
-
-        .feature-img {
-            width: 100%;
-            max-height: 330px;
-            object-fit: contain;
-        }
-
-        /* Team Section */
-        .section-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            border: 1px solid grey;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
-            transition: .2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-img-top {
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .card-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .card-role {
-            color: #00897B;
-            font-weight: 600;
-        }
-
-        .card-subline {
-            color: #555;
-            margin-top: .5rem;
-            font-size: .95rem;
-        }
-
-        @media (max-width: 576px) {
-            .card-img-top {
-                height: 180px;
-            }
-
-            .feature-content {
-                font-size: 1rem;
-            }
-
-            .feature-title {
-                font-size: 1.2rem;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -109,8 +109,8 @@
 
     <!-- NAVBAR -->
     <?php
-        $active = 'about';
-        include 'mainNav.php';
+    $active = 'about';
+    include 'mainNav.php';
     ?>
 
     <main class="container">
@@ -254,8 +254,10 @@
 
     <!-- FOOTER -->
     <?php include 'footer.php'; ?>
+    <?php include 'sidebar.php'; ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+    </script>
 
 </body>
 

@@ -1,5 +1,13 @@
 <?php
 include 'mainNav.php';
+<<<<<<< HEAD
+=======
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+>>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
 
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
@@ -54,12 +62,13 @@ $event_count  = mysqli_num_rows($event_result);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom CSS  -->
-    <link rel="stylesheet" href="userStyle.css">
+    <link rel="stylesheet" href="style.css">
 
     <style>
     body {
         background: #f4f7fb;
         font-family: 'Outfit', sans-serif;
+        margin-top: 120px;
     }
 
     /* GRID */
@@ -255,6 +264,10 @@ function showLoginToast() {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include 'sidebar.php'; ?>
+    <?php include 'footer.php'; ?>
+
 </body>
 
 </html>

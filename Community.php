@@ -41,33 +41,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_request'])) {
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Explore Communities - Community Connect</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Explore Communities - Community Connect</title>
 
-<!-- GOOGLE FONTS -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Handlee&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Outfit:wght@400;600&display=swap"
+        rel="stylesheet">
 
-<!-- BOOTSTRAP CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- BOOTSTRAP CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- BOOTSTRAP ICONS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- BOOTSTRAP ICONS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-<!-- CUSTOM CSS -->
-<link rel="stylesheet" href="style.css">
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="style.css">
 
-<style>
-body {
-    background: #f7f9fb;
-    font-family: "Outfit", sans-serif;
-    color: #111827;
-    padding-top: 80px; /* space for fixed navbar */
-}
+    <style>
+    body {
+        background: #f7f9fb;
+        font-family: "Outfit", sans-serif;
+        color: #111827;
+        padding-top: 80px;
+        /* space for fixed navbar */
+    }
 
- /* Community card */
+    /* Community card */
     .community-card {
         display: flex;
         gap: 0;
@@ -142,6 +144,7 @@ body {
         outline-offset: 2px;
         box-shadow: none;
     }
+<<<<<<< HEAD
 
     .btn-outline-indigo{
     border:1px solid #371b69;
@@ -154,16 +157,19 @@ body {
 }
 
 </style>
+=======
+    </style>
+>>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
 </head>
 
 <body>
 
-<?php include 'mainNav.php'; ?>
+    <?php include 'mainNav.php'; ?>
 
-<div class="container my-4">
+    <div class="container my-4">
 
-<?php if ($community_count > 0): ?>
-    <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
+        <?php if ($community_count > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
         <?php $cid = $row['id']; ?>
         <div class="community-card">
 
@@ -192,14 +198,16 @@ body {
                     <a href="com-Events.php?id=<?= $cid ?>" class="btn btn-outline-indigo btn-sm">View</a>
 
                     <?php if (isset($membership_status[$cid])): ?>
-                        <?php if ($membership_status[$cid] === 'pending'): ?>
-                            <span class="badge bg-warning text-dark px-3 py-2">Request Pending</span>
-                        <?php elseif ($membership_status[$cid] === 'approved'): ?>
-                            <span class="badge bg-success px-3 py-2">Joined</span>
-                        <?php endif; ?>
+                    <?php if ($membership_status[$cid] === 'pending'): ?>
+                    <span class="badge bg-warning text-dark px-3 py-2">Request Pending</span>
+                    <?php elseif ($membership_status[$cid] === 'approved'): ?>
+                    <span class="badge bg-success px-3 py-2">Joined</span>
+                    <?php endif; ?>
                     <?php else: ?>
-                        <button class="btn btn-outline-indigo btn-sm" data-bs-toggle="modal" data-bs-target="#joinModal<?= $cid ?>">Join</button>
+                    <button class="btn btn-outline-indigo btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#joinModal<?= $cid ?>">Join</button>
 
+<<<<<<< HEAD
                         <?php if (isset($_SESSION['user_id'])): ?>
     <!-- Join Modal -->
     <div class="modal fade" id="joinModal<?= $cid ?>" tabindex="-1" aria-hidden="true">
@@ -245,23 +253,52 @@ body {
 
 <?php endif; ?>
 
+=======
+                    <!-- Join Modal -->
+                    <div class="modal fade" id="joinModal<?= $cid ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form action="" method="post">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Join Community</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Do you want to join this community?</p>
+                                        <input type="hidden" name="id" value="<?= $cid ?>">
+                                        <input type="hidden" name="join_request" value="1">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">No</button>
+                                        <button type="submit" class="btn btn-success">Yes, Join</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> a0bdff5f9621b9583a1aa426c1a15b08dd868518
                     <?php endif; ?>
                 </div>
             </div>
         </div>
-    <?php endwhile; ?>
+        <?php endwhile; ?>
 
-<?php else: ?>
-    <div class="empty-card">
-        <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
-        <h4>No Communities Found</h4>
-        <p class="text-muted">You have not created any communities yet.</p>
-        <a href="createCommunity.php" class="btn btn-outline-indigo mt-3">Create Community</a>
+        <?php else: ?>
+        <div class="empty-card">
+            <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
+            <h4>No Communities Found</h4>
+            <p class="text-muted">You have not created any communities yet.</p>
+            <a href="createCommunity.php" class="btn btn-outline-indigo mt-3">Create Community</a>
+        </div>
+        <?php endif; ?>
+
     </div>
-<?php endif; ?>
 
-</div>
+    <?php include 'sidebar.php'; ?>
+    <?php include 'footer.php'; ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
