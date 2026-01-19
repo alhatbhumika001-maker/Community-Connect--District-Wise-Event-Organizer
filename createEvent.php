@@ -114,6 +114,20 @@ $privacy = $_POST['privacy'] ?? '';
             padding: 18px;
         }
     }
+
+      .btn-outline-indigo {
+    border: 1px solid #7e57c2; /* Purple border */
+    color: #7e57c2;             /* Text color same as border */
+    background-color: transparent; /* Transparent background */
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-indigo:hover {
+    background-color: #7e57c2; /* Filled on hover */
+    color: #fff;                /* White text on hover */
+    text-decoration: none;
+}
     </style>
 </head>
 
@@ -329,8 +343,16 @@ $privacy = $_POST['privacy'] ?? '';
                     </div>
 
                     <!-- SUBMIT -->
-                    <div class="col-12 text-end mt-2">
-                        <button type="submit" class="btn btn-info text-white px-4">Create Event</button>
+                  
+
+                    <div class="col-12 text-end mt-3 d-flex justify-content-end gap-2 flex-wrap">
+                        <!-- Create Community Button -->
+                         <button type="submit" class="btn btn-info text-white px-4">Create Event</button>
+
+                        <!-- Back to Profile Button -->
+                        <a href="profile.php" class="btn btn-outline-indigo">
+                            Back To Profile
+                        </a>
                     </div>
 
                 </form>

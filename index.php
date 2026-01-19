@@ -795,9 +795,11 @@ $event_result = mysqli_query($conn, $event_query);
                             </div>
                             <?php } ?>
 
-                            <form onsubmit="return addComment(event, <?php echo $post['id']; ?>)">
-                                <input type="text" placeholder="Write a comment..." required>
-                            </form>
+                            <form onsubmit="return addComment(event, <?php echo $post['id']; ?>)" class="d-flex mt-2">
+    <input type="text" class="form-control me-2" placeholder="Write a comment..." required>
+    <button type="submit" class="btn btn-primary btn-sm">Send</button>
+</form>
+
                         </div>
 
                     </div>

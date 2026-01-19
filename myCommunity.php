@@ -1,96 +1,106 @@
-<?php 
-    include 'userHead.php';
-    $conn = new mysqli("localhost", "root", "", "community_connect");
-    // LIST OF COMMUNITIES
-    $user_id = $_SESSION['user_id'] ?? 0;
-
-    // Fetch communities created by logged-in user
-    $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
-    $community_result = mysqli_query($conn, $community_query);
-    $community_count = mysqli_num_rows($community_result);
-
-    // Fetch Members Joined 
-    $community_members = "SELECT * FROM community_members ";
-    $result = mysqli_query($conn, $community_members );
-    $res_count = mysqli_num_rows($result);
-?>
 <?php
-// Reject a pending request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject_request'])) {
+session_start();
+include 'mainNav.php'; // or mainNav.php if needed
 
-    $request_id = intval($_POST['request_id']);
+$conn = new mysqli("localhost", "root", "", "community_connect");
+$user_id = $_SESSION['user_id'] ?? 0;
 
-    $delete = $conn->query("DELETE FROM community_members WHERE id = $request_id");
+// Fetch communities created by logged-in user
+$community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
+$community_result = mysqli_query($conn, $community_query);
+$community_count = mysqli_num_rows($community_result);
 
-    if ($delete) {
-        echo "<script>
-                alert('Request rejected successfully!');
-                window.location = window.location.href;
-              </script>";
-        exit;
-    } else {
-        echo "Error rejecting request: " . $conn->error;
+// Fetch total members
+$community_members = "SELECT * FROM community_members";
+$result = mysqli_query($conn, $community_members);
+$res_count = mysqli_num_rows($result);
+
+// Handle Approve / Reject requests
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['reject_request'])) {
+        $request_id = intval($_POST['request_id']);
+        $delete = $conn->query("DELETE FROM community_members WHERE id = $request_id");
+        if ($delete) echo "<script>alert('Request rejected!'); window.location = window.location.href;</script>";
+    }
+    if (isset($_POST['approve_request'])) {
+        $request_id = intval($_POST['request_id']);
+        $update = $conn->query("UPDATE community_members SET status='approved' WHERE id=$request_id");
+        if ($update) echo "<script>alert('Request approved!'); window.location = window.location.href;</script>";
     }
 }
-
-// Approve a pending request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
-
-    $request_id = intval($_POST['request_id']); // FIXED HERE
-
-    $update = $conn->query("UPDATE community_members 
-                            SET status='approved' 
-                            WHERE id=$request_id");
-
-    if ($update) {
-        echo "<script>
-                alert('Request approved successfully!');
-                window.location = window.location.href;
-              </script>";
-        exit;
-    } else {
-        echo "Error approving request: " . $conn->error;
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Created Community - Community Connect</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Created Community - Community Connect</title>
 
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Outfit:wght@400;600&display=swap"
-        rel="stylesheet" />
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Handlee&family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- BOOTSTRAP CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- BOOTSTRAP CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="userStyle.css">
+<style>
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    color: #111827;
+}
 
-    <!-- BOOTSTRAP ICONS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+/* --------- Sidebar --------- */
+.sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #f9f2ff 0%, #d4c0ff 100%);
+    overflow-y: auto;
+    padding-top: 80px;
+    border-right: 1px solid #c3b7f7;
+}
 
-    <style>
-    /* ---------- Base ---------- */
-    body {
-        font-family: 'Outfit', sans-serif;
-        background: #f8f9fa;
-        color: #111827;
-        margin: 0;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
+.sidebar-profile-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #a076ff;
+    box-shadow: 0 0 10px #a076ff88;
+    display: block;
+    margin: 0 auto 10px auto;
+}
 
-    /* ---------- Metrics Card ---------- */
-    .metric {
+.sidebar-nav .nav-link {
+    color: #6b55a5;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: block;
+}
+
+.sidebar-nav .nav-link.active,
+.sidebar-nav .nav-link:hover {
+    background: #d9c9ff;
+    color: #512da8;
+}
+
+.sidebar .collapse .nav-link {
+    padding-left: 40px;
+}
+
+/* --------- Main Content --------- */
+.main {
+    margin-left: 260px;
+    padding: 40px 30px;
+}
+
+ .metric {
         padding: 10px;
     }
 
@@ -148,397 +158,226 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_request'])) {
         color: #111827;
     }
 
-    /* ---------- Community card ---------- */
-    .community {
+/* Community Card */
+.community {
     border-radius: 12px;
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
 }
 
-    /* Banner container to keep consistent cropping */
-    .com-banner {
-        width: 100%;
-        height: 160px;
-        overflow: hidden;
-        border-radius: 8px;
-        margin-bottom: 12px;
-        background: #efefef;
+.com-banner {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #efefef;
+}
+
+.com-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Requests & Members */
+.request-box, .member {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.request-box img, .member img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #efefef;
+    flex-shrink: 0;
+}
+
+.request-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.buttons {
+    margin-top: 12px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .main {
+        margin-left: 0;
+        padding: 20px;
     }
+}
+.btn-outline-indigo {
+    color: #6610f2;
+    border: 1px solid #6610f2;
+}
 
-    .com-banner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+.btn-outline-indigo:hover {
+    background-color: #6610f2;
+    color: #fff;
+}
 
-    h3 {
-        font-size: 20px;
-        margin: 8px 0 4px;
-        color: #111827;
-    }
-
-    h4 {
-        font-size: 14px;
-        margin: 0 0 12px 0;
-        color: #6b7280;
-        font-weight: 500;
-    }
-
-    .request-box {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
-        /* allow wrap on small screens */
-    }
-
-    .request-box img {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        object-fit: cover;
-        background: #efefef;
-        flex-shrink: 0;
-    }
-
-    .request-box .meta {
-        min-width: 0;
-        /* allows text to truncate/wrap nicely */
-    }
-
-    .request-box .meta p {
-        margin: 0;
-    }
-
-    .request-box .meta .username {
-        color: #6b7280;
-        font-size: 14px;
-    }
-
-    /* place action buttons to the right when there is space */
-    .request-actions {
-        margin-left: auto;
-        display: flex;
-        gap: 8px;
-    }
-
-    /* Member list */
-    .member {
-        border-bottom: 1px solid #f1f3f5;
-        padding-bottom: 12px;
-        margin-bottom: 12px;
-    }
-
-    .member .user-logo {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        object-fit: cover;
-        background: #efefef;
-    }
-
-    .username {
-        font-weight: 600;
-    }
-
-    /* Buttons container */
-    .buttons .btn {
-        margin-right: 8px;
-    }
-
-    /* Make the single centered button more tap-friendly on mobile */
-    .buttons {
-        margin-top: 12px;
-    }
-
-    /* ---------- Responsive tweaks ---------- */
-    @media (max-width: 767.98px) {
-        .metric-card {
-            padding: 14px;
-            min-height: 120px;
-        }
-
-        .metric-icon-box {
-            width: 60px;
-            height: 60px;
-        }
-
-        .metric-count {
-            font-size: 22px;
-        }
-
-        .com-banner {
-            height: 300px;
-        }
-
-        .community {
-            padding: 16px;
-        }
-    }
-
-    /* Very small screens - make action button full width and stack actions */
-    @media (max-width: 420px) {
-        .metric-icon-box {
-            width: 56px;
-            height: 56px;
-        }
-
-        .metric-count {
-            font-size: 20px;
-        }
-
-        /* make request actions wrap nicely and be full width */
-        .request-actions {
-            width: 100%;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
-         .request-actions .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .request-actions .btn {
-                min-width: 70px;
-                text-align: center;
-            }
-
-
-
-        /* center button but make it full width on very small devices */
-        .buttons {
-            display: flex;
-            justify-content: center;
-        }
-
-        .buttons .btn {
-            width: 100%;
-            max-width: 200px;
-        }
-     
-    }
-    </style>
+</style>
 </head>
-
 <body>
 
-    
-    <?php
-    $active = 'exploreCommunity';
-    include 'userNav.php';
-    ?>
+<!-- Sidebar -->
+<div class="sidebar" style="margin-top:25px;">
+    <div class="text-center mb-3">
+        <img src="user.png" alt="User" class="sidebar-profile-img">
+        <h6><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></h6>
+    </div>
+    <nav class="sidebar-nav">
+            <a class="nav-link <?= ($active ?? '') == 'profile' ? 'active' : '' ?>" href="profile.php">Profile</a>
 
+        <a class="nav-link <?= ($active ?? '') == 'myCommunity' ? 'active' : '' ?>" href="myCommunity.php">Created Communities</a>
+        <a class="nav-link <?= ($active ?? '') == 'myEvent' ? 'active' : '' ?>" href="myEvent.php">Created Events</a>
+                <a class="nav-link <?= ($active ?? '') == 'joinedCom' ? 'active' : '' ?>" href="joinedCom.php">Joined Communities</a>
+        <a class="nav-link <?= ($active ?? '') == 'joinedEve' ? 'active' : '' ?>" href="joinedEve.php">Joined Events</a>
 
-    <div class="container py-3">
-        <div class="metric row g-4 mb-4">
-            <!-- Total communities created by the user -->
-            <div class="col-12 col-md-4">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon-box">
-                            <i class="bi bi-collection"></i>
-                        </div>
-                        <div class="metric-title">
-                            Total Communities <br>
-                            Created
-                        </div>
-                    </div>
-
-                    <div class="metric-count">
-                         Total Communities: <?= $community_count ?>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Total no. of members in community -->
-            <div class="col-12 col-md-4">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon-box">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="metric-title">Total Member<br>in the Community</div>
-                    </div>
-
-                    <div class="metric-count">
-                       Total Members: <?= $res_count ?>
-                    </div>
-                </div>
-            </div>
-
-            <!-- No. of members joined in last week -->
-            <div class="col-12 col-md-4">
-                <div class="metric-card">
-                    <div class="metric-top">
-                        <div class="metric-icon-box">
-                            <i class="bi bi-person-fill-add"></i>
-                        </div>
-                        <div class="metric-title">New Members<br>Joined last week</div>
-                    </div>
-
-                    <div class="metric-count">
-                          New Members Join : <?= $res_count ?>
-                    </div>
-                </div>
-            </div>
+        <a class="nav-link" data-bs-toggle="collapse" href="#createMenu" role="button" aria-expanded="false" aria-controls="createMenu">
+            Create ▾
+        </a>
+        <div class="collapse ps-3" id="createMenu">
+            <a class="nav-link small" href="createCommunity.php">Community</a>
+            <a class="nav-link small" href="createEvent.php">Event</a>
         </div>
 
-        <!-- If more than one has been created, loop should be created. -->
-            <?php if ($community_count > 0): ?>
+        <a class="nav-link text-danger mt-3" href="logout.php">Logout</a>
+    </nav>
+</div>
 
-    <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
-
-        <div class="col-12 col-md-6 col-lg-12"> <!-- responsive card width -->
-
-            <div class="community">
-
-                <div class="com-banner" aria-hidden="true">
-                    <img src="<?php echo $row['image'] ?>" alt="Community banner">
+<!-- Main Content -->
+<div class="main">
+    <div class="container-fluid row g-4 mb-4">
+        <!-- Metrics -->
+        <div class="col-12 col-md-4">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon-box"><i class="bi bi-collection"></i></div>
+                    <div class="metric-title">Total Communities Created</div>
                 </div>
-
-                <h3><?php echo $row['community_name'] ?></h3>
-                <h4><?php echo date("d M Y H:i:s", strtotime($row['created_at'])); ?></h4>
-
-                <div>
-                    <?php
-                    // Fetch pending requests for THIS community
-                    $community_id = $row['id'];
-
-                 $stmt = $conn->prepare(
-                    "SELECT cm.id, cm.user_id, cm.community_id, cm.joined_at, u.full_name, u.username
-                    FROM community_members cm
-                    JOIN users u ON u.user_id = cm.user_id
-                    WHERE cm.community_id = ? AND cm.status='pending'"
-                );
-
-
-                    if (!$stmt) {
-                        die("Prepare failed: " . $conn->error);
-                    }
-
-                    $stmt->bind_param("i", $community_id);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $requests = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
-
-                    <h5>Manage</h5>
-                    <h6>New requests:</h6>
-
-                    <?php if(count($requests) > 0): ?>
-                <?php foreach($requests as $req): ?>
-                    <div class="request-box">
-                        <img src="l.png" alt="Requester's avatar">
-                        <div class="meta">
-                            <p style="font-weight:600;margin:0;"><?= htmlspecialchars($req['full_name']) ?></p>
-                            <p class="username" style="margin:0;color:#6b7280;">
-                                @<?= htmlspecialchars($req['username']) ?> • <?= htmlspecialchars($req['joined_at']) ?>
-                            </p>
-                        </div>
-                        
-
-                    <div class="request-actions">
-
-                        <!-- VIEW BUTTON -->
-                        <a href="com-Events.php?id=<?= $community_id ?>" 
-                        class="btn btn-sm btn-outline-primary">
-                            View
-                        </a>
-
-                        <!-- ACCEPT BUTTON -->
-                        <form action="myCommunity.php" method="post">
-                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
-                            <input type="hidden" name="approve_request" value="1">
-                            <button type="submit" class="btn btn-sm btn-outline-success">Accept</button>
-                        </form>
-
-                        <!-- REJECT BUTTON -->
-                        <form action="myCommunity.php" method="post">
-                            <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
-                            <input type="hidden" name="reject_request" value="1">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
-                        </form>
-
-                    </div>
-
-
-                    </div>
-                <?php endforeach; ?>
-
-                    <?php else: ?>
-                        <p>No pending requests.</p>
-                    <?php endif; ?>
-
-                  <?php
-// Assuming $community_id is correctly set inside communities loop
-$sql_members = "
-SELECT u.full_name, u.username, cm.joined_at
-FROM community_members cm
-JOIN users u ON cm.user_id = u.user_id
-WHERE cm.community_id = $community_id
-AND cm.status = 'approved'   -- Use exact enum value here
-";
-
-$result_members = $conn->query($sql_members);
-if (!$result_members) {
-    die("SQL Error: " . $conn->error);
-}
-?>
-
-<h5>Members:</h5>
-<?php if($result_members->num_rows > 0): ?>
-    <?php while($member = $result_members->fetch_assoc()): ?>
-        <div class="member">
-            <div class="d-flex align-items-center">
-                <img class="user-logo" src="lo.webp" alt="member avatar">
-                <div class="ms-3">
-                    <div class="username"><?= htmlspecialchars($member['full_name']) ?>  (@<?= htmlspecialchars($member['username']) ?>)</div>
-                    <div style="color:#6b7280;font-size:13px;margin-top:4px; font-weight:600;">
-                        Joined at · <?= $member['joined_at'] ?>
-                    </div>
-                </div>
+                <div class="metric-count" style="color: #34275f;">Total Community: <?= $community_count ?></div>
             </div>
         </div>
-    <?php endwhile; ?>
-<?php else: ?>
-    <p>No members joined yet.</p>
-<?php endif; ?>
-
-                    
-                </div> <!-- end requests & members section -->
-
-                <div class="buttons mt-3 text-center">
-                    <a href="com-Events.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-indigo">
-                        View Community
-                    </a>
+        <div class="col-12 col-md-4">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon-box"><i class="bi bi-people"></i></div>
+                    <div class="metric-title">Total Members</div>
                 </div>
-
-            </div> <!-- end community card -->
-
-        </div> <!-- end col -->
-
-    <?php endwhile; ?>
-
-<?php else: ?>
-
-    <p>No communities created yet.</p>
-    <div class="empty-card text-center mb-4">
-        <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
-        <h4>No Communities found</h4>
-        <p class="text-muted">You have not created any communities yet.</p>
-        <div class="d-flex justify-content-center mt-4">
-            <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
+                <div class="metric-count" style="color: #34275f;">Total Members: 2</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon-box"><i class="bi bi-person-fill-add"></i></div>
+                    <div class="metric-title">New Members Joined Last Week</div>
+                </div>
+                <div class="metric-count" style="color: #34275f;">New Members: 0</div>
+            </div>
         </div>
     </div>
 
-<?php endif; ?>
+    <!-- Communities List -->
+    <?php if ($community_count > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($community_result)): ?>
+            <div class="community">
+                <div class="com-banner"><img src="<?= $row['image'] ?>" alt="Banner"></div>
+                <h3 style="font-size:25px; color: #4b378d; font-weight:bold;"><?= htmlspecialchars($row['community_name']) ?></h3>
+                <strong style=" color: #4b378d;">Date:</strong> <?= date("d M Y", strtotime($row['created_at'])); ?> | <?= htmlspecialchars($row['district']); ?><br>
+                <strong  style=" color: #4b378d;">Time:</strong> <?= date("h:i A", strtotime($row['created_at'])); ?> <br>
 
+
+                <?php
+                $community_id = $row['id'];
+                $stmt = $conn->prepare("
+                    SELECT cm.id, cm.user_id, cm.joined_at, u.full_name, u.username
+                    FROM community_members cm
+                    JOIN users u ON u.user_id = cm.user_id
+                    WHERE cm.community_id = ? AND cm.status='pending'
+                ");
+                $stmt->bind_param("i", $community_id);
+                $stmt->execute();
+                $requests = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                ?>
+                <h6  style=" color: #7450ea; margin-top:10px;">New Requests:</h6>
+                <?php if(count($requests) > 0): ?>
+                    <?php foreach($requests as $req): ?>
+                        <div class="request-box">
+                            <img src="l.png" alt="Avatar">
+                            <div>
+                                <p style="font-weight:600;margin:0;"><?= htmlspecialchars($req['full_name']) ?></p>
+                                <p class="username" style="margin:0;color:#6b7280;">
+                                    @<?= htmlspecialchars($req['username']) ?> • <?= $req['joined_at'] ?>
+                                </p>
+                            </div>
+                            <div class="request-actions">
+                                <form method="post">
+                                    <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                                    <input type="hidden" name="approve_request" value="1">
+                                    <button class="btn btn-sm btn-outline-success">Accept</button>
+                                </form>
+                                <form method="post">
+                                    <input type="hidden" name="request_id" value="<?= $req['id'] ?>">
+                                    <input type="hidden" name="reject_request" value="1">
+                                    <button class="btn btn-sm btn-outline-danger">Reject</button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No pending requests.</p>
+                <?php endif; ?>
+
+                <!-- Members -->
+                <?php
+                $members_sql = "SELECT u.full_name, u.username, cm.joined_at
+                                FROM community_members cm
+                                JOIN users u ON cm.user_id = u.user_id
+                                WHERE cm.community_id = $community_id AND cm.status='approved'";
+                $members_res = $conn->query($members_sql);
+                ?>
+                <h6 style=" color: #7450ea; margin-top:10px;">Members:</h6>
+                <?php if($members_res->num_rows > 0): ?>
+                    <?php while($member = $members_res->fetch_assoc()): ?>
+                        <div class="member">
+                            <img src="lo.webp" alt="member">
+                            <div>
+                                <div><?= htmlspecialchars($member['full_name']) ?> (@<?= htmlspecialchars($member['username']) ?>)</div>
+                                <small style="color:#6b7280;">Joined: <?= $member['joined_at'] ?></small>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>No members joined yet.</p>
+                <?php endif; ?>
+
+                <div class="buttons">
+                    <a href="com-Events.php?id=<?= $row['id'] ?>" class=" btn btn-outline-indigo">View Community</a>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <div class="empty-card text-center mb-4">
+            <div class="bi bi-emoji-neutral" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
+            <h4>No Communities Found</h4>
+            <p class="text-muted">You have not created any communities yet.</p>
+            <a href="createCommunity.php" class="btn btn-outline-indigo filter-pill">Create Community</a>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

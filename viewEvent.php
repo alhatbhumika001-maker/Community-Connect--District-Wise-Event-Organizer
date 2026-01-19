@@ -149,23 +149,47 @@ $row = mysqli_fetch_assoc($event_result);
             <p class="eve-address">District: <?= htmlspecialchars($row['district']) ?></p>
             <div class="event-button d-flex justify-content-end">
 
-<?php
-$today     = date('Y-m-d');
-$eventDate = $row['date'];
+<div class="event-footer">
+    <?php
+        $today = date('Y-m-d');
+        $isLoggedIn = isset($_SESSION['user_id']); // Check if user is logged in
 
-if ($eventDate < $today) {
-    // Past Event
-    echo '<button class="btn btn-sm btn-warning px-4" disabled><b>Event Ended</b></button>';
+        if ($row['date'] < $today) {
+            echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
+        } elseif ($row['date'] == $today) {
+            echo '<button class="btn btn-primary btn-sm" disabled>Ongoing</button>';
+        } else {
+            if ($isLoggedIn) {
+                // Logged-in users can register
+                echo '<a href="registerEvent.php?id=' . $row['id'] . '" class="btn btn-outline-info btn-sm">Register</a>';
+            } else {
+                // Not logged-in users see a button that triggers a toast
+                echo '<button class="btn btn-outline-info btn-sm" onclick="showLoginToast()">Register</button>';
+            }
+        }
+    ?>
+</div>
 
-} elseif ($eventDate == $today) {
-    // Ongoing Event → Register disabled
-    echo '<button class="btn btn-sm btn-primary px-4" disabled>Ongoing</button>';
+<!-- Bootstrap Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="loginToast" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Please log in to register for this event!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
-} else {
-    // Upcoming Event → Register allowed
-    echo '<a href="registerEvent.php?id='.$row['id'].'" class="btn btn-sm btn-outline-indigo px-4">Register</a>';
+<script>
+function showLoginToast() {
+    var toastEl = document.getElementById('loginToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
 }
-?>
+</script>
+
 
 </div>
 

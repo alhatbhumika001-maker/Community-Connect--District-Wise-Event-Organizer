@@ -2,6 +2,8 @@
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 include 'mainNav.php';
 
+$id = $_SESSION['login_user']['id'] ?? 0;
+
 if (isset($_SESSION['login_user'])) {
     $user = $_SESSION['login_user'];
     $username = $user['username'];
@@ -13,41 +15,45 @@ if (isset($_SESSION['login_user'])) {
     $user_id = $user['user_id'];
 }
 
-$joinedCommunities = [];
+/* ===== ALL JOINED EVENTS ===== */
+/* ===== ALL JOINED EVENTS WITH DETAILS ===== */
+$stmt = $conn->prepare(
+    "SELECT 
+        r.id AS id,
+        r.event_id,
+        r.status,
+        e.event_name,
+        e.location,
+        e.district,
+        e.date AS event_date,
+        e.start_time,
+        e.image
+     FROM registrations r
+     JOIN community_events e ON r.event_id = e.id
+     WHERE r.user_id = ?
+     ORDER BY e.date DESC, e.start_time DESC"
+);
 
-if (isset($_SESSION['login_user'])) {
-    $user_id = $_SESSION['login_user']['user_id'];
 
-    $stmt = $conn->prepare(
-        "SELECT 
-            c.id,
-            c.community_name,
-            c.about,
-            c.image,
-            c.category,
-            cm.joined_at
-         FROM community_members cm
-         JOIN communities c ON c.id = cm.community_id
-         WHERE cm.user_id = ?
-         AND cm.status = 'approved'"
-    );
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $joinedCommunities = $result->fetch_all(MYSQLI_ASSOC);
+if (!$stmt) {
+    die("SQL ERROR: " . $conn->error);
 }
+
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$joinedEvents = $stmt->get_result();
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Joined Communities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joined Events</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
-
-<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -94,11 +100,12 @@ body{
     background: #d9c9ff;
     color: #512da8;
   }
+
 .main{
     margin-left:280px;
-    }
+}
 
-/* Card layout (same as yours) */
+/* CARD (same as your design) */
 .list-card{
     background:#fff;
     border-radius:10px;
@@ -110,7 +117,6 @@ body{
 .list-card-img-wrap{
     background:#f1f3f5;
     min-height:180px;
-    display:flex;
 }
 
 .list-card-img{
@@ -148,15 +154,9 @@ body{
     color:#fff;
 }
 
-/* Responsive */
 @media(max-width:768px){
-    .sidebar{
-        position:static;
-        width:100%;
-    }
-    .main{
-        margin-left:0;
-    }
+    .sidebar{position:static;width:100%;}
+    .main{margin-left:0;}
 }
 </style>
 </head>
@@ -204,74 +204,77 @@ body{
 </div>
 
 
-<!-- ===== MAIN CONTENT ===== -->
 <div class="main">
 
-<h2 class="ms-lg-4 mt-5" style="font-size:30; color: #4b378d; font-weight:bold;">Your Joined Communities</h2>
+<h2 class="ms-lg-4 mt-5" style="font-size:30; color: #4b378d; font-weight:bold;">All Your Joined Events</h2>
 
 <div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-12 ps-lg-4">
+  <div class="row">
+    <div class="col-12 ps-lg-4">
 
-        <?php if (!empty($joinedCommunities)): ?>
-            <?php foreach ($joinedCommunities as $row): ?>
-                  <?php $cid = $row['id']; ?>
+    <?php if ($joinedEvents->num_rows > 0): ?>
+      <?php while($row = $joinedEvents->fetch_assoc()): ?>
+      <div class="list-card mb-3">
+        <div class="row g-0">
 
-            <div class="list-card mb-3">
-                <div class="row g-0 align-items-stretch">
-
-                    <!-- Image -->
+          <!-- Image -->
                     <div class="col-md-4 list-card-img-wrap">
                         <img src="<?= htmlspecialchars($row['image']) ?>"
                              class="list-card-img"
-                             alt="Community image">
+                             alt="Event image">
                     </div>
 
-                    <!-- Content -->
-                    <div class="col-md-8">
-                        <div class="list-card-body">
-                            <h5 class="list-card-title" style="font-size:25px; color: #4b378d;">
-                                <?= htmlspecialchars($row['community_name']) ?>
-                            </h5>
 
-                            <p class="list-card-text">
-                                <?= htmlspecialchars($row['about']) ?>
-                            </p>
+          <div class="col-md-8">
+            <div class="list-card-body">
 
-                            <p class="list-card-meta">
-                                <strong style=" color: #4b378d; font-size:15px;"> Joined on:</strong> <?= date('d M Y', strtotime($row['joined_at'])) ?><br>
-                                 <strong style=" color: #4b378d; font-size:15px;">Type: </strong><?= ucfirst($row['category']) ?>
-                            </p>
+              <h5 class="list-card-title" style="font-size:25px; color: #4b378d;"><?= htmlspecialchars($row['event_name']) ?></h5>
 
-                            <a href="com-Events.php?id=<?= $cid ?>"
-                               class="btn btn-sm btn-outline-indigo mt-2">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
+              <p class="list-card-text">
+                  <strong style=" color: #4b378d; font-size:15px;"> Location: </strong> <?= htmlspecialchars($row['location']) ?> <br>
+                  <strong style=" color: #4b378d; font-size:15px;"> District:</strong>  <?= htmlspecialchars($row['district']) ?>
+              </p>
 
-                </div>
+              <p class="list-card-meta">
+                   <strong style=" color: #4b378d; font-size:15px;">Date :</strong><?= date('d M Y', strtotime($row['event_date'])) ?>
+                  | <?= date('h:i A', strtotime($row['start_time'])) ?>
+              </p>
+
+              <p>
+              <?php if ($row['status'] === 'approved'): ?>
+                  <span class="badge text-bg-success">Request Accepted</span>
+              <?php else: ?>
+                  <span class="badge text-bg-warning">Request Pending</span>
+              <?php endif; ?>
+              </p>
+
+              <a href="viewEvent.php?id=<?= $row['event_id'] ?>" class="btn btn-sm btn-outline-indigo">
+                  View Details
+              </a>
+
             </div>
-
-            <?php endforeach; ?>
-
-        <?php else: ?>
-
-            <!-- EMPTY STATE -->
-            <div class="text-center my-5">
-                <i class="bi bi-emoji-neutral" style="font-size:70px; color:#8540f5;"></i>
-                <h4 class="mt-3">No Communities found</h4>
-                <p>You have not joined any communities yet.</p>
-                <a href="Community.php" class="btn btn-outline-indigo">
-                    Explore Communities
-                </a>
-            </div>
-
-        <?php endif; ?>
+          </div>
 
         </div>
+      </div>
+      <?php endwhile; ?>
+
+    <?php else: ?>
+       <!-- EMPTY STATE -->
+            <div class="text-center my-5">
+                <i class="bi bi-emoji-neutral" style="font-size:70px; color:#8540f5;"></i>
+                <h4 class="mt-3">No Events found</h4>
+                <p>You have not joined any communities yet.</p>
+                <a href="event.php" class="btn btn-outline-indigo">
+                    Explore Events
+                </a>
+            </div>
+    <?php endif; ?>
+
     </div>
+  </div>
 </div>
+
 
 </div>
 

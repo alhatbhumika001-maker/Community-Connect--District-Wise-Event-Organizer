@@ -1,11 +1,5 @@
 <?php
-include 'userHead.php';
-include 'userNav.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+include 'mainNav.php';
 
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
@@ -162,7 +156,7 @@ $event_count  = mysqli_num_rows($event_result);
 
     <div class="container mt-5">
 
-        <h2 class="fw-bold mb-2">Events</h2>
+        <h2 class="fw-bold mb-2" style="margin-top:110px;">Events</h2>
         <p class="text-muted">Discover events happening near you</p>
 
         <div class="event-grid">
@@ -201,20 +195,49 @@ $event_count  = mysqli_num_rows($event_result);
 
                 </div>
 
-                <!-- FOOTER -->
-                <div class="event-footer">
-                    <?php
-                        $today = date('Y-m-d');
-                        if ($row['date'] < $today) {
-                            echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
-                        } elseif ($row['date'] == $today) {
-                            echo '<button class="btn btn-primary btn-sm" disabled>Ongoing</button>';
-                        } else {
-                            echo '<a href="registerEvent.php?id=' . $row['id'] . '" class="btn btn-outline-info btn-sm">Register</a>';
-                        }
-                        ?>
-                    <a href="viewEvent.php?id=<?= $row['id']; ?>" class="btn btn-outline-secondary btn-sm">View</a>
-                </div>
+              <!-- FOOTER -->
+<div class="event-footer">
+    <?php
+        $today = date('Y-m-d');
+        $isLoggedIn = isset($_SESSION['user_id']); // Check if user is logged in
+
+        if ($row['date'] < $today) {
+            echo '<button class="btn btn-warning btn-sm" disabled>Ended</button>';
+        } elseif ($row['date'] == $today) {
+            echo '<button class="btn btn-primary btn-sm" disabled>Ongoing</button>';
+        } else {
+            if ($isLoggedIn) {
+                // Logged-in users can register
+                echo '<a href="registerEvent.php?id=' . $row['id'] . '" class="btn btn-outline-info btn-sm">Register</a>';
+            } else {
+                // Not logged-in users see a button that triggers a toast
+                echo '<button class="btn btn-outline-info btn-sm" onclick="showLoginToast()">Register</button>';
+            }
+        }
+    ?>
+    <a href="viewEvent.php?id=<?= $row['id']; ?>" class="btn btn-outline-secondary btn-sm">View</a>
+</div>
+
+<!-- Bootstrap Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="loginToast" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Please log in to register for this event!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoginToast() {
+    var toastEl = document.getElementById('loginToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
+</script>
+
 
             </div>
 

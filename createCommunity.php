@@ -118,6 +118,20 @@
                 border-radius: 12px;
             }
         }
+
+           .btn-outline-indigo {
+    border: 1px solid #7e57c2; /* Purple border */
+    color: #7e57c2;             /* Text color same as border */
+    background-color: transparent; /* Transparent background */
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-indigo:hover {
+    background-color: #7e57c2; /* Filled on hover */
+    color: #fff;                /* White text on hover */
+    text-decoration: none;
+}
     </style>
 </head>
 
@@ -128,90 +142,97 @@
         <span class="brand-text">Community Connect</span>
     </header>
 
-    <!-- MAIN SPLIT CARD -->
-    <div class="main-card" id="main">
-        <div class="row g-0">
-            <!-- LEFT FORM SECTION -->
-            <div class="col-lg-7 left-section">
-                <h3 class="section-title">Create Your Community</h3>
+  <div class="main-card" id="main">
+    <div class="row g-0">
+        <!-- LEFT FORM SECTION -->
+        <div class="col-lg-7 left-section">
+            <h3 class="section-title">Create Your Community</h3>
 
-                <form class="row g-3" method="post" action="community_insert.php" enctype="multipart/form-data">
-                    <div class="col-md-12">
-                        <label>Community Name</label>
-                        <input type="text" class="form-control" name="community_name" required />
-                    </div>
+            <form class="row g-3" method="post" action="community_insert.php" enctype="multipart/form-data">
+                <div class="col-12">
+                    <label>Community Name</label>
+                    <input type="text" class="form-control" name="community_name" required />
+                </div>
 
-                    <div class="col-md-6">
-                        <label>Category</label>
-                        <select class="form-select" required name="category">
-                            <option value="">Select</option>
-                            <option value="college-level">College Level</option>
-                            <option value="cultural">Cultural</option>
-                            <option value="festive">Festive</option>
-                            <option value="sports">Sports</option>
-                            <option value="social">Social</option>
-                            <option value="governmental">Governmental</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label>Category</label>
+                    <select class="form-select" required name="category">
+                        <option value="">Select</option>
+                        <option value="college-level">College Level</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="festive">Festive</option>
+                        <option value="sports">Sports</option>
+                        <option value="social">Social</option>
+                        <option value="governmental">Governmental</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
 
-                    <div class="col-md-6">
-                        <label>If Other - What Category?</label>
-                        <input type="text" class="form-control" name="other_category"/>
-                    </div>
+                <div class="col-md-6">
+                    <label>If Other - What Category?</label>
+                    <input type="text" class="form-control" name="other_category" />
+                </div>
 
-                    <div class="col-md-6">
-                        <label>Community Privacy</label>
-                        <div class="d-flex align-items-center mt-1" >
-                            <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="privacy" value="private" />
-                                <label class="form-check-label" for="private">Private</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="privacy" value="public" checked />
-                                <label class="form-check-label" for="public">Public</label>
-                            </div>
+                <div class="col-md-6">
+                    <label>Community Privacy</label>
+                    <div class="d-flex align-items-center mt-1">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" type="radio" name="privacy" value="private" id="private" />
+                            <label class="form-check-label" for="private">Private</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="privacy" value="public" id="public" checked />
+                            <label class="form-check-label" for="public">Public</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-6">
-                        <label>Community Banner</label>
-                        <input type="file" class="form-control" name="image"/>
-                        <span class="badge text-secondary mt-1">Skip to use default image</span>
-                    </div>
+                <div class="col-md-6">
+                    <label>Community Banner</label>
+                    <input type="file" class="form-control" name="image" />
+                    <span class="badge text-secondary mt-1">Skip to use default image</span>
+                </div>
 
-                    <div class="col-md-6">
-                        <label>District</label>
-                        <select class="form-select" required name="district">
-                            <option value="">Select District</option>
-                            <option value="jalgaon">Jalgaon</option>
-                            <option value="pune">Pune</option>
-                            <option value="mumbai">Mumbai</option>
-                            <option value="nagpur">Nagpur</option>
-                            <option value="thane">Thane</option>
-                            <option value="nashik">Nashik</option>
-                            <option value="satara">Satara</option>
-                            <option value="kolhapur">Kolhapur</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label>District</label>
+                    <select class="form-select" required name="district">
+                        <option value="">Select District</option>
+                        <option value="jalgaon">Jalgaon</option>
+                        <option value="pune">Pune</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="nagpur">Nagpur</option>
+                        <option value="thane">Thane</option>
+                        <option value="nashik">Nashik</option>
+                        <option value="satara">Satara</option>
+                        <option value="kolhapur">Kolhapur</option>
+                    </select>
+                </div>
 
-                    <div class="col-12">
-                        <label>About Community</label>
-                        <textarea class="form-control" rows="3" name="about"></textarea>
-                    </div>
+                <div class="col-12">
+                    <label>About Community</label>
+                    <textarea class="form-control" rows="3" name="about"></textarea>
+                </div>
 
-                    <div class="col-12 text-end mt-3">
-                        <button class="btn btn-info text-white px-4">Create Community</button>
-                    </div>
-                </form>
-            </div>
+                <!-- BUTTONS -->
+                <div class="col-12 d-flex justify-content-end gap-2 mt-3 flex-wrap">
+                    <button type="submit" class="btn btn-info text-white px-4">
+                        Create Community
+                    </button>
 
-            <!-- RIGHT IMAGE SECTION -->
-            <div class="col-lg-5 position-relative p-0">
-                <div class="right-section" style="background-image: url('co2.jpg');"></div>
-            </div>
+                    <a href="profile.php" class="btn btn-outline-indigo">
+                        Back To Profile
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- RIGHT IMAGE SECTION -->
+        <div class="col-lg-5 position-relative p-0">
+            <div class="right-section" style="background-image: url('co2.jpg');"></div>
         </div>
     </div>
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
