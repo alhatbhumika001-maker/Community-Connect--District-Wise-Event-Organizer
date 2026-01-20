@@ -3,7 +3,16 @@ session_start();
 include 'mainNav.php'; // or mainNav.php if needed
 
 $conn = new mysqli("localhost", "root", "", "community_connect");
-$user_id = $_SESSION['user_id'] ?? 0;
+if (isset($_SESSION['login_user'])) {
+    $user = $_SESSION['login_user'];
+    $username = $user['username'];
+    $email = $user['email'];
+    $full_name = $user['full_name'];
+    $role = $user['role'];
+    $district = $user['district'];
+    $bio = $user['bio'];
+    $user_id = $user['user_id'];
+}
 
 // Fetch communities created by logged-in user
 $community_query = "SELECT * FROM communities WHERE created_by = $user_id ORDER BY id DESC";
@@ -232,10 +241,19 @@ body {
 
 <!-- Sidebar -->
 <div class="sidebar" style="margin-top:25px;">
-    <div class="text-center mb-3">
-        <img src="user.png" alt="User" class="sidebar-profile-img">
-        <h6><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></h6>
-    </div>
+    <div class="text-center py-4 border-bottom">
+    <?php if (isset($_SESSION['login_user'])): ?>
+      <a href="profile.php">
+        <img src="user.png" alt="Profile" class="sidebar-profile-img" />
+      </a>
+      <h6 class="mt-3 mb-0"><?= htmlspecialchars($full_name) ?></h6>
+    <?php else: ?>
+      <a href="login.php">
+        <img src="user.png" alt="Guest" class="sidebar-profile-img" />
+      </a>
+      <h6 class="mt-3 mb-0">Guest</h6>
+    <?php endif; ?>
+  </div>
     <nav class="sidebar-nav">
             <a class="nav-link <?= ($active ?? '') == 'profile' ? 'active' : '' ?>" href="profile.php">Profile</a>
 
@@ -333,6 +351,9 @@ body {
                                     <input type="hidden" name="reject_request" value="1">
                                     <button class="btn btn-sm btn-outline-danger">Reject</button>
                                 </form>
+                                <a href="event_member_profile.php?id=<?= $req['user_id'] ?>" class="btn btn-sm btn-outline-primary"  style="padding-bottom:-40px; font-size: 0.8rem; line-height: 1; border-radius: 5px;">
+                                    View Profile
+                                </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -357,6 +378,9 @@ body {
                                 <div><?= htmlspecialchars($member['full_name']) ?> (@<?= htmlspecialchars($member['username']) ?>)</div>
                                 <small style="color:#6b7280;">Joined: <?= $member['joined_at'] ?></small>
                             </div>
+                             <a href="event_member_profile.php?id=<?= $req['user_id'] ?>" class="btn btn-sm btn-outline-primary"  style="padding-bottom:-40px; font-size: 0.8rem; line-height: 1; border-radius: 5px; margin-left:500px;">
+                                    View Profile
+                                </a>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>

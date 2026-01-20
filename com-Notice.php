@@ -225,10 +225,7 @@ if (!$notice_res) {
 
 <body>
 
-    <?php
-    include 'userNav.php';
-    ?>
-
+  
     <div class="container-fluid">
         <?php
         $active = 'com-Notice';

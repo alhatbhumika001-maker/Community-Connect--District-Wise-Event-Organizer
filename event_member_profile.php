@@ -1,5 +1,5 @@
 <?php
-include 'userHead.php';
+include 'mainNav.php';
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 
 if (!$conn) {
@@ -7,7 +7,7 @@ if (!$conn) {
 }
 
 // Get the member ID from URL
-$member_id = $_GET['id'] ?? 0;
+$member_id = $_GET['user_id'] ?? 0;
 
 if ($member_id == 0) {
     die("Error: No member specified.");
@@ -89,9 +89,9 @@ while ($row = mysqli_fetch_assoc($events_result)) {
 </style>
 <body>
 <?php include 'userNav.php'; ?>
-<div class="profile-card">
+<div class="profile-card" style="margin-top:70px;">
     <!-- Profile Header -->
-    <div class="profile-header">
+    <div class="profile-header" >
         <img src="<?= htmlspecialchars($member['avatar'] ?? 'lo.webp'); ?>" alt="Profile Picture" class="rounded-circle mb-2">
         <h4><?php echo htmlspecialchars($member['name']); ?></h4>
         <small><?= htmlspecialchars($member['username'] ?? '@user'); ?> | <?= htmlspecialchars($member['district']); ?></small>

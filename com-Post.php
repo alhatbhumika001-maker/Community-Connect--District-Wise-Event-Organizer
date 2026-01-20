@@ -325,10 +325,6 @@ if (!$post_query) {
 
  <body>
 
-     <?php
-    include 'userNav.php';
-    ?>
-
 
      <div class="container container-top">
 

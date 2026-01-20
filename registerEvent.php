@@ -29,6 +29,15 @@ $isPrivate = ($row['privacy'] === 'private');
 $captcha_code = rand(1000, 9999);
 
 $_SESSION['captcha'] = $captcha_code;
+
+if (!isset($_SESSION['login_user'])) {
+    die("Please login to register for event");
+}
+
+$user = $_SESSION['login_user'];
+$user_id   = $user['user_id'];
+$full_name = $user['full_name'];
+$email     = $user['email'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -52,15 +61,19 @@ $_SESSION['captcha'] = $captcha_code;
 
 <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
 
+
 <div class="mb-3">
 <label>Name</label>
-<input type="text" name="name" class="form-control" required>
+<input type="text" name="name" class="form-control"
+       value="<?= htmlspecialchars($full_name) ?>" readonly>
 </div>
 
 <div class="mb-3">
 <label>Email</label>
-<input type="email" id="email" name="email" class="form-control" required>
+<input type="email" name="email" class="form-control"
+       value="<?= htmlspecialchars($email) ?>" readonly>
 </div>
+
 
 <div class="mb-3">
 <label>Phone</label>

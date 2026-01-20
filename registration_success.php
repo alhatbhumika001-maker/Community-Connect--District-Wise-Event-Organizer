@@ -1,7 +1,9 @@
 <?php
 session_start();
-$userName = $_SESSION['user_name'] ?? 'User';
+
+$userName = $_SESSION['login_user']['full_name'] ?? 'User';
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -27,7 +29,8 @@ $userName = $_SESSION['user_name'] ?? 'User';
     <h3 class="text-success fw-bold">Congratulations 🎉</h3>
 
     <h5 class="mt-2 text-dark">
-      Hello, <b><?php echo htmlspecialchars($userName); ?></b>
+    Hello, <b><?php echo htmlspecialchars($userName); ?></b>
+
     </h5>
 
     <p class="mt-3 fs-5">

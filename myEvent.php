@@ -1,44 +1,99 @@
 <?php
+session_start();
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include 'mainNav.php';
 
+// Database connection
 $conn = new mysqli("localhost", "root", "", "community_connect");
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("DB Connection failed: " . $conn->connect_error);
 }
 
-$user_id = $_SESSION['user_id'] ?? 0;
-
-// Fetch events safely
-$stmt = $conn->prepare("SELECT * FROM events WHERE created_by = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$event_result = $stmt->get_result();
-
-if ($event_result) {
-    $event_count = $event_result->num_rows;
-} else {
-    $event_count = 0; // default if query fails
+if (isset($_SESSION['login_user'])) {
+    $user = $_SESSION['login_user'];
+    $username = $user['username'];
+    $email = $user['email'];
+    $full_name = $user['full_name'];
+    $role = $user['role'];
+    $district = $user['district'];
+    $bio = $user['bio'];
+    $user_id = $user['user_id'];
 }
 
+// Initialize events array and count
+$events = [];
+$event_count = 0;
 
-// Fetch total attendees safely
-$attendees_stmt = $conn->prepare("
-    SELECT COUNT(*) as total_attendees 
-    FROM event_attendees ea
-    JOIN events e ON ea.event_id = e.id
-    WHERE e.created_by = ?
-");
-if (!$attendees_stmt) die("Prepare failed: " . $conn->error);
+// ================= FETCH ONLY LOGGED-IN USER EVENTS =================
+if ($user_id > 0) {
 
-$attendees_stmt->bind_param("i", $user_id);
-$attendees_stmt->execute();
-$attendees_stmt->bind_result($total_attendees);
-$attendees_stmt->fetch();
-$attendees_stmt->close();
-$total_attendees = $total_attendees ?? 0;
+    $stmt = $conn->prepare("
+        SELECT id, event_name, date, start_time, district, image
+        FROM community_events
+        WHERE created_by = ?
+        ORDER BY date DESC
+    ");
+
+    if (!$stmt) {
+        die("EVENT QUERY ERROR: " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+
+    $stmt->bind_result(
+        $id,
+        $event_name,
+        $date,
+        $start_time,
+        $district,
+        $image
+    );
+
+    while ($stmt->fetch()) {
+        $events[] = [
+            'id'         => $id,
+            'name'       => $event_name,
+            'date'       => $date,
+            'time'       => $start_time,
+            'district'   => $district,
+            'image'      => $image ?: 'default_event.jpg' // fallback image
+        ];
+    }
+
+    $event_count = count($events);
+    $stmt->close();
+}
+
+// ================= FETCH REGISTRATIONS FOR EVENTS =================
+$event_requests = [];
+
+if ($user_id > 0 && $event_count > 0) {
+    $event_ids = array_column($events, 'id');
+    $ids_str = implode(',', $event_ids);
+
+   $reg_query = "
+    SELECT id, event_id, user_id, name, email, phone, district, status
+    FROM registrations
+    WHERE event_id IN ($ids_str)
+    ORDER BY created_at DESC
+";
+
+
+
+    $res = $conn->query($reg_query);
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $event_requests[$row['event_id']][] = $row;
+        }
+    }
+}
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -194,10 +249,19 @@ body {
 
 <!-- Sidebar -->
 <div class="sidebar" style="margin-top:25px;">
-    <div class="text-center mb-3">
-        <img src="user.png" alt="User" class="sidebar-profile-img">
-        <h6><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></h6>
-    </div>
+    <div class="text-center py-4 border-bottom">
+    <?php if (isset($_SESSION['login_user'])): ?>
+      <a href="profile.php">
+        <img src="user.png" alt="Profile" class="sidebar-profile-img" />
+      </a>
+      <h6 class="mt-3 mb-0"><?= htmlspecialchars($full_name) ?></h6>
+    <?php else: ?>
+      <a href="login.php">
+        <img src="user.png" alt="Guest" class="sidebar-profile-img" />
+      </a>
+      <h6 class="mt-3 mb-0">Guest</h6>
+    <?php endif; ?>
+  </div>
     <nav class="sidebar-nav">
         <a class="nav-link <?= ($active ?? '') == 'profile' ? 'active' : '' ?>" href="profile.php">Profile</a>
         <a class="nav-link <?= ($active ?? '') == 'myCommunity' ? 'active' : '' ?>" href="myCommunity.php">Created Communities</a>
@@ -224,18 +288,18 @@ body {
             <div class="metric-card">
                 <div class="metric-top">
                     <div class="metric-icon-box"><i class="bi bi-calendar-event"></i></div>
-                    <div class="metric-title">Events Created</div>
+                    <div class="metric-title">Total Events Created</div>
                 </div>
-                <div class="metric-count" style="color: #34275f;"><?= $event_count ?></div>
+               <div class="metric-count" style="color: #34275f;">Total Event:<?= $event_count ?></div>
             </div>
         </div>
         <div class="col-12 col-md-4">
             <div class="metric-card">
                 <div class="metric-top">
                     <div class="metric-icon-box"><i class="bi bi-people"></i></div>
-                    <div class="metric-title">Total Attendees</div>
+                    <div class="metric-title">Total Attendees Events</div>
                 </div>
-                <div class="metric-count" style="color: #34275f;"><?= $total_attendees ?></div>
+                <div class="metric-count" style="color: #34275f;">Attendees: 0</div>
             </div>
         </div>
         <div class="col-12 col-md-4">
@@ -244,33 +308,103 @@ body {
                     <div class="metric-icon-box"><i class="bi bi-person-fill-add"></i></div>
                     <div class="metric-title">New Attendees Last Week</div>
                 </div>
-                <div class="metric-count" style="color: #34275f;">0</div>
+                <div class="metric-count" style="color: #34275f;">New Attendees:0</div>
             </div>
         </div>
     </div>
 
-    <!-- Events List -->
-    <?php if ($event_count > 0): ?>
-    <!-- Loop through events -->
-    <?php while ($event = $event_result->fetch_assoc()): ?>
+  <?php if ($event_count > 0): ?>
+
+    <?php foreach ($events as $event): ?>
         <div class="event-card">
-            <div class="event-banner"><img src="<?= $event['image'] ?>" alt="Event Banner"></div>
-            <h3><?= htmlspecialchars($event['event_name']) ?></h3>
-            <p><?= date("d M Y", strtotime($event['event_date'])) ?> | <?= htmlspecialchars($event['district']) ?></p>
-            <p><?= date("h:i A", strtotime($event['event_time'])) ?></p>
-            <a href="eventDetails.php?id=<?= $event['id'] ?>" class="btn btn-outline-indigo">View Event</a>
-        </div>
-    <?php endwhile; ?>
+            <div class="event-banner">
+                <img src="<?= htmlspecialchars($event['image']) ?>" alt="Event Banner">
+            </div>
+
+            <h3 style="font-size:25px; color: #4b378d; font-weight:bold;">
+                <?= htmlspecialchars($event['name']) ?>
+            </h3>
+
+            <p>
+                <strong style=" color: #4b378d;">Date: </strong>
+                <?= date("d M Y", strtotime($event['date'])) ?>
+                | <?= htmlspecialchars($event['district']) ?>
+            </p>
+
+            <p>  
+                <strong style=" color: #4b378d;">Time: </strong>
+                <?= date("h:i A", strtotime($event['time'])) ?>
+            </p>
+
+            <a href="viewEvent.php?id=<?= $event['id'] ?>" class="btn btn-outline-indigo">
+                View Event
+            </a>
+
+            <!-- ======= Event Requests Section ======= -->
+            <?php if (!empty($event_requests[$event['id']])): ?>
+                <h5 class="mt-4" style="color:#4b378d;">Event Requests</h5>
+                <table class="table table-bordered mt-2">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>District</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($event_requests[$event['id']] as $req): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($req['name']) ?></td>
+                                <td><?= htmlspecialchars($req['email']) ?></td>
+                                <td><?= htmlspecialchars($req['phone']) ?></td>
+                                <td><?= htmlspecialchars($req['district']) ?></td>
+                                <td><?= ucfirst($req['status']) ?></td>
+                                <td>
+                                    <?php if ($req['status'] === 'pending'): ?>
+                                        <a href="updateRequest.php?id=<?= $req['id'] ?>&action=approve" class="btn btn-success btn-sm">Accept</a>
+                                        <a href="updateRequest.php?id=<?= $req['id'] ?>&action=reject" class="btn btn-danger btn-sm">Reject</a>
+                                    <?php else: ?>
+                                        <button class="btn btn-success btn-sm">Accepted</button>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="event_member_profile.php?id=<?= $req['user_id'] ?>" class="btn btn-info btn-sm">
+    Profile
+</a>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="text-muted mt-3">No requests for this event yet.</p>
+            <?php endif; ?>
+            <!-- ======= End Event Requests ======= -->
+
+        </div> <!-- end event-card -->
+    <?php endforeach; ?>
+
 <?php else: ?>
+    <!-- No Events Found -->
     <div class="empty-card text-center mb-4">
-        <div class="bi bi-calendar-x" style="font-size:80px;color:#8540f5;margin-bottom:12px"></div>
-        <h4>No Events Created</h4>
-        <p class="text-muted">You haven’t organized any events yet. Start something amazing today!</p>
-        <a href="createEvent.php" class="btn btn-outline-indigo">Create Your First Event</a>
+        <div class="bi bi-calendar-x" style="font-size:80px;color:#8540f5;"></div>
+        <h4>No Events Found</h4>
+        <p class="text-muted">
+            You have not created any events yet.<br>
+            Please create an event to get started.
+        </p>
+        <a href="createEvent.php" class="btn btn-outline-indigo">
+            Create Event
+        </a>
     </div>
 <?php endif; ?>
 
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -123,9 +123,6 @@ $row = mysqli_fetch_assoc($event_result);
 <body>
 
     
-    <?php
-    include 'userNav.php';
-    ?>
    
         <div class="view-event container-fluid mt-3 mb-3">
             <h3 class="event-name">

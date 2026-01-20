@@ -157,7 +157,7 @@ $event_count  = mysqli_num_rows($event_result);
 
     <div class="container mt-5">
 
-        <h2 class="fw-bold mb-2" style="margin-top:110px;">Events</h2>
+        <h2 class="fw-bold mb-2" style="margin-top:-30px;">Events</h2>
         <p class="text-muted">Discover events happening near you</p>
 
         <div class="event-grid">

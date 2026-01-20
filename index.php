@@ -1,3 +1,8 @@
+ <!-- NAVBAR -->
+    <?php
+    $active = 'home';
+    include 'mainNav.php';
+    ?>
 <?php
 $conn = mysqli_connect("localhost", "root", "", "community_connect");
 if (!$conn) {
@@ -594,15 +599,11 @@ $event_result = mysqli_query($conn, $event_query);
 
 <body>
 
-    <!-- NAVBAR -->
-    <?php
-    $active = 'home';
-    include 'mainNav.php';
-    ?>
+   
 
     <!-- HERO CAROUSEL -->
     <header>
-        <div id="heroCarousel" class="carousel slide carousel-fade hero" data-bs-ride="carousel">
+        <div id="heroCarousel" class="carousel slide carousel-fade hero" data-bs-ride="carousel" style="margin-top:50px;">
 
             <div class="carousel-inner">
 
