@@ -372,9 +372,10 @@ body {
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="event_member_profile.php?id=<?= $req['user_id'] ?>" class="btn btn-info btn-sm">
+                                  <a href="event_member_profile.php?user_id=<?= $req['user_id'] ?>" class="btn btn-info btn-sm">
     Profile
 </a>
+
 
                                 </td>
                             </tr>

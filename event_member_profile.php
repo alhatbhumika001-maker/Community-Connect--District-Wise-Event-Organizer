@@ -6,27 +6,28 @@ if (!$conn) {
     die("DB Connection Failed: " . mysqli_connect_error());
 }
 
-// Get the member ID from URL
-$member_id = $_GET['user_id'] ?? 0;
+$member_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : 0;
 
-if ($member_id == 0) {
-    die("Error: No member specified.");
+if ($member_id <= 0) {
+    die("Invalid Member ID");
 }
 
 // Fetch member data
 $member_query = "
     SELECT 
-        u.user_id,
-        u.username,
-        u.created_at,
-        r.name,
-        r.district,
-        r.email,
-        r.phone
-    FROM users u
-    LEFT JOIN registrations r ON u.user_id = r.user_id
-    WHERE u.user_id = ?
-    LIMIT 1
+    u.user_id,
+    u.username,
+    u.created_at,
+    r.name,
+    r.district,
+    r.email,
+    r.phone,
+    r.id_card
+FROM users u
+LEFT JOIN registrations r ON u.user_id = r.user_id
+WHERE u.user_id = ?
+LIMIT 1
+
 ";
 
 $stmt = mysqli_prepare($conn, $member_query);
@@ -105,6 +106,20 @@ while ($row = mysqli_fetch_assoc($events_result)) {
             <li><strong>Phone:</strong> <?= htmlspecialchars($member['phone'] ?? 'Not provided'); ?></li>
             <li><strong>Registered on:</strong> <?php echo date("d M Y", strtotime($member['created_at'])); ?> | <?php echo date("h:i A", strtotime($member['created_at'])); ?></li>
         </ul>
+
+        <h5>ID Proof</h5>
+
+<?php if (!empty($member['id_card'])): ?>
+    <div class="mb-3">
+        <a href="event_registration_id/<?= htmlspecialchars($member['id_card']); ?>" target="_blank" class="btn btn-outline-primary btn-sm">
+            View Uploaded ID Card
+        </a>
+        
+    </div>
+<?php else: ?>
+    <p class="text-muted">No ID card uploaded.</p>
+<?php endif; ?>
+
 
         <!-- About / Bio -->
         <h5>About</h5>
